@@ -19,7 +19,6 @@ public class SPAApplicationListener implements ApplicationListener {
 	}
 
 	public void handleOpenFile(ApplicationEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -30,7 +29,7 @@ public class SPAApplicationListener implements ApplicationListener {
 	}
 
 	public void handlePrintFile(ApplicationEvent arg0) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
@@ -41,7 +40,6 @@ public class SPAApplicationListener implements ApplicationListener {
 	}
 
 	public void handleReOpenApplication(ApplicationEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 		
