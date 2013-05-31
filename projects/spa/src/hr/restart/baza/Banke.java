@@ -15,7 +15,9 @@
 **   limitations under the License.
 **
 ****************************************************************************/
+
 package hr.restart.baza;
+
 import com.borland.dx.dataset.Column;
 import com.borland.dx.dataset.DataModule;
 import com.borland.dx.sql.dataset.Load;
@@ -68,9 +70,9 @@ public class Banke extends KreirDrop implements DataModule {
     /*SqlDefTabela = "create table Banke " +
         "(lokk char(1) CHARACTER SET WIN1250 default 'N', " + // Status zauzetosti
         "aktiv char(1) CHARACTER SET WIN1250 default 'D', " + // Aktivan-neaktivan
-        "cbanka char(4) CHARACTER SET WIN1250 not null, "+    // Šifra
+        "cbanka char(4) CHARACTER SET WIN1250 not null, "+    // ï¿½ifra
         "naziv  char(30) CHARACTER SET WIN1250, " +           // Naziv korisnika
-        "ziro char(40) CHARACTER SET WIN1250, " +             // Žiro ra\u010Dun banke
+        "ziro char(40) CHARACTER SET WIN1250, " +             // ï¿½iro ra\u010Dun banke
         "banka char(1) CHARACTER SET WIN1250, "+              // Flag banka gotovina www.ask
         "max_rata numeric(4,0), " +
         "min_iznos numeric(17,2)," +
@@ -156,7 +158,7 @@ public class Banke extends KreirDrop implements DataModule {
     bankeBANKA.setVisible(com.borland.jb.util.TriStateProperty.FALSE);
     bankeBANKA.setServerColumnName("BANKA");
     bankeBANKA.setSqlType(1);
-    bankeZIRO.setCaption("Žiro ra\u010Dun");
+    bankeZIRO.setCaption("ï¿½iro ra\u010Dun");
     bankeZIRO.setColumnName("ZIRO");
     bankeZIRO.setDataType(com.borland.dx.dataset.Variant.STRING);
     bankeZIRO.setPrecision(40);
@@ -170,7 +172,7 @@ public class Banke extends KreirDrop implements DataModule {
     bankeNAZIV.setTableName("BANKE");
     bankeNAZIV.setServerColumnName("NAZIV");
     bankeNAZIV.setSqlType(1);
-    bankeCBANKA.setCaption("Šifra");
+    bankeCBANKA.setCaption("ï¿½ifra");
     bankeCBANKA.setColumnName("CBANKA");
     bankeCBANKA.setDataType(com.borland.dx.dataset.Variant.STRING);
     bankeCBANKA.setPrecision(4);
