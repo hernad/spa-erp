@@ -58,9 +58,6 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 {
 
 
-    /**
-     *
-     */
     private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
     /**
@@ -233,7 +230,12 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
         {
             return null;
         }
-        
+
+        return JRStyledTextParser.getInstance().getStyledText(
+           attributeSelector.getStyledTextAttributes(this),
+           getText(), false
+        );
+        /*    TODO: hernad ovo raspetljati
         return 
             JRStyledTextParser.getInstance().getStyledText(
                 attributeSelector.getStyledTextAttributes(this), 
@@ -241,6 +243,8 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
                 !JRCommonText.MARKUP_NONE.equals(getMarkup()),
                 JRStyledTextAttributeSelector.getTextLocale(this)
                 );
+        */
+
     }
 
     public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
@@ -250,13 +254,20 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
             return null;
         }
 
-        return 
+
+        return JRStyledTextParser.getInstance().getStyledText(
+                attributeSelector.getStyledTextAttributes(this),
+                getText(), false
+        );
+        /*    TODO: hernad ovo raspetljati
+        return
             JRStyledTextParser.getInstance().getStyledText(
-                attributeSelector.getStyledTextAttributes(this), 
-                getFullText(), 
+                attributeSelector.getStyledTextAttributes(this),
+                getText(),
                 !JRCommonText.MARKUP_NONE.equals(getMarkup()),
                 JRStyledTextAttributeSelector.getTextLocale(this)
                 );
+        */
     }
 
     /**
@@ -611,7 +622,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
      */
     public byte getHyperlinkTarget()
     {
-        return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
+        return JRHyperlinkHelper.getHyperlinkType(getLinkTarget());
     }
         
     /**
@@ -619,7 +630,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
      */
     public void setHyperlinkTarget(byte hyperlinkTarget)
     {
-        setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
+        setLinkTarget(JRHyperlinkHelper.getLinkType(hyperlinkTarget));
     }
 
     /**
@@ -1587,7 +1598,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
     {
         if (linkTarget == null)
         {
-             linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+             linkTarget = JRHyperlinkHelper.getLinkType(hyperlinkTarget);
         }
         hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
     }

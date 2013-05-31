@@ -36,6 +36,10 @@
  *
  */
 
+
+/*  TODO: hernad Cp1250 => utf8
+
+
 package org.firebirdsql.encodings;
 
 public class Encoding_Cp1250 extends Encoding_OneByte{
@@ -63,13 +67,15 @@ public class Encoding_Cp1250 extends Encoding_OneByte{
     
     public int encodeToCharset(char[] in, int off, int len, byte[] out){
         for (int i = 0; i < in.length; i++)
-          if (in[i] == '\u03A6') in[i]= 'ÿ';
+          if (in[i] == '\u03A6') in[i]= 'ï¿½';
         return super.encodeToCharset(charToByte, in, off, len, out);
     }
     public int decodeFromCharset(byte[] in, int off, int len, char[] out){
         int ret = super.decodeFromCharset(byteToChar, in, off, len, out);
         for (int i = 0; i < out.length; i++)
-          if (out[i] == 'ÿ') out[i] = '\u03A6';
+          if (out[i] == 'ï¿½') out[i] = '\u03A6';
         return ret;
     }
 }
+
+ */

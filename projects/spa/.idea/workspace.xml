@@ -2,21 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a991329-3e62-4464-b50f-36bc0e398efb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/NetComponents.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/bsh-2.0b2.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/jasperreports-1.2.7.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/l2fprod-common-all-7.3.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/poi-2.5.1-final-20040804.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/spring.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/NetComponents.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/bsh_2_0b2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jasperreports_1_2_7.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/l2fprod_common_all_7_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/poi_2_5_1_final_20040804.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/spring.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/baza/dM.java" afterPath="$PROJECT_DIR$/src/hr/restart/baza/dM.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/zapod/jpVirmani2.java" afterPath="$PROJECT_DIR$/src/hr/restart/zapod/jpVirmani2.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/hr/restart/util/FisUtil.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/axis.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/barbecue_1_5_beta1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_logging.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jasperreports_3_1_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jaxrpc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jcommon_0_9_5.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jdom_1_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jdom_2_0_5.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jfreechart_0_9_20.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jsch_0_1_50.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jta_spec1_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/log4j.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/mail.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/xBase.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/xapoolRA.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/xjgoodies.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/db/replication/logging/ConnectionProxy.java" afterPath="$PROJECT_DIR$/src/hr/restart/db/replication/logging/ConnectionProxy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/firebirdsql/encodings/Encoding_Cp1250.java" afterPath="$PROJECT_DIR$/src/org/firebirdsql/encodings/Encoding_Cp1250.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/base/JRBasePrintText.java" afterPath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/base/JRBasePrintText.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/design/JRDesignTextField.java" afterPath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/design/JRDesignTextField.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/export/JRGraphics2DExporter.java" afterPath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/export/JRGraphics2DExporter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/interbase/interclient/MessageBufferOutputStream.java" afterPath="$PROJECT_DIR$/src/interbase/interclient/MessageBufferOutputStream.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/db/OraCustomConnection.java" afterPath="$PROJECT_DIR$/src/hr/restart/db/OraCustomConnection.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/db/replication/logging/PreparedStatementProxy.java" afterPath="$PROJECT_DIR$/src/hr/restart/db/replication/logging/PreparedStatementProxy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/interbase/interclient/RecvMessage.java" afterPath="$PROJECT_DIR$/src/interbase/interclient/RecvMessage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/TextMeasurer.java" afterPath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/TextMeasurer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/pos/frmMasterBlagajna.java" afterPath="$PROJECT_DIR$/src/hr/restart/pos/frmMasterBlagajna.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/zapod/frmPartneri.java" afterPath="$PROJECT_DIR$/src/hr/restart/zapod/frmPartneri.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/frmUlazTemplate.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/frmUlazTemplate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/pos/presBlag.java" afterPath="$PROJECT_DIR$/src/hr/restart/pos/presBlag.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/util/raFiskPoslovni.java" afterPath="$PROJECT_DIR$/src/hr/restart/util/raFiskPoslovni.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/raIzlazTemplate.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/raIzlazTemplate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/raWebSync.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/raWebSync.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/repIzlazni.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/repIzlazni.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/repMxRacun.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/repMxRacun.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spa.iml" afterPath="$PROJECT_DIR$/spa.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -82,28 +103,93 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="jpVirmani2.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/zapod/jpVirmani2.java">
+      <file leaf-file-name="Bc.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hr/restart/util/reports/Bc.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="38" selection-start="4448" selection-end="4448" vertical-scroll-proportion="0.0" vertical-offset="710" max-vertical-offset="7500">
+            <state line="4" column="30" selection-start="79" selection-end="103" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImportDbf.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/sisfun/ImportDbf.java">
+      <file leaf-file-name="RecvMessage.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/interbase/interclient/RecvMessage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="17" selection-start="411" selection-end="411" vertical-scroll-proportion="0.33333334" vertical-offset="72" max-vertical-offset="2730">
+            <state line="4" column="4" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9495">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ispStatPar.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/ispStatPar.java">
+      <file leaf-file-name="raEDI.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/raEDI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="34" selection-start="1279" selection-end="1279" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="17595">
+            <state line="42" column="19" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="8505">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TextMeasurer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/TextMeasurer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="344" column="102" selection-start="11388" selection-end="11388" vertical-scroll-proportion="0.0" vertical-offset="4280" max-vertical-offset="9780">
+              <folding>
+                <element signature="e#0#24354#0" expanded="false" />
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="presBlag.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hr/restart/pos/presBlag.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="663" column="9" selection-start="21597" selection-end="21597" vertical-scroll-proportion="0.0" vertical-offset="9230" max-vertical-offset="10500">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JRBasePrintText.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/net/sf/jasperreports/engine/base/JRBasePrintText.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1595" column="27" selection-start="33646" selection-end="33646" vertical-scroll-proportion="0.0" vertical-offset="23480" max-vertical-offset="25260">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="repIzlazni.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/repIzlazni.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1087" column="21" selection-start="32214" selection-end="32214" vertical-scroll-proportion="0.0" vertical-offset="15370" max-vertical-offset="31650">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PreparedStatementProxy.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hr/restart/db/replication/logging/PreparedStatementProxy.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="15600">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConnectionProxy.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/hr/restart/db/replication/logging/ConnectionProxy.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="30" selection-start="974" selection-end="974" vertical-scroll-proportion="0.2238806" vertical-offset="0" max-vertical-offset="15165">
               <folding />
             </state>
           </provider>
@@ -112,81 +198,13 @@
       <file leaf-file-name="raIzlazTemplate.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/raIzlazTemplate.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="401" column="3" selection-start="9736" selection-end="9736" vertical-scroll-proportion="52.346153" vertical-offset="7376" max-vertical-offset="79590">
+            <state line="5169" column="36" selection-start="170853" selection-end="170853" vertical-scroll-proportion="0.0" vertical-offset="77025" max-vertical-offset="79350">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#26253#26481#0" expanded="true" />
-                <element signature="e#26476#26477#0" expanded="true" />
-                <element signature="e#26537#26610#0" expanded="true" />
-                <element signature="e#26606#26607#0" expanded="true" />
-                <element signature="e#73477#73555#0" expanded="true" />
-                <element signature="e#73549#73550#0" expanded="true" />
-                <element signature="e#109423#109578#0" expanded="true" />
-                <element signature="e#109576#109577#0" expanded="true" />
-                <element signature="e#136697#136822#0" expanded="true" />
-                <element signature="e#136803#136804#0" expanded="true" />
-                <element signature="e#137744#137856#0" expanded="true" />
-                <element signature="e#137845#137846#0" expanded="true" />
-                <element signature="e#138242#138362#0" expanded="true" />
-                <element signature="e#138349#138350#0" expanded="true" />
-                <element signature="e#161629#161824#0" expanded="true" />
-                <element signature="e#161819#161820#0" expanded="true" />
+                <element signature="e#73520#73598#0" expanded="true" />
+                <element signature="e#73592#73593#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dM.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/dM.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="42" selection-start="1557" selection-end="1557" vertical-scroll-proportion="0.0" vertical-offset="230" max-vertical-offset="37035">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="raExtendedTable.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/swing/raExtendedTable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="64" selection-start="1775" selection-end="1775" vertical-scroll-proportion="0.0" vertical-offset="350" max-vertical-offset="11670">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TaskTree.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/help/TaskTree.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="31" selection-start="650" selection-end="650" vertical-scroll-proportion="0.0" vertical-offset="140" max-vertical-offset="2580">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KreirDrop.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/KreirDrop.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="26" selection-start="1593" selection-end="1593" vertical-scroll-proportion="0.0" vertical-offset="275" max-vertical-offset="20760">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="raImageUtil.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/util/raImageUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="20" selection-start="341" selection-end="355" vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="1020">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="frmKnjizenje.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/gk/frmKnjizenje.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="10" selection-start="1780" selection-end="1780" vertical-scroll-proportion="0.0" vertical-offset="320" max-vertical-offset="7830">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -214,12 +232,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/hr/restart/gk/raObrIzvoda.java" />
-        <option value="$PROJECT_DIR$/src/hr/restart/baza/Agenti.java" />
-        <option value="$PROJECT_DIR$/src/hr/restart/baza/Banke.java" />
-        <option value="$PROJECT_DIR$/src/hr/restart/baza/dM.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/zapod/frmPartneri.java" />
+        <option value="$PROJECT_DIR$/src/interbase/interclient/MessageBufferOutputStream.java" />
+        <option value="$PROJECT_DIR$/src/org/firebirdsql/encodings/Encoding_Cp1250.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/util/raFiskPoslovni.java" />
+        <option value="$PROJECT_DIR$/src/interbase/interclient/RecvMessage.java" />
         <option value="$PROJECT_DIR$/src/hr/restart/robno/raIzlazTemplate.java" />
-        <option value="$PROJECT_DIR$/src/hr/restart/zapod/jpVirmani2.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/robno/frmUlazTemplate.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/robno/repIzlazni.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/robno/repMxRacun.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/pos/frmMasterBlagajna.java" />
+        <option value="$PROJECT_DIR$/src/net/sf/jasperreports/engine/design/JRDesignTextField.java" />
+        <option value="$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/TextMeasurer.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/pos/presBlag.java" />
+        <option value="$PROJECT_DIR$/src/net/sf/jasperreports/engine/base/JRBasePrintText.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/db/replication/logging/PreparedStatementProxy.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/db/replication/logging/ConnectionProxy.java" />
       </list>
     </option>
   </component>
@@ -288,6 +316,86 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="restart" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="restart" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="restart" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mail" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="scripts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -332,6 +440,7 @@
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="SDKs" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
@@ -340,6 +449,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
@@ -497,19 +607,27 @@
       <created>1370005893493</created>
       <updated>1370005893493</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="borba za uspješan build">
+      <created>1370007758719</created>
+      <updated>1370007758719</updated>
+    </task>
+    <task id="LOCAL-00003" summary="borba za uspješan build / 5">
+      <created>1370010488700</created>
+      <updated>1370010488700</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="8" width="1900" height="1040" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295838" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -517,15 +635,15 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3295838" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295838" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2462203" sideWeight="0.6704162" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32559395" sideWeight="0.6704162" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -570,7 +688,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="resolving borland and elixir report writer dependencies" />
+    <option name="LAST_COMMIT_MESSAGE" value="borba za uspješan build / 5" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -585,6 +703,8 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="resolving borland and elixir report writer dependencies" />
+    <MESSAGE value="borba za uspješan build" />
+    <MESSAGE value="borba za uspješan build / 5" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -594,140 +714,138 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sql/gala/gk">
+    <entry file="file://$PROJECT_DIR$/src/org/firebirdsql/encodings/Encoding_Cp1250.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
+        <state line="80" column="3" selection-start="2540" selection-end="2540" vertical-scroll-proportion="0.0" vertical-offset="711" max-vertical-offset="1290">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sql/ecos/prihvatmaila.sql">
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/util/raFiskPoslovni.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="863">
+        <state line="236" column="54" selection-start="7906" selection-end="7906" vertical-scroll-proportion="0.0" vertical-offset="3357" max-vertical-offset="4695">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1088#1179#0" expanded="true" />
+            <element signature="e#1174#1175#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/util/reports/Bc.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="30" selection-start="79" selection-end="103" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/gk/raObrIzvoda.java">
+    <entry file="file://$PROJECT_DIR$/src/interbase/interclient/RecvMessage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="24" selection-start="2677" selection-end="2677" vertical-scroll-proportion="0.0" vertical-offset="610" max-vertical-offset="5205">
+        <state line="4" column="4" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9495">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/raEDI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="19" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="8505">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/Agenti.java">
+    <entry file="file://$PROJECT_DIR$/src/net/sf/jasperreports/engine/design/JRDesignTextField.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="6" selection-start="1895" selection-end="1895" vertical-scroll-proportion="0.0" vertical-offset="635" max-vertical-offset="2655">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/Banke.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="6" selection-start="1959" selection-end="1959" vertical-scroll-proportion="0.0" vertical-offset="470" max-vertical-offset="3045">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9210">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/serverscripts/startSPA.sh">
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/pos/frmMasterBlagajna.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="780">
+        <state line="1898" column="2" selection-start="70588" selection-end="70588" vertical-scroll-proportion="0.36007464" vertical-offset="27797" max-vertical-offset="35745">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/repMxRacun.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8550">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/dM.java">
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/frmUlazTemplate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="42" selection-start="1557" selection-end="1557" vertical-scroll-proportion="0.0" vertical-offset="230" max-vertical-offset="37035">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/swing/raExtendedTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="64" selection-start="1775" selection-end="1775" vertical-scroll-proportion="0.0" vertical-offset="350" max-vertical-offset="11670">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/help/TaskTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="31" selection-start="650" selection-end="650" vertical-scroll-proportion="0.0" vertical-offset="140" max-vertical-offset="2580">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/KreirDrop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="26" selection-start="1593" selection-end="1593" vertical-scroll-proportion="0.0" vertical-offset="275" max-vertical-offset="20760">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/util/raImageUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="20" selection-start="341" selection-end="355" vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="1020">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/gk/frmKnjizenje.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="10" selection-start="1780" selection-end="1780" vertical-scroll-proportion="0.0" vertical-offset="320" max-vertical-offset="7830">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/ispStatPar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="34" selection-start="1279" selection-end="1279" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="17595">
+        <state line="531" column="8" selection-start="16788" selection-end="16788" vertical-scroll-proportion="0.76842105" vertical-offset="6912" max-vertical-offset="19350">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/raIzlazTemplate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="401" column="3" selection-start="9736" selection-end="9736" vertical-scroll-proportion="52.346153" vertical-offset="7376" max-vertical-offset="79590">
+        <state line="5169" column="36" selection-start="170853" selection-end="170853" vertical-scroll-proportion="0.0" vertical-offset="77025" max-vertical-offset="79350">
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#26253#26481#0" expanded="true" />
-            <element signature="e#26476#26477#0" expanded="true" />
-            <element signature="e#26537#26610#0" expanded="true" />
-            <element signature="e#26606#26607#0" expanded="true" />
-            <element signature="e#73477#73555#0" expanded="true" />
-            <element signature="e#73549#73550#0" expanded="true" />
-            <element signature="e#109423#109578#0" expanded="true" />
-            <element signature="e#109576#109577#0" expanded="true" />
-            <element signature="e#136697#136822#0" expanded="true" />
-            <element signature="e#136803#136804#0" expanded="true" />
-            <element signature="e#137744#137856#0" expanded="true" />
-            <element signature="e#137845#137846#0" expanded="true" />
-            <element signature="e#138242#138362#0" expanded="true" />
-            <element signature="e#138349#138350#0" expanded="true" />
-            <element signature="e#161629#161824#0" expanded="true" />
-            <element signature="e#161819#161820#0" expanded="true" />
+            <element signature="e#73520#73598#0" expanded="true" />
+            <element signature="e#73592#73593#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/zapod/jpVirmani2.java">
+    <entry file="file://$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/TextMeasurer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="38" selection-start="4448" selection-end="4448" vertical-scroll-proportion="0.0" vertical-offset="710" max-vertical-offset="7500">
+        <state line="344" column="102" selection-start="11388" selection-end="11388" vertical-scroll-proportion="0.0" vertical-offset="4280" max-vertical-offset="9780">
+          <folding>
+            <element signature="e#0#24354#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/pos/presBlag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="663" column="9" selection-start="21597" selection-end="21597" vertical-scroll-proportion="0.0" vertical-offset="9230" max-vertical-offset="10500">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/sf/jasperreports/engine/base/JRBasePrintText.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1595" column="27" selection-start="33646" selection-end="33646" vertical-scroll-proportion="0.0" vertical-offset="23480" max-vertical-offset="25260">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/repIzlazni.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1087" column="21" selection-start="32214" selection-end="32214" vertical-scroll-proportion="0.0" vertical-offset="15370" max-vertical-offset="31650">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/sisfun/ImportDbf.java">
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/db/replication/logging/PreparedStatementProxy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="17" selection-start="411" selection-end="411" vertical-scroll-proportion="0.33333334" vertical-offset="72" max-vertical-offset="2730">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="15600">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/db/replication/logging/ConnectionProxy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="30" selection-start="974" selection-end="974" vertical-scroll-proportion="0.2238806" vertical-offset="0" max-vertical-offset="15165">
           <folding />
         </state>
       </provider>

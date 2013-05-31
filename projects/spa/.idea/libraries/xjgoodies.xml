@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="xjgoodies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/xjgoodies.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

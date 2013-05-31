@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="xBase">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/xBase.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

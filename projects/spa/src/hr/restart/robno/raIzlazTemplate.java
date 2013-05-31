@@ -2241,11 +2241,14 @@ ST.prn(radninal);
 
 	public void AfterSaveDetail(char mode) {
 		vttext = null;
+
+        /* TODO: raWebSync out
 		if (TD.isDocDiraZalihu(getMasterSet().getString("VRDOK")) && 
 		    raWebSync.active && raWebSync.isWeb(getMasterSet().getString("CSKL")) && 
 		    raWebSync.isWeb(getDetailSet().getInt("CART"))) {
           raWebSync.updateStanje(getDetailSet().getInt("CART"), getMasterSet());
         }
+        */
 	}
 
 	final public void AfterDeleteDetail() {
@@ -2256,11 +2259,13 @@ ST.prn(radninal);
 				}
 			});
 		}
-		
+
+         /* TODO: raWebSync out
 		if (TD.isDocDiraZalihu(getMasterSet().getString("VRDOK")) &&
 		    raWebSync.active && raWebSync.isWeb(getMasterSet().getString("CSKL")) && raWebSync.isWeb(delCART)) {
 		  raWebSync.updateStanje(delCART, getMasterSet());
 		}
+		*/
 	}
 
 	public boolean afterWish() {
@@ -2301,7 +2306,7 @@ ST.prn(radninal);
 			if (isNedozvoljenArtikl()) {
 				javax.swing.JOptionPane.showMessageDialog(raDetail.getWindow(),
 								"Za ovu vrstu dokumenta koristite nedozvoljen artikl !",
-								"Gre�ka", javax.swing.JOptionPane.ERROR_MESSAGE);
+								"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 		} else {

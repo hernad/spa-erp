@@ -47,8 +47,10 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
+
 import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
+
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -237,7 +239,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
         grx.setColor(Color.black);
         grx.setStroke(new BasicStroke(1));
 
-        /*   */
+
         frameDrawer.draw(grx, page.getElements(), getOffsetX(), getOffsetY());
         
         if (progressMonitor != null)

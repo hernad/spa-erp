@@ -23,7 +23,10 @@ import hr.restart.baza.Telehist;
 import hr.restart.baza.Telemark;
 import hr.restart.baza.VTCartPart;
 import hr.restart.baza.dM;
-import hr.restart.robno.raWebSync;
+
+//import hr.restart.robno.raWebSync;
+// TODO: hernad raWebSync izbaciti
+
 import hr.restart.sisfun.frmParam;
 import hr.restart.sisfun.raDataIntegrity;
 import hr.restart.swing.JraButton;
@@ -125,7 +128,7 @@ public class frmPartneri extends raMatPodaci {
     }
   };
 
-  raNavAction rnvZiro = new raNavAction("Žiro ra\u010Duni",raImages.IMGALIGNJUSTIFY,KeyEvent.VK_F8) {
+  raNavAction rnvZiro = new raNavAction("ï¿½iro ra\u010Duni",raImages.IMGALIGNJUSTIFY,KeyEvent.VK_F8) {
     public void actionPerformed(ActionEvent e) {
       rnvZiro_actionPerformed(e);
     }
@@ -137,7 +140,7 @@ public class frmPartneri extends raMatPodaci {
     }
   };
   
-  raNavAction rnvSifArt = new raNavAction("Šifre Artikala",raImages.IMGOPEN,KeyEvent.VK_F12){
+  raNavAction rnvSifArt = new raNavAction("ï¿½ifre Artikala",raImages.IMGOPEN,KeyEvent.VK_F12){
     public void actionPerformed(ActionEvent e) {
       rnvSifArt_actionPerformed(e);
     }
@@ -593,7 +596,7 @@ public class frmPartneri extends raMatPodaci {
     int cpar = getRaQueryDataSet().getInt("CPAR");
     if (cpar == 0) return;
     if (getRaQueryDataSet().getString("ULOGA").equalsIgnoreCase("D")) {
-      JOptionPane.showMessageDialog(this.getWindow(), "Partner je dobavljaè!",
+      JOptionPane.showMessageDialog(this.getWindow(), "Partner je dobavljaï¿½!",
          "Poruka", JOptionPane.WARNING_MESSAGE);
       return;
     }
@@ -605,9 +608,9 @@ public class frmPartneri extends raMatPodaci {
   public boolean Validacija(char mode) {
     String[] key = new String[] {"CPAR"};
     boolean forceUniqueMb = frmParam.getParam("zapod", "mbUnique", "D", 
-      "Forsirati jedinstvenost matiènog broja partnera (D,N)?").equalsIgnoreCase("D");
+      "Forsirati jedinstvenost matiï¿½nog broja partnera (D,N)?").equalsIgnoreCase("D");
     boolean forceUniqueZr = frmParam.getParam("zapod", "zrUnique", "D", 
-      "Forsirati jedinstvenost žiro raèuna partnera (D,N)?").equalsIgnoreCase("D");
+      "Forsirati jedinstvenost ï¿½iro raï¿½una partnera (D,N)?").equalsIgnoreCase("D");
     if (mode=='N') {
       if (vl.notUnique(jtfCPAR))
         return false;
@@ -716,11 +719,14 @@ public class frmPartneri extends raMatPodaci {
 //      ziroPar.initDS.post();
 //      ziroPar.initDS.saveChanges();
     }
+
+    /* TODO: raWebSync izbaciti
     if (mode == 'N' || mode == 'I') {
       if (raWebSync.active && getRaQueryDataSet().getString("EMADR").length() > 0 &&
           getRaQueryDataSet().getString("EMADR").indexOf('@') > 0)
         raWebSync.updatePartner(getRaQueryDataSet());
     }
+    */
 
   }
 
@@ -806,8 +812,10 @@ public class frmPartneri extends raMatPodaci {
 //    dm.getPjpar().deleteAllRows();
 //    dm.getPjpar().saveChanges();
 //    super.AfterDelete();
-    
-    if (raWebSync.active) raWebSync.deletePartner(delCpar);
+
+    /* TODO: raWebSync izbaciti
+       if (raWebSync.active) raWebSync.deletePartner(delCpar);
+    */
   }
 
 
@@ -815,7 +823,7 @@ public class frmPartneri extends raMatPodaci {
   void rnvZiro_actionPerformed(ActionEvent e) {
     QueryDataSet qds = rdZapodUtil.getrdZPUtil().getZiroParDS(getRaQueryDataSet().getInt("CPAR"));
     frmZiroPar fZP = new frmZiroPar(this, qds, this.getRaQueryDataSet().getInt("CPAR"));
-    hr.restart.util.startFrame.getStartFrame().centerFrame(fZP,0,"Žiro raèuni partnera "+getRaQueryDataSet().getInt("CPAR"));
+    hr.restart.util.startFrame.getStartFrame().centerFrame(fZP,0,"ï¿½iro raï¿½uni partnera "+getRaQueryDataSet().getInt("CPAR"));
     fZP.show();
   }
 
@@ -840,7 +848,7 @@ public class frmPartneri extends raMatPodaci {
   void rnvSifArt_actionPerformed(ActionEvent e) {
     QueryDataSet qds = VTCartPart.getDataModule().getTempSet("CPAR ="+getRaQueryDataSet().getInt("CPAR"));
     FrmPartneriArtikli fPa = new FrmPartneriArtikli(this, qds, this.getRaQueryDataSet().getInt("CPAR"));
-    hr.restart.util.startFrame.getStartFrame().centerFrame(fPa,0,"Šifre artikala partnera " + getRaQueryDataSet().getString("NAZPAR"));
+    hr.restart.util.startFrame.getStartFrame().centerFrame(fPa,0,"ï¿½ifre artikala partnera " + getRaQueryDataSet().getString("NAZPAR"));
     fPa.show();
   }
 

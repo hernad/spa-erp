@@ -3,11 +3,13 @@ package hr.restart.db;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import oracle.jdbc.pool.OracleDataSource;
+// TODO hernad: oracle izbaciti ?
+// import oracle.jdbc.pool.OracleDataSource;
 
 import com.borland.dx.sql.dataset.Database;
 
-public class OraCustomConnection extends CustomConnection {
+// hernad: public class OraCustomConnection extends CustomConnection {
+public class OraCustomConnection {
 
   private String url, user, pass;
 
@@ -20,6 +22,7 @@ public class OraCustomConnection extends CustomConnection {
     pass = _pass; //"abssolute
   }
 
+  /*
   public Database connect() throws SQLException {
     System.out.println("Connecting ...");
     OracleDataSource ods = new OracleDataSource();
@@ -32,5 +35,6 @@ public class OraCustomConnection extends CustomConnection {
     System.out.println("Connected! :) ");
     return dbor;
   }
+  */
 
 }

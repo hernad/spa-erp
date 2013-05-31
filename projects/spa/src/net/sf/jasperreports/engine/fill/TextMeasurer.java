@@ -329,10 +329,13 @@ public class TextMeasurer implements JRTextMeasurer
         maxHeight = maxHeight < 0 ? 0 : maxHeight;
         this.canOverflow = canOverflow;
         this.globalAttributes = styledText.getGlobalAttributes();
-        
-        boolean saveLineBreakOffsets = JRProperties.getBooleanProperty(propertiesHolder, 
-                JRTextElement.PROPERTY_SAVE_LINE_BREAKS, false);
-        
+
+        // TODO: hernad vidi šta je ovo  PROPERTY_SAVE_LINE_BREAKS
+        //boolean saveLineBreakOffsets = JRProperties.getBooleanProperty(propertiesHolder,
+        //        JRTextElement.PROPERTY_SAVE_LINE_BREAKS, false);
+        boolean saveLineBreakOffsets = false;
+
+
         measuredState = new TextMeasuredState(saveLineBreakOffsets);
         measuredState.lastOffset = remainingTextStart;
         prevMeasuredState = null;

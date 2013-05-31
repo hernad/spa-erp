@@ -116,9 +116,9 @@ public class frmUlazTemplate extends raMasterDetail {
 
 	short nStavka = 1; // redni broj stavke
 
-	short delStavka; // redni broj stavke koja se briše
+	short delStavka; // redni broj stavke koja se briï¿½e
 
-	boolean isFind; // Da li je pronaðen record na stanju
+	boolean isFind; // Da li je pronaï¿½en record na stanju
 	
 	boolean isTranzit;
 	boolean isNar;
@@ -130,9 +130,9 @@ public class frmUlazTemplate extends raMasterDetail {
 	
 	public char prSTAT;  // prebacen umobolni static iz _Main
 
-	//  boolean rowAddDelete = false; // Rade dodao za ekran ZT. Zašto? Pitaj ga!
+	//  boolean rowAddDelete = false; // Rade dodao za ekran ZT. Zaï¿½to? Pitaj ga!
 
-	String srcString; // Koji je kljuè za traženje u SEQ
+	String srcString; // Koji je kljuï¿½ za traï¿½enje u SEQ
 
 	String vrDok;
 
@@ -196,10 +196,10 @@ public class frmUlazTemplate extends raMasterDetail {
 		stozbrojiti_detail(new String[] { "IDOB", "IDOB_VAL", "IRAB", "IZT",
 				"INAB", "IMAR", "IBP", "IPOR", "ISP", "IZAD", "DIOPORMAR",
 				"DIOPORPOR", "PORAV" });
-		setnaslovi_detail(new String[] { "Dobavljaèev iznos", "Valutni iznos",
-				"Iznos popusta", "Iznos zavisih troškova", "Nabavni iznos",
+		setnaslovi_detail(new String[] { "Dobavljaï¿½ev iznos", "Valutni iznos",
+				"Iznos popusta", "Iznos zavisih troï¿½kova", "Nabavni iznos",
 				"Iznos RUC-a", "Iznos bez poreza", "Iznos poreza",
-				"Iznos s porezom", "Iznos zaduženja", "Poravnanje marže",
+				"Iznos s porezom", "Iznos zaduï¿½enja", "Poravnanje marï¿½e",
 				"Poravnanje poreza", "Poravnanje" });
 		rCD.setisNeeded(hr.restart.sisfun.frmParam.getParam("robno",
 				"kontKalk", "D",
@@ -225,7 +225,7 @@ public class frmUlazTemplate extends raMasterDetail {
       if (cskl.length() > 0) {
          if (TD.isCsklSklad(vrDok)) {
            if (lD.raLocate(dm.getSklad(), "CSKL", cskl))
-             additional = "  skladište " + cskl + " - " + 
+             additional = "  skladiï¿½te " + cskl + " - " + 
                  dm.getSklad().getString("NAZSKL");
          } else {
            if (lD.raLocate(dm.getOrgstruktura(), "CORG", cskl))
@@ -244,7 +244,7 @@ public class frmUlazTemplate extends raMasterDetail {
       setNaslovMaster(masterTitle + additional);
 		
 	  isNar = frmParam.getParam("robno", "prkFromNar", "N",
-	      "Omoguæiti prebacivanje narudžbe u primku").equalsIgnoreCase("D");
+	      "Omoguï¿½iti prebacivanje narudï¿½be u primku").equalsIgnoreCase("D");
 	}
 
 	public void beforeShowDetail() {
@@ -287,7 +287,7 @@ public class frmUlazTemplate extends raMasterDetail {
 				lD.raLocate(dm.getArtikli(), "CART", Integer.toString(getDetailSet().getInt("CART")));
 
 			if (!lD.raLocate(dm.getPorezi(), "CPOR", dm.getArtikli().getString("CPOR"))){
-	      System.err.println("Greška nisu naðeni porezi !!!!" + dm.getArtikli());
+	      System.err.println("Greï¿½ka nisu naï¿½eni porezi !!!!" + dm.getArtikli());
 	    }
 		}
 	}
@@ -315,17 +315,17 @@ public class frmUlazTemplate extends raMasterDetail {
 		int docExists = isDocumentAllreadyExist(getMasterSet().getString("BRRAC"),
             this.oldBRRAC,getMasterSet().getInt("CPAR"),this.oldCPAR);
 	  	if (docExists == -1){
-	        JOptionPane.showMessageDialog(this.getWindow(), "Broj raèuna "+
+	        JOptionPane.showMessageDialog(this.getWindow(), "Broj raï¿½una "+
 	        		getMasterSet().getString("BRRAC")+" za partnera " +
-	        		getMasterSet().getInt("CPAR")+ " vaæ postoji u evidenciji robnog knjigovodstva. ",
-	                "Greška", JOptionPane.ERROR_MESSAGE);
+	        		getMasterSet().getInt("CPAR")+ " vaï¿½ postoji u evidenciji robnog knjigovodstva. ",
+	                "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
 	        return false;
 	  	}
 	  	if (docExists == -2){
-	        JOptionPane.showMessageDialog(this.getWindow(), "Broj raèuna "+
+	        JOptionPane.showMessageDialog(this.getWindow(), "Broj raï¿½una "+
 	        		getMasterSet().getString("BRRAC")+" za partnera " +
-	        		getMasterSet().getInt("CPAR")+ " vaæ postoji u evidenciji saldakonti. ",
-	                "Greška", JOptionPane.ERROR_MESSAGE);
+	        		getMasterSet().getInt("CPAR")+ " vaï¿½ postoji u evidenciji saldakonti. ",
+	                "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
 	        return false;
 	  	}
 
@@ -348,7 +348,7 @@ public class frmUlazTemplate extends raMasterDetail {
 		if (isFind && !isTranzit && !isMinusAllowed && prSTAT!='K' && (mode == 'I' || dk.signum() < 0) && 
 		    stanjeSet.getBigDecimal("KOL").compareTo(dk.negate()) < 0) {
           JOptionPane.showConfirmDialog(raDetail.getWindow(),
-                "Nedovoljna kolièina na zalihi za smanjivanje ovom stavkom!",
+                "Nedovoljna koliï¿½ina na zalihi za smanjivanje ovom stavkom!",
                 "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
           return false;
         }
@@ -428,8 +428,8 @@ public class frmUlazTemplate extends raMasterDetail {
 		if (!lD.raLocate(dm.getSklad(), "CSKL", getMasterSet()
 				.getString("CSKL"))) {
 			JOptionPane.showMessageDialog(raDetail.getWindow(),
-			    "Ne mogu pronaæi slog skladišta! ("+
-			    getMasterSet().getString("CSKL")+")", "Greška",
+			    "Ne mogu pronaï¿½i slog skladiï¿½ta! ("+
+			    getMasterSet().getString("CSKL")+")", "Greï¿½ka",
 			    JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -446,13 +446,13 @@ public class frmUlazTemplate extends raMasterDetail {
 		if (isFind && !isTranzit &&!isMinusAllowed && prSTAT!='K' && stanjeSet.getBigDecimal("KOL").
 				compareTo(getDetailSet().getBigDecimal("KOL")) < 0) {
 			JOptionPane.showConfirmDialog(raDetail.getWindow(),
-					"Brisanje nije moguæe. Kolièina na stanju je manja od kolièine na ovoj stavci!",
+					"Brisanje nije moguï¿½e. Koliï¿½ina na stanju je manja od koliï¿½ine na ovoj stavci!",
 					"Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		if (!isUpdateOrDeletePossible()) {
 			JOptionPane.showConfirmDialog(raDetail.getWindow(),
-							"Brisanje nije moguæe. Postoji promet koji je napravljen po ovom dokumentu !",
+							"Brisanje nije moguï¿½e. Postoji promet koji je napravljen po ovom dokumentu !",
 							"Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -462,7 +462,7 @@ public class frmUlazTemplate extends raMasterDetail {
 			if (getDetailSet().getBigDecimal("VC").compareTo(
 					stanjeSet.getBigDecimal("VC")) != 0) {
 				JOptionPane.showConfirmDialog(raDetail.getWindow(),
-						"Brisanje nije moguæe: razli\u010Dite cijene !",
+						"Brisanje nije moguï¿½e: razli\u010Dite cijene !",
 						"Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
@@ -471,7 +471,7 @@ public class frmUlazTemplate extends raMasterDetail {
 			if (getDetailSet().getBigDecimal("MC").compareTo(stanjeSet
 					.getBigDecimal("MC")) != 0) {
 				JOptionPane.showConfirmDialog(raDetail.getWindow(),
-						"Brisanje nije moguæe: razli\u010Dite cijene: "
+						"Brisanje nije moguï¿½e: razli\u010Dite cijene: "
 								+ getDetailSet().getBigDecimal("MC") + ", "
 								+ stanjeSet.getBigDecimal("MC") + " !",
 						"Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
@@ -512,19 +512,24 @@ public class frmUlazTemplate extends raMasterDetail {
 		//    dm.getVtzavtr().getDatabase().executeStatement(rdUtil.getUtil().deleteExistingZavtrU(getMasterSet(),
 		// delStavka));
 		//    util.recalcRBR(getDetailSet(), delStavka);
-		
+
+         /* TODO: raWebSync out
 		if (TD.isDocDiraZalihu(getMasterSet().getString("VRDOK")) &&
             raWebSync.active && raWebSync.isWeb(oldCART) && raWebSync.isWeb(getMasterSet().getString("CSKL"))) {
           raWebSync.updateStanje(oldCART, getMasterSet());
         }
+        */
 	}
 	
 	public void AfterSaveDetail(char mode) {
 	  // TODO Auto-generated method stub
+
+       /* TODO: raWebSync out
 	  if (TD.isDocDiraZalihu(getMasterSet().getString("VRDOK")) &&
           raWebSync.active && raWebSync.isWeb(oldCART) && raWebSync.isWeb(getMasterSet().getString("CSKL"))) {
         raWebSync.updateStanje(getDetailSet().getInt("CART"), getMasterSet());
       }
+      */
 	}
 
 	/*
@@ -757,7 +762,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		}
 	}
 
-	//TODO Ante molim te izbaci predselekciju gdje je god moguæe. Zbog ispisa
+	//TODO Ante molim te izbaci predselekciju gdje je god moguï¿½e. Zbog ispisa
 	// preko doubleclicka koji zaobilazi predselect
 
 	public String PrepSql(boolean detail, boolean usecond) {
@@ -815,7 +820,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		else {
 			javax.swing.JOptionPane.showMessageDialog(null,
 					"Ne postoje stavke ovog dokumenta. Nemogu\u0107 ispis!",
-					"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+					"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
@@ -979,19 +984,19 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		if (getMasterSet().getString("STATKNJ").equalsIgnoreCase("K")
 				|| getMasterSet().getString("STATKNJ").equalsIgnoreCase("P")) {
 			setUserCheckMsg(
-					"Korisnik ne može promijeniti dokument jer je proknjižen !",
+					"Korisnik ne moï¿½e promijeniti dokument jer je proknjiï¿½en !",
 					false);
 			return false;
 		}
 		if (isPrenesen()) {
 			setUserCheckMsg(
-					"Korisnik ne može promijeniti dokument jer je prenesen u ili iz druge baze !",
+					"Korisnik ne moï¿½e promijeniti dokument jer je prenesen u ili iz druge baze !",
 					false);
 			return false;
 		}
 		if (isKPR()) {
 			setUserCheckMsg(
-					"Dokument je ušao u knjigu popisa i ne smije se mijenjati !!!",
+					"Dokument je uï¿½ao u knjigu popisa i ne smije se mijenjati !!!",
 					false);
 			return false;
 		}
@@ -1089,7 +1094,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 			if (ztopis != null && !ztopis.containsKey(rbr)) {
 				lookupData.getlookupData().raLocate(dm.getZtr(), "CZT",
 						String.valueOf(ztr.getShort("CZT")));
-				ztopis.put(rbr, "Zavisni trošak " + ztr.getShort("CZT") + " "
+				ztopis.put(rbr, "Zavisni troï¿½ak " + ztr.getShort("CZT") + " "
 						+ dm.getZtr().getString("NZT"));
 			}
 		}
@@ -1129,7 +1134,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 									uinab) });
 		if (uizt.compareTo(getMasterSet().getBigDecimal("UIZT").setScale(2,
 				BigDecimal.ROUND_HALF_UP)) != 0)
-			errs.addError("Ukupan iznos zavisnih troškova", new BigDecimal[] {
+			errs.addError("Ukupan iznos zavisnih troï¿½kova", new BigDecimal[] {
 					getMasterSet().getBigDecimal("UIZT"), uizt,
 					getMasterSet().getBigDecimal("UIZT").subtract(uizt) });
 
@@ -1250,7 +1255,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 							"Upozorenje", JOptionPane.WARNING_MESSAGE);
 		} else {
 			if (JOptionPane.showConfirmDialog(raDetail.getWindow(),
-					"Razlika zavisnih troškova bit \u0107e "
+					"Razlika zavisnih troï¿½kova bit \u0107e "
 							+ "korigirana na stavci br. " + mrbr + "\n("
 							+ nazart + "). U redu?", "Potvrda",
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
@@ -1305,7 +1310,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		
 		if (newBRRAC.equalsIgnoreCase("")) return 0;
 		if ("D".equalsIgnoreCase(frmParam.getParam("robno", "skipSkCheck", "N",
-		    "Preskoèiti provjeru broja raèuna u modulu SK (D,N)"))) return 0;
+		    "Preskoï¿½iti provjeru broja raï¿½una u modulu SK (D,N)"))) return 0;
 		if (newBRRAC.equalsIgnoreCase(ooldBRRAC) && 
 			newCPAR == ooldCPAR) return 0;
 

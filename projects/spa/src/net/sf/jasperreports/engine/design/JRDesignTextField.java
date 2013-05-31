@@ -195,7 +195,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
      */
     public byte getHyperlinkTarget()
     {
-        return JRHyperlinkHelper.getHyperlinkTarget(this);
+        return JRHyperlinkHelper.getHyperlinkType(this);
     }
         
     /**
@@ -310,7 +310,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
      */
     public void setHyperlinkTarget(byte hyperlinkTarget)
     {
-        setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
+        setLinkTarget(JRHyperlinkHelper.getLinkType(hyperlinkTarget));
     }
         
     /**
@@ -451,7 +451,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
     {
         Object old = this.linkTarget;
         this.linkTarget = target;
-        getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TARGET, old, this.linkTarget);
+        getEventSupport().firePropertyChange(JRDesignHyperlink.PROPERTY_LINK_TYPE, old, this.linkTarget);
     }
 
 
@@ -540,7 +540,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
     {
         if (linkTarget == null)
         {
-             linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+             linkTarget = JRHyperlinkHelper.getLinkType(hyperlinkTarget);
         }
         hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
     }

@@ -92,7 +92,7 @@ public class repMxRacun extends mxReport {
     printerRM.first();
     
     oib = frmParam.getParam("robno", "oibMode", "MB", 
-    "Staviti matièni broj (MB) ili OIB?");
+    "Staviti matiï¿½ni broj (MB) ili OIB?");
     
     fiskForm = frmParam.getParam("robno", "fiskForm", "[FBR]-[FPP]-[FNU]",
       "Format fiskalnog broja izlaznog dokumenta na ispisu");
@@ -205,7 +205,7 @@ public class repMxRacun extends mxReport {
     this.setHeader(new String[]{"                                                                                                                                                         "+"<$DoubleWidthON$>"+/*"R-1"+*/"<$DoubleWidthOFF$>"+"<$newline$>"+
                    "<$Reset$><$CondensedON$>"+getKupac()+getRacun()+getSkladiste()+
                    "----------------------------------------------------------------------------------------------------------------------------------------"+"<$newline$>"+
-                   "R.B."+" Šifra               "+" Naziv artikla/usluge                "+"     Kolièina"+"     JM"+"  Popust (%)"+"  Porez (%)"+"        Cijena"+"            Iznos"+"<$newline$>"+
+                   "R.B."+" ï¿½ifra               "+" Naziv artikla/usluge                "+"     Koliï¿½ina"+"     JM"+"  Popust (%)"+"  Porez (%)"+"        Cijena"+"            Iznos"+"<$newline$>"+
         "----------------------------------------------------------------------------------------------------------------------------------------"});
     this.setPgHeader("<$Reset$>"+Util.getUtil().getDefaultMxHeader()+
                      "");
@@ -250,7 +250,7 @@ public class repMxRacun extends mxReport {
     String kupacTemp=ds.getInt("CKUPAC")+"";
     if(!kupacTemp.equals("0") )
     {
-      racunString = "R-1 RAÈUN";
+      racunString = "R-1 RAï¿½UN";
       brRedKupac = 1;
       ld.raLocate(dm.getKupci(), new String []{"CKUPAC"}, new String []{kupacTemp});
       String firstRow;
@@ -293,14 +293,14 @@ public class repMxRacun extends mxReport {
       }
       return firstRow+secondRow+thirdRow+fourthRow;
     } else {
-      racunString = "RAÈUN";
+      racunString = "RAï¿½UN";
     }
     return "";
   }
 
 //  private String getRekapPl()
 //  {
-//    return "REKAPITULACIJA PLAÆANJA";
+//    return "REKAPITULACIJA PLAï¿½ANJA";
 //  }
 
   protected String getSkladiste()
@@ -318,7 +318,7 @@ public class repMxRacun extends mxReport {
   {
     ds.open();
     ds.first();
-    String vrati = /*"RAÈUN"*/racunString+" br.  "+ds.getString("VRDOK")+"-"+ds.getString("CSKL")+"/"+ds.getString("GOD")+"-"+ds.getInt("BRDOK");
+    String vrati = /*"RAï¿½UN"*/racunString+" br.  "+ds.getString("VRDOK")+"-"+ds.getString("CSKL")+"/"+ds.getString("GOD")+"-"+ds.getInt("BRDOK");
     
     if (ds.getString("FOK").equalsIgnoreCase("D")) {
       vrati = racunString+" br.  " + Aus.formatBroj(ds, fiskForm);
@@ -493,7 +493,7 @@ public class repMxRacun extends mxReport {
       rata.add(formatIznos(sumaSP,48-nacinPlacanja.get(0).toString().length()));
       datumNaplate.add("");
     }
-    np="              REKAPITULACIJA PLAÆANJA\n";
+    np="              REKAPITULACIJA PLAï¿½ANJA\n";
     for(int i=0;i<nacinPlacanja.size();i++)
     {
       np += nacinPlacanja.get(i)+myFormatStr(rata.get(i).toString(),50-nacinPlacanja.get(i).toString().length() )+
@@ -517,11 +517,14 @@ public class repMxRacun extends mxReport {
   }
   
   protected String getZKI() {
+
+    /* TODO: hernad ractype
     try {
       return presBlag.getFis(ds).generateZKI(raIzlazTemplate.getRacType(ds));
     } catch (Exception e) {
       return "";
     }
+    */
   }
   
   protected String getJIR() {

@@ -867,7 +867,7 @@ public class repIzlazni implements raReportData {
 //System.out.println("ds.getBigDecimal(UPRAB1)       "+ds.getBigDecimal("UPRAB1"));
 //System.out.println("ds.getBigDecimal(UPRAB1)divide "+ds.getBigDecimal("UPRAB1").divide(new BigDecimal("100.00"),BigDecimal.ROUND_HALF_UP));
 //System.out.println("ds.getBigDecimal(INETO) s p 1  "+ds.getBigDecimal("INETO").multiply(new BigDecimal("1.00").subtract(ds.getBigDecimal("UPRAB1").divide(new BigDecimal("100.00"),BigDecimal.ROUND_HALF_UP))));
-//System.out.println("što je ovo -                   " + (ds.getBigDecimal("ISP").multiply(ds.getBigDecimal("UPRAB1")).divide(new BigDecimal(100.0000),4,BigDecimal.ROUND_HALF_UP)).doubleValue()); //XDEBUG delete when no more needed
+//System.out.println("ï¿½to je ovo -                   " + (ds.getBigDecimal("ISP").multiply(ds.getBigDecimal("UPRAB1")).divide(new BigDecimal(100.0000),4,BigDecimal.ROUND_HALF_UP)).doubleValue()); //XDEBUG delete when no more needed
     if (iznosPop) return ds.getBigDecimal("INETO").multiply(Aus.one0.subtract(
           ds.getBigDecimal("UPRAB1").movePointLeft(2))).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     return ds.getBigDecimal("INETO").doubleValue();
@@ -925,7 +925,7 @@ public BigDecimal getPOR3() {
   }
   
   public String getUIUlabel() {
-    return "Plaæeno/uèešæe";
+    return "Plaï¿½eno/uï¿½eï¿½ï¿½e";
   }
   
   public String getUIUlabel2() {
@@ -1071,11 +1071,14 @@ public BigDecimal getIPRODSP() {
   }
   
   public String getZKI() {
+
+    /* TODO: hernad RacType
     try {
       return presBlag.getFis(ds).generateZKI(raIzlazTemplate.getRacType(ds));
     } catch (Exception e) {
       return "";
     }
+    */
   }
     
   public String getFormatBrojTri(){
@@ -1260,7 +1263,7 @@ public BigDecimal getIPRODSP() {
   	POPIZNOS=new VarStr();
   	POPOSN=new VarStr();
   	if (!frmParam.getParam("robno", "showPopust", "N",
-  		"Prikazati rekapitulaciju popusta na izlaznim raèunima (D,N)").equals("D")) return;
+  		"Prikazati rekapitulaciju popusta na izlaznim raï¿½unima (D,N)").equals("D")) return;
 	
 		DataSet pops = vtrabat.getDataModule().getTempSet(Condition.whereAllEqual(Util.mkey, ds));
 		pops.open();
@@ -1510,7 +1513,7 @@ public BigDecimal getIPRODSP() {
   
   public String getDVIZNOS() {
     if (raSaldaKonti.isDomVal(ds)) return "";
-    return "Iznos u valuti:" + (ispTecaj ? "\nTeèaj:" : "");
+    return "Iznos u valuti:" + (ispTecaj ? "\nTeï¿½aj:" : "");
   }
 
   boolean isHide() {
@@ -1772,7 +1775,7 @@ public BigDecimal getIPRODSP() {
       VarStr v = new VarStr();
       
       String csub = frmParam.getParam("rn", "ispisCsub", "",
-          "Opis šifre subjekta (ostaviti prazno za neispisivanje šifre)");
+          "Opis ï¿½ifre subjekta (ostaviti prazno za neispisivanje ï¿½ifre)");
       
       if (csub != null && csub.trim().length() > 0) {
         v.append(csub);
@@ -1781,7 +1784,7 @@ public BigDecimal getIPRODSP() {
         v.append(", ");
       }
       if (frmParam.getParam("rn", "ispisBusBroj", "D",
-         "Ispis serijskog broja subjekta na raèunu (D,N)").equalsIgnoreCase("D")) {
+         "Ispis serijskog broja subjekta na raï¿½unu (D,N)").equalsIgnoreCase("D")) {
         v.append(dm.getRN_vrsub().getString("nazserbr")).append(" - ");
         v.append(sub.getString("BROJ")).append(", ");
       }
@@ -1881,14 +1884,14 @@ public BigDecimal getIPRODSP() {
   
   private void checkSpecGroup() {
     specGroup = frmParam.getParam("rn", "specGrupa", "", 
-        "Grupa artikala za odvojeno prikazana na raèunima iz radnog naloga (npr. ulje)");
+        "Grupa artikala za odvojeno prikazana na raï¿½unima iz radnog naloga (npr. ulje)");
     if (specGroup == null || specGroup.length() == 0) specGroup = "#^";
     specText = frmParam.getParam("rn", "specTekst", "", 
-        "Tekst za opis odvojene grupe artikala na raèunu iz radnog naloga");
-    matText = frmParam.getParam("rn", "matTekst", "Ugrağeni dijelovi", 
-        "Tekst za opis potrošenog materijala na raèunu iz radnog naloga");
+        "Tekst za opis odvojene grupe artikala na raï¿½unu iz radnog naloga");
+    matText = frmParam.getParam("rn", "matTekst", "Ugraï¿½eni dijelovi", 
+        "Tekst za opis potroï¿½enog materijala na raï¿½unu iz radnog naloga");
     radText = frmParam.getParam("rn", "radTekst", "Radne operacije", 
-        "Tekst za opis usluga na raèunu iz radnog naloga");
+        "Tekst za opis usluga na raï¿½unu iz radnog naloga");
   }
 
   private void checkNap() {
@@ -1948,7 +1951,7 @@ public BigDecimal getIPRODSP() {
     lookupData.getlookupData().raLocate(dm.getArtikli(),"CART",cartik);
     if (specGroup.equalsIgnoreCase(dm.getArtikli().getString("CGRART"))) grrr = specText;
     else if (raVart.isUsluga(dm.getArtikli())) grrr = radText; //"Izvedeni radovi";
-    else grrr = matText; //"Utrošeni materijal";
+    else grrr = matText; //"Utroï¿½eni materijal";
     return grrr;
   }
   
@@ -1957,7 +1960,7 @@ public BigDecimal getIPRODSP() {
     String cartik = ds.getInt("CART")+"";
     lookupData.getlookupData().raLocate(dm.getArtikli(),"CART",cartik);
     if (raVart.isUsluga(dm.getArtikli())) grrr = "Vr. jed."; //"Izvedeni radovi";
-    else grrr = "Kolièina"; //"Utrošeni materijal";
+    else grrr = "Koliï¿½ina"; //"Utroï¿½eni materijal";
     return grrr;
   }
 
@@ -2078,24 +2081,24 @@ public BigDecimal getIPRODSP() {
     iznosPop = frmParam.getFrmParam().getParam("robno","ukuSpop","N",
         "Prikaz ukupnog iznosa stavke izaza s popustom (D/N)").equalsIgnoreCase("D");
     metroDob = frmParam.getParam("robno","MetroCpar","20196",
-        "Šifra dobavljaèa na raèunu i otpremnici za Metro");
+        "ï¿½ifra dobavljaï¿½a na raï¿½unu i otpremnici za Metro");
     oib = frmParam.getParam("robno", "oibMode", "MB", 
-        "Staviti matièni broj (MB) ili OIB?");
+        "Staviti matiï¿½ni broj (MB) ili OIB?");
     hideKup = frmParam.getParam("robno", "kupacHack", "N",
-        "Omoguæiti skrivanje kupca na gotovinskim raèunima (D,N)").equals("D");
+        "Omoguï¿½iti skrivanje kupca na gotovinskim raï¿½unima (D,N)").equals("D");
     showPop = frmParam.getParam("robno", "showPopust", "N",
-    	"Prikazati rekapitulaciju popusta na izlaznim raèunima (D,N)").equals("D");
+    	"Prikazati rekapitulaciju popusta na izlaznim raï¿½unima (D,N)").equals("D");
     prefn = frmParam.getParam("robno", "prefixPar", "",
         "Prefiks ispred imena partnera");
     specForm = frmParam.getParam("robno", "specForm", "",
       "Custom format broja izlaznog dokumenta na ispisu");
     ispTecaj = frmParam.getParam("robno", "ispTecaj", "N",
-      "Ispis teèaja zajedno s iznosom u valuti (D,N)").equalsIgnoreCase("D");
+      "Ispis teï¿½aja zajedno s iznosom u valuti (D,N)").equalsIgnoreCase("D");
     prefv = frmParam.getParam("robno", "prefVal", "N",
       "Ispis prefiksa ispred iznosa u valuti (D,N)").equalsIgnoreCase("D");
     gotpar = "D".equalsIgnoreCase(
         frmParam.getParam("robno", "gotPar", "N",
-        "Gotovinski raèuni za partnere (D,N)"));
+        "Gotovinski raï¿½uni za partnere (D,N)"));
     
     if (prefn.length() > 0) prefn = prefn + "\n";
     

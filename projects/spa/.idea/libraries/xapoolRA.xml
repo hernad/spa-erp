@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="xapoolRA">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/xapoolRA.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

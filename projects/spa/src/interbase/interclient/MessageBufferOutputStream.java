@@ -2,6 +2,8 @@
 // Jad home page: http://www.geocities.com/kpdus/jad.html
 // Decompiler options: packimports(3) 
 
+/*  TODO: hernad interbase out
+
 package interbase.interclient;
 
 import java.io.*;
@@ -123,7 +125,7 @@ final class MessageBufferOutputStream extends ByteArrayOutputStream
     
     private String fiStr(String s) {
       if (!fiHack || s.indexOf('\u03A6') < 0) return s;
-      return s.replace('\u03A6', 'ÿ');
+      return s.replace('\u03A6', 'ï¿½');
     }
 
     void writeLDChars(String s)
@@ -148,7 +150,7 @@ final class MessageBufferOutputStream extends ByteArrayOutputStream
             for(int j = 0; j < i; j++) {
                 ac[j] = s.charAt(j);
                 if (fiHack && ac[j] == '\u03A6')
-                  ac[j] = 'ÿ';
+                  ac[j] = 'ï¿½';
             }
 
             int k = ctb_.convert(ac, 0, i, abyte0, 0, abyte0.length);
@@ -229,3 +231,5 @@ final class MessageBufferOutputStream extends ByteArrayOutputStream
       System.out.println("Output fi hack detected.");
     }
 }
+
+*/

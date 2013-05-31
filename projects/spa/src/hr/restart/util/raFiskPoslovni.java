@@ -2,8 +2,13 @@ package hr.restart.util;
 
 import java.sql.Timestamp;
 
+/*
+TODO: hernad hr.apis izbaciti
+
 import hr.apis_it.fin._2012.types.f73.PoslovniProstorType;
 import hr.apis_it.fin._2012.types.f73.PoslovniProstorZahtjev;
+*/
+
 import hr.restart.baza.dM;
 import hr.restart.pos.presBlag;
 import hr.restart.sisfun.frmParam;
@@ -84,12 +89,12 @@ public class raFiskPoslovni extends raUpitLite {
         dM.createStringColumn("ULICA", "Ulica", 100),
         dM.createStringColumn("BROJ", "Broj", 10),
         dM.createStringColumn("BROJDOD", "Dodatak", 30),
-        dM.createIntColumn("PBR", "Poštanski broj"),
+        dM.createIntColumn("PBR", "Poï¿½tanski broj"),
         dM.createStringColumn("MJ", "Mjesto", 50),
-        dM.createStringColumn("OPCINA", "Opæina", 50),
+        dM.createStringColumn("OPCINA", "Opï¿½ina", 50),
         dM.createStringColumn("OSTALO", "Ostalo", 50),
         dM.createStringColumn("RADVRI", "Radno vrijeme", 100),
-        dM.createTimestampColumn("DATUM", "Datum poèetka primjene")
+        dM.createTimestampColumn("DATUM", "Datum poï¿½etka primjene")
     });
     ds.open();
     ds.insertRow(false);
@@ -172,7 +177,7 @@ public class raFiskPoslovni extends raUpitLite {
     jp.add(jraBroj, new XYConstraints(405, 70, 50, -1));
     jp.add(jraBrojDod, new XYConstraints(460, 70, 50, -1));
     
-    jp.add(new JLabel("Mjesto i opæina"), new XYConstraints(15, 95, -1, -1));
+    jp.add(new JLabel("Mjesto i opï¿½ina"), new XYConstraints(15, 95, -1, -1));
     jp.add(jlrPBR, new XYConstraints(150, 95, 100, -1));
     jp.add(jlrMJ, new XYConstraints(255, 95, 145, -1));
     jp.add(jraOpcina, new XYConstraints(405, 95, 105, -1));
@@ -212,7 +217,7 @@ public class raFiskPoslovni extends raUpitLite {
         vl.isEmpty(jraRadVri) || vl.isEmpty(jraDatum)) return false;
     
     boolean zat = jcbZatvori.isSelected();
-    if (JOptionPane.showConfirmDialog(jp, "Želite li " + (zat ? "ZATVORITI" : "prijaviti") + " poslovni prostor " + jraOznaka.getText() + "?", 
+    if (JOptionPane.showConfirmDialog(jp, "ï¿½elite li " + (zat ? "ZATVORITI" : "prijaviti") + " poslovni prostor " + jraOznaka.getText() + "?", 
           "Prijava PP", JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) return false;
     
     return true;
@@ -248,7 +253,7 @@ public class raFiskPoslovni extends raUpitLite {
   
   public void afterOKPress() {
     if (isOk) {
-      JOptionPane.showMessageDialog(jp, "Prijava poslovnog prostora upješna!", "Fiskalizacija", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(jp, "Prijava poslovnog prostora upjeï¿½na!", "Fiskalizacija", JOptionPane.INFORMATION_MESSAGE);
       /*if (!presBlag.isSkladOriented()) {
         if (lookupData.getlookupData().raLocate(dm.getParametri(),
             new String[] {"APP","PARAM"},new String[] {"robno", "fiskPP"})) {
@@ -260,7 +265,7 @@ public class raFiskPoslovni extends raUpitLite {
         IntParam.setTag("robno.fiskPP", ds.getString("OZNAKA"));
       }*/
     } else {
-      JOptionPane.showMessageDialog(jp, "Prijava poslovnog prostora NIJE upješna!", "Fiskalizacija", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(jp, "Prijava poslovnog prostora NIJE upjeï¿½na!", "Fiskalizacija", JOptionPane.ERROR_MESSAGE);
     }
   }
   

@@ -2,6 +2,8 @@
 // Jad home page: http://www.geocities.com/kpdus/jad.html
 // Decompiler options: packimports(3) 
 
+/* TODO: interbase out
+
 package interbase.interclient;
 
 import java.io.*;
@@ -379,7 +381,7 @@ final class RecvMessage
                 int k = btc_.convert(buf_, pos_, pos_ + j, ac, 0, i);
                 if (fiHack)
                   for (int ci = 0; ci < k; ci++)
-                    if (ac[ci] == 'ÿ') ac[ci] = '\u03A6';
+                    if (ac[ci] == 'ï¿½') ac[ci] = '\u03A6';
                 pos_ += j;
                 return k;
             } else
@@ -414,8 +416,8 @@ final class RecvMessage
             if(buffered_)
             {
                 String s1 = new String(buf_, pos_, i, s);
-                if (fiHack && s1.indexOf('ÿ') >= 0)
-                  s1 = s1.replace('ÿ', '\u03A6');
+                if (fiHack && s1.indexOf('ï¿½') >= 0)
+                  s1 = s1.replace('ï¿½', '\u03A6');
                 pos_ += i;
                 return s1;
             } else
@@ -622,3 +624,5 @@ final class RecvMessage
       System.out.println("Input fi hack detected.");
     }
 }
+
+*/

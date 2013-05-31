@@ -1,6 +1,11 @@
 package hr.restart.robno;
 
-import hr.binom.PurchaseItemBase;
+//
+/*
+
+// TODO: hr.binom ?
+// import hr.binom.PurchaseItemBase;
+
 import hr.restart.baza.Condition;
 import hr.restart.baza.Stanje;
 import hr.restart.baza.dM;
@@ -33,7 +38,8 @@ import com.borland.dx.sql.dataset.QueryDataSet;
 
 
 public class raWebSync {
-  
+
+
   public static Object lokk = new Object();
   
   public static String apiKey;
@@ -57,7 +63,7 @@ public class raWebSync {
       for (ds.first(); ds.inBounds(); ds.next())
         carts.add(new Integer(ds.getInt("CART")));
       
-      String skl = frmParam.getParam("sisfun", "webSklads", "", "Skladišta za web sync");
+      String skl = frmParam.getParam("sisfun", "webSklads", "", "Skladiï¿½ta za web sync");
       if (skl.indexOf(',') < 0) sklads.addAll(Arrays.asList(new VarStr(skl).split()));
       else sklads.addAll(Arrays.asList(new VarStr(skl).splitTrimmed(',')));
     } catch (Exception e) {
@@ -172,7 +178,13 @@ public class raWebSync {
       importImpl();
     }
   }
-  
+
+  static boolean importDoc() {
+    return false;
+  }
+
+
+
   static boolean importDoc(hr.binom.PurchaseBase pb) {
     
     String cskl = (String) sklads.iterator().next();
@@ -301,7 +313,46 @@ public class raWebSync {
     
     return nar;
   }
-  
+
+
+   static void importImpl() {
+    try {
+      hr.binom.ErpSoap es = new hr.binom.ErpLocator().geterpSoap();
+
+      Valid.getValid().setSeqFilter("WEBSYNC");
+
+      hr.binom.OrderBase ob = es.getOrders(apiKey, (int) dM.getDataModule().getSeq().getDouble("BROJ"));
+
+      System.out.println(ob);
+
+      hr.binom.PurchaseBase[] pb = ob.getData();
+      if (pb != null) {
+        int nars = 0, gots = 0;
+        for (int i = 0; i < pb.length; i++) {
+          if (importDoc(pb[i])) nars++;
+          else gots++;
+        }
+        if (nars+gots > 0) {
+          String users = frmParam.getParam("robno", "salepodNotify", "", "Popis korisnika za notifikaciju salepod");
+          System.out.println("Users: " + users);
+          String[] us = new VarStr(users).split();
+          for (int i = 0; i < us.length; i++) {
+            System.out.println("Sending to " + us[i]);
+            MsgDispatcher.send("sistem", us[i], "Dohvaï¿½eno " + nars + " narudï¿½bi i " +gots+" racuna s webshop servera.");
+          }
+        }
+      }
+
+
+
+      //if (resp < 1) new Exception("Response " + resp).printStackTrace();
+    } catch (ServiceException e) {
+      e.printStackTrace();
+    } catch (RemoteException e) {
+      e.printStackTrace();
+    }
+  }
+
   private static void nulaStanje(QueryDataSet qdsstanje) {
     BigDecimal nula = Aus.zero2;
     qdsstanje.setBigDecimal("KOLPS", nula);
@@ -343,43 +394,7 @@ public class raWebSync {
     }.execTransaction();
   }
   
-  static void importImpl() {
-    try {
-      hr.binom.ErpSoap es = new hr.binom.ErpLocator().geterpSoap();
-      
-      Valid.getValid().setSeqFilter("WEBSYNC");
-          
-      hr.binom.OrderBase ob = es.getOrders(apiKey, (int) dM.getDataModule().getSeq().getDouble("BROJ"));
-      
-      System.out.println(ob);
-      
-      hr.binom.PurchaseBase[] pb = ob.getData();
-      if (pb != null) {
-        int nars = 0, gots = 0;
-        for (int i = 0; i < pb.length; i++) {
-          if (importDoc(pb[i])) nars++;
-          else gots++;
-        }
-        if (nars+gots > 0) {
-          String users = frmParam.getParam("robno", "salepodNotify", "", "Popis korisnika za notifikaciju salepod");
-          System.out.println("Users: " + users);
-          String[] us = new VarStr(users).split();
-          for (int i = 0; i < us.length; i++) {
-            System.out.println("Sending to " + us[i]);
-            MsgDispatcher.send("sistem", us[i], "Dohvaæeno " + nars + " narudžbi i " +gots+" racuna s webshop servera.");
-          }
-        }
-      }
 
-      
-      
-      //if (resp < 1) new Exception("Response " + resp).printStackTrace();
-    } catch (ServiceException e) {
-      e.printStackTrace();
-    } catch (RemoteException e) {
-      e.printStackTrace();
-    }
-  }
   
   public static void install(int delay) {
     Timer t = new Timer(delay*1000, new ActionListener() {
@@ -416,3 +431,5 @@ public class raWebSync {
     }
   }
 }
+
+*/
