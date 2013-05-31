@@ -15,6 +15,7 @@
 **   limitations under the License.
 **
 ****************************************************************************/
+
 package hr.restart.baza;
 
 import hr.restart.robno.raSalepodTrans;
@@ -63,6 +64,7 @@ public class dM implements DataModule {
   private String insertStatement = null;
 
   public static boolean modulesLoaded = false;
+
 // Parametri iz fajla
   String conURL;// = paramReader.VratiSadrzajTaga("url");
   String conUSER;// = paramReader.VratiSadrzajTaga("user");

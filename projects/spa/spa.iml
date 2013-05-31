@@ -12,6 +12,12 @@
     <orderEntry type="library" name="borland class library" level="project" />
     <orderEntry type="library" name="borland" level="project" />
     <orderEntry type="library" name="borland beans" level="project" />
+    <orderEntry type="library" name="spring" level="project" />
+    <orderEntry type="library" name="poi-2.5.1-final-20040804" level="project" />
+    <orderEntry type="library" name="l2fprod-common-all-7.3" level="project" />
+    <orderEntry type="library" name="jasperreports-1.2.7" level="project" />
+    <orderEntry type="library" name="NetComponents" level="project" />
+    <orderEntry type="library" name="bsh-2.0b2" level="project" />
   </component>
 </module>
 

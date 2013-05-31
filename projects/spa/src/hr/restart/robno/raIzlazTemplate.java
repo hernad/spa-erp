@@ -17,9 +17,13 @@
 ****************************************************************************/
 package hr.restart.robno;
 
+/*
+hernad
 import hr.apis_it.fin._2012.types.f73.PorezType;
 import hr.apis_it.fin._2012.types.f73.RacunType;
 import hr.apis_it.fin._2012.types.f73.RacunZahtjev;
+*/
+
 import hr.restart.baza.*;
 import hr.restart.pos.presBlag;
 import hr.restart.sisfun.TextFile;
@@ -156,7 +160,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 
 	boolean isZavtrShema = true;
 
-	boolean isEndedCancel = false; // ovo je pokušaj ispravka greške
+	boolean isEndedCancel = false; // ovo je pokuï¿½aj ispravka greï¿½ke
 
 	boolean isMasterInitIspis = false;
 
@@ -259,7 +263,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 
 	public raDDodZT getrDZT() {
 		if (rDZT == null) {
-			rDZT = new raDDodZT(this, "Dodatni zavisni troškovi", true) {
+			rDZT = new raDDodZT(this, "Dodatni zavisni troï¿½kovi", true) {
 				public void afterJob() {
 					jpZatr_afterJob();
 				}
@@ -301,7 +305,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 	raControlDocs rCD = new raControlDocs();
 
 	String defNacpl = hr.restart.sisfun.frmParam.getParam("robno", "defNacpl",
-			"", "Predefinirani naèin plaæanja");
+			"", "Predefinirani naï¿½in plaï¿½anja");
 
 	String dodatak = "";
 
@@ -351,7 +355,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
       }
 	};
 	
-	raNavAction rnvFisk = new raNavAction("Zakljuèavanje / fiskalizacija",
+	raNavAction rnvFisk = new raNavAction("Zakljuï¿½avanje / fiskalizacija",
         raImages.IMGSENDMAIL, java.awt.event.KeyEvent.VK_F7, java.awt.event.KeyEvent.SHIFT_MASK) {
       public void actionPerformed(ActionEvent e) {
         keyFisk();
@@ -379,7 +383,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
       }
     };
     
-    raNavAction rnvPop = new raNavAction("Promjena popusta na raèunu", 
+    raNavAction rnvPop = new raNavAction("Promjena popusta na raï¿½unu", 
         raImages.IMGHISTORY, KeyEvent.VK_UNDEFINED) {
       public void actionPerformed(ActionEvent e) {
         changeGlobalPopust();
@@ -392,7 +396,9 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
           "Prefiks naziva artikla za artikle na akciji (prazno za onemogucavanje)");
     }
     
-    
+    /*   TODO: hernad - RacunType
+
+
     public static RacunType getRacType(DataSet ms) {
       
       lookupData ld = lookupData.getlookupData();
@@ -420,12 +426,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
         BigDecimal por2 = ds.getBigDecimal("POR2");
         BigDecimal osn = ds.getBigDecimal("IPRODBP");
         ld.raLocate(dm.getArtikli(), new String[]{"CART"}, new String[] {String.valueOf(ds.getInt("CART"))});
-        /*if ("D".equals(dm.getArtikli().getString("POV"))) {
-          BigDecimal povni = povs.multiply(ds.getBigDecimal("KOL")).
-            setScale(2, BigDecimal.ROUND_HALF_UP);
-          povn = povn.add(povni);
-          osn = osn.subtract(povni);
-        }*/
+
         
         if (por1.signum() != 0) {
           BigDecimal post = ds.getBigDecimal("PPOR1").setScale(2);
@@ -454,11 +455,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
       DataRow usr = ld.raLookup(dM.getDataModule().getUseri(),"CUSER", ms.getString("CUSER"));
       String oibu = usr.getString("OIB");
       
-      /*if (!presBlag.isUserOriented()) {
-        DataRow blag = ld.raLookup(dM.getDataModule().getBlagajnici(), "CBLAGAJNIK", ms.getString("CBLAGAJNIK"));
-        if (blag != null && blag.getString("OIB").length() > 0) oibu = blag.getString("OIB");
-      }*/
-      
+
       String nacpl = ms.getString("CNACPL");
       DataSet rate = Rate.getDataModule().getTempSet(Condition.whereAllEqual(Util.mkey, ms));
       rate.open();
@@ -469,13 +466,15 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
       
       if (nacpl.length() == 0 || nacpl.equalsIgnoreCase("G") || nacpl.equalsIgnoreCase("N"))
         nacpl = "G";
-      else if (nacpl.equalsIgnoreCase("C") || nacpl.equalsIgnoreCase("È"))
+      else if (nacpl.equalsIgnoreCase("C") || nacpl.equalsIgnoreCase("ï¿½"))
         nacpl = "C";
       else if (nacpl.equalsIgnoreCase("K") || nacpl.startsWith("K"))
         nacpl = "K";
       else if (nacpl.equalsIgnoreCase("T") || nacpl.startsWith("V"))
         nacpl = "T";
       else nacpl = "O";
+
+
 
       RacunType rac = presBlag.getFis(ms).createRacun(
           oibf, //oib firme (Rest Art) NE PREPISUJ!!
@@ -497,7 +496,8 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
           nacpl,//nacin placanja
           oibu,//oib prodavatelja (Ja) NE PREPISUJ!!
           false //da li je naknadna dostava
-       );
+      );
+
       
       if (izmap.size() > 1 || (izmap.size() == 1 && izmap.containsKey(pdv25))) {
         for (Iterator i = izmap.keySet().iterator(); i.hasNext(); ) {
@@ -516,12 +516,18 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
       }
       
       return rac;
+
+
     }
+
+    */
     
     
     public static boolean fisk(DataSet ms) {
+
+       /* TODO: hernad Å¡ta je ovo
       if (presBlag.isFiskal(ms) && (!ms.getString("FOK").equals("D") || ms.getString("JIR").length() == 0)) {
-        
+
         try {
           
           Timestamp datvri = new Timestamp(System.currentTimeMillis());
@@ -536,10 +542,11 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
           ms.saveChanges();
           return ms.getString("JIR").length() > 0;
         } catch (Exception e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+           e.printStackTrace();
         }
       }
+
+     */
       return false;
     }
     
@@ -556,11 +563,11 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
     
       if (what_kind_of_dokument.equalsIgnoreCase("GOT") || what_kind_of_dokument.equalsIgnoreCase("GRN") ||
           (what_kind_of_dokument.equalsIgnoreCase("PRD") && ms.getString("PARAM").equals("K"))) {
-        if (JOptionPane.showConfirmDialog(raMaster.getWindow(), "Želite li fiskalizirati odabrane raèune?", "Fiskalizacija", 
+        if (JOptionPane.showConfirmDialog(raMaster.getWindow(), "ï¿½elite li fiskalizirati odabrane raï¿½une?", "Fiskalizacija", 
             JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) return;
         
         if (resetSysdat.equalsIgnoreCase("A")) {
-       	 int response = JOptionPane.showConfirmDialog(raMaster.getWindow(), "Želite li postaviti datum kreiranja raèuna (na sada)?", 
+       	 int response = JOptionPane.showConfirmDialog(raMaster.getWindow(), "ï¿½elite li postaviti datum kreiranja raï¿½una (na sada)?", 
        			 "Fiskalizacija", JOptionPane.YES_NO_CANCEL_OPTION);
        	 if (response == JOptionPane.CANCEL_OPTION) return;
        	 if (response == JOptionPane.YES_OPTION) resetSysdat = "D";
@@ -581,18 +588,18 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
            if (succ) ++ count;
          }
          raMaster.getJpTableView().fireTableDataChanged();
-         JOptionPane.showMessageDialog(raMaster.getWindow(), "Fiskalizirano " + count + " raèuna.", "Greška", JOptionPane.INFORMATION_MESSAGE);
+         JOptionPane.showMessageDialog(raMaster.getWindow(), "Fiskalizirano " + count + " raï¿½una.", "Greï¿½ka", JOptionPane.INFORMATION_MESSAGE);
       } else if (what_kind_of_dokument.equalsIgnoreCase("ROT") || what_kind_of_dokument.equalsIgnoreCase("RAC") ||
           what_kind_of_dokument.equalsIgnoreCase("IZD") || what_kind_of_dokument.equalsIgnoreCase("POD") ||
           what_kind_of_dokument.equalsIgnoreCase("TER") || what_kind_of_dokument.equalsIgnoreCase("ODB") ||
           (what_kind_of_dokument.equalsIgnoreCase("PRD") && !ms.getString("PARAM").equals("K"))) {
         
-        if (JOptionPane.showConfirmDialog(raMaster.getWindow(), "Želite li zakljuèiti odabrane raèune?", "Fiskalizacija", 
+        if (JOptionPane.showConfirmDialog(raMaster.getWindow(), "ï¿½elite li zakljuï¿½iti odabrane raï¿½une?", "Fiskalizacija", 
             JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) return;
         
         if (resetSysdat.equalsIgnoreCase("A")) {
-       	  int response = JOptionPane.showConfirmDialog(raMaster.getWindow(), "Želite li postaviti datum kreiranja raèuna (na sada)?", 
-       			 "Zakljuèivanje", JOptionPane.YES_NO_CANCEL_OPTION);
+       	  int response = JOptionPane.showConfirmDialog(raMaster.getWindow(), "ï¿½elite li postaviti datum kreiranja raï¿½una (na sada)?", 
+       			 "Zakljuï¿½ivanje", JOptionPane.YES_NO_CANCEL_OPTION);
        	  if (response == JOptionPane.CANCEL_OPTION) return;
        	  if (response == JOptionPane.YES_OPTION) resetSysdat = "D";
         }
@@ -612,9 +619,9 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
           ++count;
         }
         raMaster.getJpTableView().fireTableDataChanged();
-        JOptionPane.showMessageDialog(raMaster.getWindow(), "Zakljuèano " + count + " raèuna.", "Greška", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(raMaster.getWindow(), "Zakljuï¿½ano " + count + " raï¿½una.", "Greï¿½ka", JOptionPane.INFORMATION_MESSAGE);
       } else {
-        JOptionPane.showMessageDialog(raMaster.getWindow(), "Dokument se ne može fiskalizirati!", "Greška", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(raMaster.getWindow(), "Dokument se ne moï¿½e fiskalizirati!", "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
       }
       
     }
@@ -625,8 +632,8 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
       if (ms.rowCount() == 0) return;
       
       if (!presBlag.isFiskal(ms)) {
-        JOptionPane.showMessageDialog(raMaster.getWindow(), "Nije ukljuèena fiskalizacija pripadajuæeg poslovnog prostora!", 
-            "Greška", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(raMaster.getWindow(), "Nije ukljuï¿½ena fiskalizacija pripadajuï¿½eg poslovnog prostora!", 
+            "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
         return;
       }
       
@@ -636,7 +643,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
       }
       
       if (ms.getString("FOK").equals("D")) {
-        JOptionPane.showMessageDialog(raMaster.getWindow(), "Dokument je veæ zakljuèan!", "Greška", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(raMaster.getWindow(), "Dokument je veï¿½ zakljuï¿½an!", "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
         return;
       }
       
@@ -650,11 +657,11 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
       
       if (what_kind_of_dokument.equalsIgnoreCase("GOT") || what_kind_of_dokument.equalsIgnoreCase("GRN") ||
           (what_kind_of_dokument.equalsIgnoreCase("PRD") && ms.getString("PARAM").equals("K"))) {
-        if (JOptionPane.showConfirmDialog(raMaster.getWindow(), "Želite li fiskalizirati raèun?", "Fiskalizacija", 
+        if (JOptionPane.showConfirmDialog(raMaster.getWindow(), "ï¿½elite li fiskalizirati raï¿½un?", "Fiskalizacija", 
             JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) return;
         
          if (resetSysdat.equalsIgnoreCase("A")) {
-        	 int response = JOptionPane.showConfirmDialog(raMaster.getWindow(), "Želite li postaviti datum kreiranja raèuna (na sada)?", 
+        	 int response = JOptionPane.showConfirmDialog(raMaster.getWindow(), "ï¿½elite li postaviti datum kreiranja raï¿½una (na sada)?", 
         			 "Fiskalizacija", JOptionPane.YES_NO_CANCEL_OPTION);
         	 if (response == JOptionPane.CANCEL_OPTION) return;
         	 if (response == JOptionPane.YES_OPTION) resetSysdat = "D";
@@ -671,18 +678,18 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
          boolean succ = fisk(ms);
          raMaster.getJpTableView().fireTableDataChanged();
          JOptionPane.showMessageDialog(raMaster.getWindow(), "Dokument " + ms.getString("PNBZ2") + 
-             (succ ? " fiskaliziran!" : " zakljuèan!"), "Fiskalizacija", JOptionPane.INFORMATION_MESSAGE);
+             (succ ? " fiskaliziran!" : " zakljuï¿½an!"), "Fiskalizacija", JOptionPane.INFORMATION_MESSAGE);
       } else if (what_kind_of_dokument.equalsIgnoreCase("ROT") || what_kind_of_dokument.equalsIgnoreCase("RAC") ||
           what_kind_of_dokument.equalsIgnoreCase("IZD") || what_kind_of_dokument.equalsIgnoreCase("POD") ||
           what_kind_of_dokument.equalsIgnoreCase("TER") || what_kind_of_dokument.equalsIgnoreCase("ODB") ||
           (what_kind_of_dokument.equalsIgnoreCase("PRD") && !ms.getString("PARAM").equals("K"))) {
       	
-      	if (JOptionPane.showConfirmDialog(raMaster.getWindow(), "Želite li zakljuèiti raèun?", "Zakljuèivanje", 
+      	if (JOptionPane.showConfirmDialog(raMaster.getWindow(), "ï¿½elite li zakljuï¿½iti raï¿½un?", "Zakljuï¿½ivanje", 
             JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) return;
       	
         if (resetSysdat.equalsIgnoreCase("A")) {
-       	  int response = JOptionPane.showConfirmDialog(raMaster.getWindow(), "Želite li postaviti datum kreiranja raèuna (na sada)?", 
-       			 "Zakljuèivanje", JOptionPane.YES_NO_CANCEL_OPTION);
+       	  int response = JOptionPane.showConfirmDialog(raMaster.getWindow(), "ï¿½elite li postaviti datum kreiranja raï¿½una (na sada)?", 
+       			 "ZakljuÄivanje", JOptionPane.YES_NO_CANCEL_OPTION);
        	  if (response == JOptionPane.CANCEL_OPTION) return;
        	  if (response == JOptionPane.YES_OPTION) resetSysdat = "D";
         }
@@ -696,9 +703,9 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
         if (resetSysdat.equalsIgnoreCase("D")) getMasterSet().setTimestamp("SYSDAT", Valid.getValid().getToday());
         getMasterSet().saveChanges();
         raMaster.getJpTableView().fireTableDataChanged();
-        JOptionPane.showMessageDialog(raMaster.getWindow(), "Dokument " + ms.getString("PNBZ2") + " zakljuèan!", "Fiskalizacija", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(raMaster.getWindow(), "Dokument " + ms.getString("PNBZ2") + " zakljuï¿½an!", "Fiskalizacija", JOptionPane.INFORMATION_MESSAGE);
       } else {
-        JOptionPane.showMessageDialog(raMaster.getWindow(), "Dokument se ne može fiskalizirati!", "Greška", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(raMaster.getWindow(), "Dokument se ne moï¿½e fiskalizirati!", "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
       }
     }
     
@@ -740,7 +747,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 		}
 	}
 
-	raNavAction rnvDellAll = new raNavAction("Brisanje više ra\u010Duna",
+	raNavAction rnvDellAll = new raNavAction("Brisanje viï¿½e ra\u010Duna",
 			raImages.IMGDELALL, java.awt.event.KeyEvent.VK_F3,
 			java.awt.event.KeyEvent.SHIFT_MASK) {
 		public void actionPerformed(ActionEvent e) {
@@ -795,7 +802,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 	static boolean nabDirect;
 	static {
 		nabDirect = frmParam.getParam("robno" ,"nabDirect", "N",
-				"Moguænost unosa nabavnog iznosa na raèunima (D,N)").equalsIgnoreCase("D");
+				"Moguï¿½nost unosa nabavnog iznosa na raï¿½unima (D,N)").equalsIgnoreCase("D");
 	}
 	
 	public static boolean isNabDirect() {
@@ -811,13 +818,13 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 		hideKup =  (what_kind_of_dokument.equals("GOT") ||
             what_kind_of_dokument.equals("GRN")) &&
             frmParam.getParam("robno", "kupacHack", "N",
-                "Omoguæiti skrivanje kupca na gotovinskim raèunima (D,N)").equals("D");
+                "Omoguï¿½iti skrivanje kupca na gotovinskim raï¿½unima (D,N)").equals("D");
 		
 		allowNabedit = (what_kind_of_dokument.equals("RAC") ||
 		    what_kind_of_dokument.equals("ODB") ||
 		    what_kind_of_dokument.equals("TER")) &&
 		    frmParam.getParam("robno", "allowNabedit", "N",
-		        "Omoguæiti izmjenu nabavne vrijednosti proknjiženih RAC (D,N)").equals("D"); 
+		        "Omoguï¿½iti izmjenu nabavne vrijednosti proknjiï¿½enih RAC (D,N)").equals("D"); 
 		
 		setUserCheck(hr.restart.sisfun.frmParam
 				.getParam("robno", "userCheck", "D",
@@ -902,7 +909,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 				"kontKalk", "D",
 				"Kontrola ispravosti redoslijeda unosa dokumenata")
 				.equalsIgnoreCase("D"));
-		setKumulativ(); // Siniša
+		setKumulativ(); // Siniï¿½a
 	}
 
 	public void OpenWhatWeNeed() {
@@ -919,14 +926,14 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 	public void beforeShowMaster() {
 	  
 	    isPopustMC = frmParam.getParam("robno", "popustuFMC", "N",
-	      "Popust s artikla uraèunati u FMC (D,N)").equalsIgnoreCase("D");
+	      "Popust s artikla uraï¿½unati u FMC (D,N)").equalsIgnoreCase("D");
 
 	    String cskl = pressel.getSelRow().getString("CSKL");
 	    String additional = "";
 	    if (cskl.length() > 0) {
 	       if (TD.isCsklSklad(what_kind_of_dokument) && !isOJ) {
 	         if (lD.raLocate(dm.getSklad(), "CSKL", cskl))
-	           additional = "  skladište " + cskl + " - " + 
+	           additional = "  skladiï¿½te " + cskl + " - " + 
 	               dm.getSklad().getString("NAZSKL");
 	       } else {
 	         if (lD.raLocate(dm.getOrgstruktura(), "CORG", cskl))
@@ -941,13 +948,13 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 	        dm.getSklad().getString("VRSKL").equals("Z");
 	    
 	    isSingleKOL = frmParam.getParam("robno", "singleKOL", "N",
-            "Defaultna kolièina od 1 kom (D,N)?").equals("D");
+            "Defaultna koliï¿½ina od 1 kom (D,N)?").equals("D");
 	    
 	    isMinusAllowed = frmParam.getParam("robno", "allowMinus", "N",
 	        "Dopustiti odlazak u minus na izlazima (D,N)?").equals("D");
 	        
 	    String av = frmParam.getParam("robno", "autoValuta", "N",
-	          "Preraèunati iznos iz valute u kune na izlazima (N,D,A)");
+	          "Preraï¿½unati iznos iz valute u kune na izlazima (N,D,A)");
 	    
 	    autoval = !av.equalsIgnoreCase("N");
 	    autovali = av.equalsIgnoreCase("A");
@@ -988,7 +995,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 		this.setVisibleColsMaster(new int[] { 4, 5, 6, 44, 32, 34 }); // Requested
 		// by
 		// Mladen
-		// (Siniša)
+		// (Siniï¿½a)
 		this
 				.setVisibleColsDetail(new int[] { 4,
 						Aut.getAut().getCARTdependable(5, 6, 7), 8, 11, 16, 12,
@@ -1103,7 +1110,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 			vtrabat.setShort("LRBR", (short) 1);
 			vtrabat.setString("CRAB", hr.restart.sisfun.frmParam.getParam(
 					"robno", "defcrab", "1",
-					"Predefinirana šifra rabata stavke"));
+					"Predefinirana ï¿½ifra rabata stavke"));
 			vtrabat.setString("RABNARAB", "N");
 			vtrabat.setBigDecimal("PRAB", getDetailSet()
 							.getBigDecimal("UPRAB"));
@@ -1249,7 +1256,7 @@ abstract public class raIzlazTemplate extends hr.restart.util.raMasterDetail {
 	}
 
 	public void revive() {
-		// sreðivanje prijenosa
+		// sreï¿½ivanje prijenosa
 	  
 		//VarStr filter = new VarStr();
 		String[] kkey = rCD.getKeyColumns(getMasterSet().getTableName());
@@ -1585,10 +1592,10 @@ ST.prn(radninal);
 	public boolean FirstPartValidDetail() {
 		if (val.isEmpty(MP.panelBasic.jtfDATDOK))
 			return false;
-        if (frmParam.getParam("robno","docBefDatKnj","N","Dozvoliti izradu dokumenta u periodu koje je veæ knjižen ").equalsIgnoreCase("N")) {
+        if (frmParam.getParam("robno","docBefDatKnj","N","Dozvoliti izradu dokumenta u periodu koje je veï¿½ knjiï¿½en ").equalsIgnoreCase("N")) {
 		if (!isKnjigDataOK()) {
 			javax.swing.JOptionPane.showMessageDialog(raMaster.getWindow(),
-					"Datum u periodu koji je veæ knjižen !", "Greška",
+					"Datum u periodu koji je veï¿½ knjiï¿½en !", "Greï¿½ka",
 					javax.swing.JOptionPane.ERROR_MESSAGE);
 			MP.panelBasic.jtfDATDOK.requestFocus();
 			return false;
@@ -1695,7 +1702,7 @@ ST.prn(radninal);
 			}
 		} else {
 			javax.swing.JOptionPane.showMessageDialog(raDetail.getWindow(), rCD.errorMessage(),
-					"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+					"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			// raDM.jtfKOL.requestFocus();
 		}
 		ckey = "";
@@ -1873,9 +1880,9 @@ ST.prn(radninal);
 	}
 
 	/**
-	 * ovo dolazi umjesto aftersavedetail jer se izvršava pod transakcijom !
+	 * ovo dolazi umjesto aftersavedetail jer se izvrï¿½ava pod transakcijom !
 	 * 
-	 * @param mode -
+
 	 *            vidi dokumentaciju od raMasterDetail
 	 * @return - vidi dokumentaciju od raMasterDetail
 	 */
@@ -1938,7 +1945,7 @@ ST.prn(radninal);
 			Aus.sub(AST.gettrenSTANJE(), "KOLSKLAD", "KOLSKLADUL", "KOLSKLADIZ");
 			System.out.println("koliko " + koliko);
 			raTransaction.saveChanges(AST.gettrenSTANJE());
-		} else System.out.println("pogrešno stanje?!?");
+		} else System.out.println("pogreï¿½no stanje?!?");
 	}
 
 	/*
@@ -2185,7 +2192,7 @@ ST.prn(radninal);
 	 * Metoda pridodaje iznos stavke iz stdoki na ukupni iznos u doki (kumulativ
 	 * dokumenta)
 	 * 
-	 * @return ako je prošao vrati true
+	 * @return ako je proï¿½ao vrati true
 	 */
 	public boolean UpdateDoki() {
 
@@ -2213,7 +2220,7 @@ ST.prn(radninal);
 	/**
 	 * Updatira stanje u ovisnosti od raznih stvari
 	 * 
-	 * @return ako je prošao vrati true
+	 * @return ako je proï¿½ao vrati true
 	 */
 	public boolean UpdateStanje() {
 
@@ -2294,7 +2301,7 @@ ST.prn(radninal);
 			if (isNedozvoljenArtikl()) {
 				javax.swing.JOptionPane.showMessageDialog(raDetail.getWindow(),
 								"Za ovu vrstu dokumenta koristite nedozvoljen artikl !",
-								"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+								"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 		} else {
@@ -2446,7 +2453,7 @@ ST.prn(radninal);
 		else {
 			javax.swing.JOptionPane.showMessageDialog(raDetail.getWindow(),
 					"Ne postoje stavke ovog dokumenta. Nemogu\u0107 ispis!",
-					"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+					"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
@@ -2608,14 +2615,14 @@ ST.prn(radninal);
 	public boolean checkAccess() {
 		if (isKnjigen()) {
 			setUserCheckMsg(
-					"Korisnik ne može promijeniti dokument jer je proknjižen !",
+					"Korisnik ne moï¿½e promijeniti dokument jer je proknjiï¿½en !",
 					false);
 
 			return false;
 		}
 		if (isFisk()) {
           setUserCheckMsg(
-                  "Korisnik ne može promijeniti dokument jer je zakljuèan / fiskaliziran !",
+                  "Korisnik ne moï¿½e promijeniti dokument jer je zakljuï¿½an / fiskaliziran !",
                   false);
 
           return false;
@@ -2623,13 +2630,13 @@ ST.prn(radninal);
 
 		if (isPrenesen()) {
 			setUserCheckMsg(
-					"Korisnik ne može promijeniti dokument jer je prenesen u ili iz druge baze !",
+					"Korisnik ne moï¿½e promijeniti dokument jer je prenesen u ili iz druge baze !",
 					false);
 			return false;
 		}
 		if (isKPR()) {
 			setUserCheckMsg(
-					"Dokument je ušao u knjigu popisa i ne smije se mijenjati !!!",
+					"Dokument je uï¿½ao u knjigu popisa i ne smije se mijenjati !!!",
 					false);
 			return false;
 		}
@@ -2866,7 +2873,7 @@ System.out.println("findCjenik::else :: "+sql);
 	private DecimalFormat d0 = new DecimalFormat("#");
 	
 	void err(String txt) {
-	  throw new RuntimeException("Greška! " + txt);
+	  throw new RuntimeException("Greï¿½ka! " + txt);
 	}
 	
 	void sendDocImplP() {
@@ -3197,7 +3204,10 @@ System.out.println("findCjenik::else :: "+sql);
         TextFile tf = TextFile.write(fname);
         tf.out(buf.chop().split('\n'));
         tf.close();
-        
+
+        /* TODO: hernad ukloniti
+
+
         try {
           System.out.println("slanje ftp");
           com.jcraft.jsch.JSch j = new com.jcraft.jsch.JSch();
@@ -3226,14 +3236,15 @@ System.out.println("findCjenik::else :: "+sql);
           
           System.out.println("disconnected");
         } catch (com.jcraft.jsch.JSchException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
-          throw new RuntimeException("Greška kod slanja ftp-om!");
+          throw new RuntimeException("GreÅ¡ka kod slanja ftp-om!");
         } catch (com.jcraft.jsch.SftpException e) {
           e.printStackTrace();
-          throw new RuntimeException("Greška kod slanja ftp-om!");
+          throw new RuntimeException("GreÅ¡ka kod slanja ftp-om!");
         }
-        
+
+        */
+
         DataSet save = doki.getDataModule().getTempSet(
             Condition.whereAllEqual(Util.mkey, ms));
         save.open();
@@ -3253,7 +3264,7 @@ System.out.println("findCjenik::else :: "+sql);
 	    
 	  if (ms.getString("STATUS").equals("P"))
 	    if (JOptionPane.showConfirmDialog(this, 
-	        "Dokument je veæ prenesen! Ponoviti?", "Prijenos",
+	        "Dokument je veï¿½ prenesen! Ponoviti?", "Prijenos",
 	        JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION)
 	      return;
 	  
@@ -3263,7 +3274,7 @@ System.out.println("findCjenik::else :: "+sql);
 	  } catch (RuntimeException e) {
 	    e.printStackTrace();
 	    JOptionPane.showMessageDialog(this,
-	        e.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+	        e.getMessage(), "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
 	  }
 	}
 	
@@ -3356,7 +3367,7 @@ System.out.println("findCjenik::else :: "+sql);
 			}};				
 			if (!rLT.execTransaction()){
 				JOptionPane.showMessageDialog(this, "Prijenos nije uspio !",
-						"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+						"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			} else {
 				dm.getSynchronizer().markAsDirty("vttext");
 				raMaster.getJpTableView().fireTableDataChanged();
@@ -3531,7 +3542,7 @@ System.out.println("findCjenik::else :: "+sql);
 			lc.setBDField("FMCPRP", DP.rpcart.findMC(), rKD.stavka);
 			lc.setBDField("ZC", DP.rpcart.findZC(), rKD.stavka);
 
-			// ako je u igri corg traži se prvo skladište koje pripada tom corgu
+			// ako je u igri corg traï¿½i se prvo skladiï¿½te koje pripada tom corgu
 			// i s njega
 			// se \u010Dupaju cijene
 
@@ -3797,7 +3808,7 @@ System.out.println("findCjenik::else :: "+sql);
 							.valueOf(getDetailSet().getInt("CART")) })) {
 
 				javax.swing.JOptionPane.showMessageDialog(raDetail.getWindow(),
-						"Ne postoji porezna grupa !", "Greška",
+						"Ne postoji porezna grupa !", "Greï¿½ka",
 						javax.swing.JOptionPane.ERROR_MESSAGE);
 
 			} else {
@@ -3904,8 +3915,8 @@ System.out.println("findCjenik::else :: "+sql);
 		if (isStanje && !rCD.isDataKalkulOK(getMasterSet().getTimestamp("DATDOK"), 
 				AST.gettrenSTANJE().getString("TKAL"))) {
 			JOptionPane.showMessageDialog(raDetail.getWindow(),
-							"Datum zadnje kalkulacije je veæi nego izlaznog dokumenta koji želite napraviti !",
-							"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+							"Datum zadnje kalkulacije je veï¿½i nego izlaznog dokumenta koji ï¿½elite napraviti !",
+							"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		if (raDetail.getMode() == 'I') {
@@ -3913,7 +3924,7 @@ System.out.println("findCjenik::else :: "+sql);
 			if (!rCD.testIzlaz4Del((DataSet) getDetailSet(), AST
 					.gettrenSTANJE())) {
 				javax.swing.JOptionPane.showMessageDialog(raDetail.getWindow(), 
-				    rCD.errorMessage(), "Greška",
+				    rCD.errorMessage(), "Greï¿½ka",
 						javax.swing.JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
@@ -3929,8 +3940,8 @@ System.out.println("findCjenik::else :: "+sql);
     					getDetailSet().getBigDecimal("ZC")) != 0) {
     
     				JOptionPane.showMessageDialog(raDetail.getWindow(),
-    								"Cijena zalihe je razlièita od veleprodajna cijene !!!",
-    								"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+    								"Cijena zalihe je razliï¿½ita od veleprodajna cijene !!!",
+    								"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
     				return false;
     			}
     
@@ -3938,8 +3949,8 @@ System.out.println("findCjenik::else :: "+sql);
     			if (getDetailSet().getBigDecimal("MC").compareTo(
     					getDetailSet().getBigDecimal("ZC")) != 0) {
     				JOptionPane.showMessageDialog(raDetail.getWindow(),
-    								"Cijena zalihe je razlièita od maloprodajne cijene !!!",
-    								"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+    								"Cijena zalihe je razliï¿½ita od maloprodajne cijene !!!",
+    								"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
     				return false;
     			}
     		}
@@ -3950,7 +3961,7 @@ System.out.println("findCjenik::else :: "+sql);
 		    if (!isStanje) {
 		      DP.jtfKOL.requestFocus();
               JOptionPane.showMessageDialog(raDetail.getWindow(),
-                 "Artikla nema na stanju!", "Greška", 
+                 "Artikla nema na stanju!", "Greï¿½ka", 
                  JOptionPane.ERROR_MESSAGE);
               return false;
 		    }
@@ -3963,7 +3974,7 @@ System.out.println("findCjenik::else :: "+sql);
 					DP.jtfKOL.requestFocus();
 					JOptionPane.showMessageDialog(raDetail.getWindow(),
 									"Koli\u010Dina je ve\u0107a nego koli\u010Dina na zalihi !",
-									"Greška",
+									"Greï¿½ka",
 									javax.swing.JOptionPane.ERROR_MESSAGE);
 					return false;
 				} else if (i == -2) {
@@ -3973,7 +3984,7 @@ System.out.println("findCjenik::else :: "+sql);
 					if (!rezkol.equals("N")) {
 						JOptionPane.showMessageDialog(raDetail.getWindow(),
 										"Koristite rezervirane koli\u010Dine !",
-										"Greška",
+										"Greï¿½ka",
 										javax.swing.JOptionPane.ERROR_MESSAGE);
 					}
 					if (rezkol.equals("D"))
@@ -3984,7 +3995,7 @@ System.out.println("findCjenik::else :: "+sql);
 					DP.jtfKOL.requestFocus();
 					JOptionPane.showMessageDialog(raDetail.getWindow(),
 							"Koli\u010Dina mora biti ve\u0107a od nule !",
-							"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+							"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
 
@@ -4007,7 +4018,7 @@ System.out.println("findCjenik::else :: "+sql);
 													.getBigDecimal("MINKOL")
 											+ DP.rpcart.jrfCART.getRaDataSet()
 													.getString("JM") + " !!!! ",
-									"Greška",
+									"Greï¿½ka",
 									javax.swing.JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
@@ -4031,7 +4042,7 @@ System.out.println("findCjenik::else :: "+sql);
 													.getBigDecimal("SIGKOL")
 											+ DP.rpcart.jrfCART.getRaDataSet()
 													.getString("JM")
-											+ " !!!! Želite li nastaviti ?",
+											+ " !!!! ï¿½elite li nastaviti ?",
 									"Upit",
 									javax.swing.JOptionPane.YES_NO_OPTION,
 									javax.swing.JOptionPane.QUESTION_MESSAGE) == javax.swing.JOptionPane.YES_OPTION)) {
@@ -4057,7 +4068,7 @@ System.out.println("findCjenik::else :: "+sql);
 	}
 
 	/**
-	 * Samo za razdužemnje maloprodaje
+	 * Samo za razduï¿½emnje maloprodaje
 	 * 
 	 * @param qds
 	 *            dataset u kojem je maloprodajica
@@ -4130,13 +4141,13 @@ System.out.println("findCjenik::else :: "+sql);
 	}
 
 	/**
-	 * Metoda koja se izvršava nokon ok na pritisak panela u odabiru rn-a
+	 * Metoda koja se izvrï¿½ava nokon ok na pritisak panela u odabiru rn-a
 	 */
 	public void afterCancel() {
 	}
 
 	/**
-	 * Metoda koja se izvršava nokon cancel na pritisak panela u odabiru rn-a
+	 * Metoda koja se izvrï¿½ava nokon cancel na pritisak panela u odabiru rn-a
 	 */
 	public void afterOK() {
 	}
@@ -4320,7 +4331,7 @@ System.out.println("findCjenik::else :: "+sql);
             getTimestamp("DATDOK-to"));
         
         boolean ally = frmParam.getParam("robno", "sc2god", "D",
-            "Dopustiti dohvat dokumenata iz prošlih godina (D,N)", true).equals("D");
+            "Dopustiti dohvat dokumenata iz proï¿½lih godina (D,N)", true).equals("D");
         
         String ky = Valid.getValid().getKnjigYear("robno");
         
@@ -4399,8 +4410,8 @@ System.out.println("findCjenik::else :: "+sql);
 			javax.swing.JOptionPane
 					.showMessageDialog(
 							null,
-							"Ovaj se artikl ne može prenijeti jer nema razra\u0111en normativ !",
-							"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+							"Ovaj se artikl ne moï¿½e prenijeti jer nema razra\u0111en normativ !",
+							"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		boolean bdocsklad = TD.isDocSklad(getMasterSet().getString("VRDOK"));
@@ -4435,7 +4446,7 @@ System.out.println("findCjenik::else :: "+sql);
 			getDetailSet().setInt("rbsid", rbr.getRbsID(getDetailSet()));
 			getDetailSet().saveChanges();
 			/**
-			 * @todo treba updatirati sranje dodati rajbate i zavisne troškove
+			 * @todo treba updatirati sranje dodati rajbate i zavisne troï¿½kove
 			 *       updatirati zaglavlje
 			 */
 			nStavka++;
@@ -4455,7 +4466,7 @@ System.out.println("findCjenik::else :: "+sql);
 	}
 
 	/**
-	 * provjera da li je knjižen ili ne
+	 * provjera da li je knjiï¿½en ili ne
 	 */
 
 	public boolean isKnjigen() {
@@ -4471,7 +4482,7 @@ System.out.println("findCjenik::else :: "+sql);
     }
 
 	/**
-	 * Status = T zna\u010Di da je dokument prenešen u centralnu bazu
+	 * Status = T zna\u010Di da je dokument preneï¿½en u centralnu bazu
 	 * 
 	 * @return
 	 */
@@ -4488,13 +4499,13 @@ System.out.println("findCjenik::else :: "+sql);
 	  if (getMasterSet().getString("CFRA").trim().length() > 0) return;
 	  
 		String franka = hr.restart.sisfun.frmParam.getParam("robno",
-				"defFranka", "", "Predefinirana šifra frankature");
+				"defFranka", "", "Predefinirana ï¿½ifra frankature");
 		if (franka == null || franka.equalsIgnoreCase("")) {
 			javax.swing.JOptionPane
 					.showMessageDialog(
 							raMaster.getWindow(),
 							"Ne postoji parametar defFranka nuzan za izradu ovog dokumenta !",
-							"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+							"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 		} else {
 			if (lD.raLocate(dm.getFranka(), new String[] { "CFRA" },
 					new String[] { franka })) {
@@ -4503,7 +4514,7 @@ System.out.println("findCjenik::else :: "+sql);
 				javax.swing.JOptionPane.showMessageDialog(raMaster.getWindow(),
 						"Neispravna vrijednost parametra defFranka ==" + franka
 								+ " nuznog za izradu ovog dokumenta !",
-						"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+						"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -4513,13 +4524,13 @@ System.out.println("findCjenik::else :: "+sql);
 	  if (getMasterSet().getString("CNAC").trim().length() > 0) return;
 	  
 		String defNacotp = hr.restart.sisfun.frmParam.getParam("robno",
-				"defNacotp", "", "Predefinirani naèin otpreme robe");
+				"defNacotp", "", "Predefinirani naï¿½in otpreme robe");
 		if (defNacotp == null || defNacotp.equalsIgnoreCase("")) {
 			javax.swing.JOptionPane
 					.showMessageDialog(
 							raMaster.getWindow(),
 							"Ne postoji parametar defNacotp nuzan za izradu ovog dokumenta !",
-							"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+							"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 		} else {
 			if (lD.raLocate(dm.getNacotp(), new String[] { "CNAC" },
 					new String[] { defNacotp })) {
@@ -4529,7 +4540,7 @@ System.out.println("findCjenik::else :: "+sql);
 						"Neispravna vrijednost parametra defNacotp =="
 								+ defNacotp
 								+ " nuznog za izradu ovog dokumenta !",
-						"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+						"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -4542,7 +4553,7 @@ System.out.println("findCjenik::else :: "+sql);
 					.showMessageDialog(
 							raMaster.getWindow(),
 							"Ne postoji parametar defNacpl nuzan za izradu ovog dokumenta !",
-							"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+							"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 		} else {
 			if (lD.raLocate(dm.getNacpl(), new String[] { "CNACPL" },
 					new String[] { defNacpl })) {
@@ -4552,7 +4563,7 @@ System.out.println("findCjenik::else :: "+sql);
 						"Neispravna vrijednost parametra defNacpl =="
 								+ defNacpl
 								+ " nuznog za izradu ovog dokumenta !",
-						"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+						"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -4577,7 +4588,7 @@ System.out.println("findCjenik::else :: "+sql);
 					.showMessageDialog(
 							raMaster.getWindow(),
 							"Ne postoji parametar defNamjena nuzan za izradu ovog dokumenta !",
-							"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+							"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 		} else {
 			if (lD.raLocate(dm.getNamjena(), new String[] { "CNAMJ" },
 					new String[] { defNamjena })) {
@@ -4587,7 +4598,7 @@ System.out.println("findCjenik::else :: "+sql);
 						"Neispravna vrijednost parametra defNamjena =="
 								+ defNamjena
 								+ " nuznog za izradu ovog dokumenta !",
-						"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
+						"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -4659,10 +4670,10 @@ System.out.println("findCjenik::else :: "+sql);
 				"IPRODSP", "INAB", "IMAR", "IBP", "IPOR", "ISP", "IRAZ",
 				"UIPOR" });
 		setnaslovi_detail(new String[] { "Iznos rabata",
-				"Iznos zavisih troškova", "Netto iznos", "Iznos bez poreza",
-				"Iznos s porezom", "Razduženje nabavne vrijednosti",
-				"Razduženje RUC-a", "Iznos bez poreza", "Razduženje poreza",
-				"Iznos s porezom", "Iznos razaduženja", "Iznos poreza" });
+				"Iznos zavisih troï¿½kova", "Netto iznos", "Iznos bez poreza",
+				"Iznos s porezom", "Razduï¿½enje nabavne vrijednosti",
+				"Razduï¿½enje RUC-a", "Iznos bez poreza", "Razduï¿½enje poreza",
+				"Iznos s porezom", "Iznos razaduï¿½enja", "Iznos poreza" });
 
 	}
 
@@ -4737,15 +4748,15 @@ System.out.println("findCjenik::else :: "+sql);
 	public void changeGlobalPopust() {
 	  refilterDetailSet();
 	  if (getDetailSet().rowCount() == 0) {
-	    JOptionPane.showMessageDialog(this.raMaster, "Ne postoje stavke ovog raèuna!",
-            "Greška", JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(this.raMaster, "Ne postoje stavke ovog raï¿½una!",
+            "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
         return;
 	  }
 	  String gr = hr.restart.sisfun.frmParam.getParam(
           "robno", "defglobrab", "",
-          "Predefinirana šifra rabata na raèunu");
+          "Predefinirana ï¿½ifra rabata na raï¿½unu");
 	  if (gr == null || gr.length() == 0) {
-	    JOptionPane.showMessageDialog(this.raMaster, "Potrebno je definirati parametar defglobrab prije dodavanja rabata na raèun!",
+	    JOptionPane.showMessageDialog(this.raMaster, "Potrebno je definirati parametar defglobrab prije dodavanja rabata na raï¿½un!",
 	        "Nedostaje parametar", JOptionPane.WARNING_MESSAGE);
 	    return;
 	  }
@@ -4776,7 +4787,7 @@ System.out.println("findCjenik::else :: "+sql);
 	    prab.setColumnName("PRAB");
 	    prab.setDataSet(tds);
 	    
-	    pan.add(new JLabel("Popust na raèun"), new XYConstraints(15,15,-1,-1));
+	    pan.add(new JLabel("Popust na raï¿½un"), new XYConstraints(15,15,-1,-1));
 	    pan.add(prab, new XYConstraints(300, 15, 100, -1));
 	    
 	    raInputDialog od = new raInputDialog();
@@ -4853,7 +4864,7 @@ System.out.println("findCjenik::else :: "+sql);
 		if (forallpopust == null || forallpopust.getRowCount() == 0) {
 
 			JOptionPane.showConfirmDialog(this.raMaster,
-					"Na postoje stavke za ažuriranje dodatnih popusta !",
+					"Na postoje stavke za aï¿½uriranje dodatnih popusta !",
 					"Gre\u0161ka", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			return;
@@ -4927,7 +4938,7 @@ System.out.println("findCjenik::else :: "+sql);
 	// "+limit + " i prelazi "+
 	// "limit kreditiranja koji iznosi
 	// "+dm.getPartneri().getBigDecimal("LIMIT"),
-	// "Greška",javax.swing.JOptionPane.ERROR_MESSAGE);
+	// "Greï¿½ka",javax.swing.JOptionPane.ERROR_MESSAGE);
 
 	public boolean ValidacijaLimit(java.math.BigDecimal oldvalue,
 			java.math.BigDecimal newvalue) {
@@ -4937,7 +4948,7 @@ System.out.println("findCjenik::else :: "+sql);
 					new String[] { String
 							.valueOf(getMasterSet().getInt("CPAR")) });
 			if (dm.getPartneri().getString("STATUS").equalsIgnoreCase("C")) {
-			  javax.swing.JOptionPane.showMessageDialog(null, "Partneru je zabranjeno fakturiranje!", "Greška", JOptionPane.ERROR_MESSAGE);
+			  javax.swing.JOptionPane.showMessageDialog(null, "Partneru je zabranjeno fakturiranje!", "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
 			  return false;
 			}
 
@@ -4954,7 +4965,7 @@ System.out.println("findCjenik::else :: "+sql);
 											.setScale(2) + " kuna i prelazi "
 									+ "limit kreditiranja koji iznosi "
 									+ dm.getPartneri().getBigDecimal("LIMKRED")
-									+ " kuna.!", JLabel.CENTER, 80), "Greška",
+									+ " kuna.!", JLabel.CENTER, 80), "Greï¿½ka",
 							javax.swing.JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
@@ -5100,7 +5111,7 @@ System.out.println("findCjenik::else :: "+sql);
 					true);
 			if (qdsStanje == null || qdsStanje.getRowCount() == 0) {
 				javax.swing.JOptionPane.showMessageDialog(null,
-						"Ne postoji stanje za ovaj artikl !", "Greška",
+						"Ne postoji stanje za ovaj artikl !", "Greï¿½ka",
 						javax.swing.JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
@@ -5112,7 +5123,7 @@ System.out.println("findCjenik::else :: "+sql);
 
 			if (stanjereal.doubleValue() < 0) {
 				javax.swing.JOptionPane.showMessageDialog(null,
-						"Nedovoljna zaliha artikla !", "Greška",
+						"Nedovoljna zaliha artikla !", "Greï¿½ka",
 						javax.swing.JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
@@ -5123,14 +5134,14 @@ System.out.println("findCjenik::else :: "+sql);
 						"Kalkulacija stanja kod rezervacije (D/N/O)");
 				if (rezkol.equals("O")) {
 					javax.swing.JOptionPane.showMessageDialog(raDetail
-							.getWindow(), "Koristite rezervirane kolièine !",
+							.getWindow(), "Koristite rezervirane koliï¿½ine !",
 							"Upozorenje",
 							javax.swing.JOptionPane.WARNING_MESSAGE);
 					return true;
 				}
 				if (rezkol.equals("D")) {
 					javax.swing.JOptionPane.showMessageDialog(null,
-							"Nedovoljna zaliha artikla !", "Greška",
+							"Nedovoljna zaliha artikla !", "Greï¿½ka",
 							javax.swing.JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
@@ -5180,13 +5191,13 @@ System.out.println("findCjenik::else :: "+sql);
     }
     if (err.signum() == 0) {
       JOptionPane.showMessageDialog(raMaster.getWindow(), 
-          "Nema greške ukupnog poreza na ukupnoj osnovici.", "Poruka",
+          "Nema greï¿½ke ukupnog poreza na ukupnoj osnovici.", "Poruka",
           JOptionPane.INFORMATION_MESSAGE);
       return;
     }
     if (JOptionPane.showConfirmDialog(raMaster.getWindow(),
-        "Želite li ažurirati razliku od " + err.toString() + 
-        " poreza na stavkama raèuna?", "Razlika", 
+        "ï¿½elite li aï¿½urirati razliku od " + err.toString() + 
+        " poreza na stavkama raï¿½una?", "Razlika", 
         JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION)
       return;
     BigDecimal uirac = Aus.zero2;
@@ -5202,10 +5213,10 @@ System.out.println("findCjenik::else :: "+sql);
     if (raTransaction.saveChangesInTransaction(
         new QueryDataSet[] {getMasterSet(), getDetailSet()})) 
       JOptionPane.showMessageDialog(raMaster.getWindow(), 
-          "Raèun ažuriran.", "Poruka",
+          "Raï¿½un aï¿½uriran.", "Poruka",
           JOptionPane.INFORMATION_MESSAGE);
     else JOptionPane.showMessageDialog(raMaster.getWindow(), 
-        "Greška kod snimanja podataka!", "Greška",
+        "Greï¿½ka kod snimanja podataka!", "Greï¿½ka",
         JOptionPane.ERROR_MESSAGE);
   }
   
