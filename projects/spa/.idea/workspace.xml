@@ -2,43 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a991329-3e62-4464-b50f-36bc0e398efb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/hr/restart/util/FisUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/axis.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/barbecue_1_5_beta1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_logging.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jasperreports_3_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jaxrpc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jcommon_0_9_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jdom_1_1_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jdom_2_0_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jfreechart_0_9_20.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jsch_0_1_50.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/jta_spec1_0_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/log4j.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/mail.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/xBase.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/xapoolRA.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/xjgoodies.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/db/replication/logging/ConnectionProxy.java" afterPath="$PROJECT_DIR$/src/hr/restart/db/replication/logging/ConnectionProxy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/firebirdsql/encodings/Encoding_Cp1250.java" afterPath="$PROJECT_DIR$/src/org/firebirdsql/encodings/Encoding_Cp1250.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/base/JRBasePrintText.java" afterPath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/base/JRBasePrintText.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/design/JRDesignTextField.java" afterPath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/design/JRDesignTextField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/export/JRGraphics2DExporter.java" afterPath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/export/JRGraphics2DExporter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/interbase/interclient/MessageBufferOutputStream.java" afterPath="$PROJECT_DIR$/src/interbase/interclient/MessageBufferOutputStream.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/db/OraCustomConnection.java" afterPath="$PROJECT_DIR$/src/hr/restart/db/OraCustomConnection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/db/replication/logging/PreparedStatementProxy.java" afterPath="$PROJECT_DIR$/src/hr/restart/db/replication/logging/PreparedStatementProxy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/interbase/interclient/RecvMessage.java" afterPath="$PROJECT_DIR$/src/interbase/interclient/RecvMessage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/TextMeasurer.java" afterPath="$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/TextMeasurer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/pos/frmMasterBlagajna.java" afterPath="$PROJECT_DIR$/src/hr/restart/pos/frmMasterBlagajna.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/zapod/frmPartneri.java" afterPath="$PROJECT_DIR$/src/hr/restart/zapod/frmPartneri.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/frmUlazTemplate.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/frmUlazTemplate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/pos/presBlag.java" afterPath="$PROJECT_DIR$/src/hr/restart/pos/presBlag.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/util/raFiskPoslovni.java" afterPath="$PROJECT_DIR$/src/hr/restart/util/raFiskPoslovni.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/raIzlazTemplate.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/raIzlazTemplate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/raWebSync.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/raWebSync.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/repIzlazni.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/repIzlazni.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/robno/repMxRacun.java" afterPath="$PROJECT_DIR$/src/hr/restart/robno/repMxRacun.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spa.iml" afterPath="$PROJECT_DIR$/spa.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="spa.iws" />
@@ -615,7 +578,11 @@
       <created>1370010488700</created>
       <updated>1370010488700</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="borba za uspješan build / 10">
+      <created>1370012039288</created>
+      <updated>1370012039288</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -688,7 +655,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="borba za uspješan build / 5" />
+    <option name="LAST_COMMIT_MESSAGE" value="borba za uspješan build / 10" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -705,6 +672,7 @@
     <MESSAGE value="resolving borland and elixir report writer dependencies" />
     <MESSAGE value="borba za uspješan build" />
     <MESSAGE value="borba za uspješan build / 5" />
+    <MESSAGE value="borba za uspješan build / 10" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
