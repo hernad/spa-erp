@@ -239,6 +239,8 @@ public class repRacunPOS extends mxReport {
 
    */
 
+    return "";
+
   }
   
   private String getDetailHeader() {

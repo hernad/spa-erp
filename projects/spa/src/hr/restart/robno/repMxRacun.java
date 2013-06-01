@@ -525,6 +525,8 @@ public class repMxRacun extends mxReport {
       return "";
     }
     */
+
+    return "";
   }
   
   protected String getJIR() {
