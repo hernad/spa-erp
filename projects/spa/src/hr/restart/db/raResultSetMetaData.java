@@ -165,7 +165,17 @@ public class raResultSetMetaData implements ResultSetMetaData,java.io.Serializab
     return mtdCols[column-1].getColumnClassName;
   }
 
-  class mtdColumn {
+    @Override
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    class mtdColumn {
     public boolean isAutoIncrement;
     public boolean isCaseSensitive;
     public boolean isSearchable;

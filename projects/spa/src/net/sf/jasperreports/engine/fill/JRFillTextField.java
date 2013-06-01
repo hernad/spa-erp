@@ -193,7 +193,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
      */
     public String getLinkTarget()
     {
-        return ((JRTextField)parent).getLinkTarget();
+        return ((JRTextField)parent).getLinkType();
     }
         
     /**
@@ -284,14 +284,28 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
     }
         
 
-    /**
-     *
-     */
+
+    /* TODO: hernad   - donji metod sam "lupio" samo da kompajlira
+
+
     protected JRTemplateText getJRTemplateText()
     {
-        return (JRTemplateText) getElementTemplate();
+        return (JRTemplateText) getElementOrigin ();
     }
+     */
 
+    protected JRTemplateText getJRTemplateText()
+    {
+        // TODO: hernad - ovaj metod sam lupio samo da kompajlira
+        JRTemplateText template =
+                new JRTemplateText(
+                        getElementOrigin(),
+                        filler.getJasperPrint().getDefaultStyleProvider(),
+                        this
+                );
+
+        return template;
+    }
 
     protected JRTemplateElement createElementTemplate()
     {

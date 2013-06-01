@@ -192,14 +192,27 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
         {
             return null;
         }
-        
+
+
+
         return 
             JRStyledTextParser.getInstance().getStyledText(
                 attributeSelector.getStyledTextAttributes(this), 
-                getText(), 
-                !JRCommonText.MARKUP_NONE.equals(getMarkup()),
-                JRStyledTextAttributeSelector.getTextLocale(this)
+                getText(), isStyled_nekontam()
                 );
+    }
+
+    private boolean isStyled_nekontam()
+    {
+        /* TODO: hernad zamjenio sa false u donjem izrazu
+
+        isStyled -
+
+        !JRCommonText.MARKUP_NONE.equals(getMarkup()),
+                JRStyledTextAttributeSelector.getTextLocale(this)
+        */
+
+        return false;
     }
 
     public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
@@ -213,8 +226,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
             JRStyledTextParser.getInstance().getStyledText(
                 attributeSelector.getStyledTextAttributes(this), 
                 getFullText(), 
-                !JRCommonText.MARKUP_NONE.equals(getMarkup()),
-                JRStyledTextAttributeSelector.getTextLocale(this)
+                isStyled_nekontam()
                 );
     }
     

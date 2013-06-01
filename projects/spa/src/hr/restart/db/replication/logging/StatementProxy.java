@@ -614,4 +614,39 @@ class StatementProxy implements Statement{
     // TODO Auto-generated method stub
     return 0;
   }
+
+    @Override
+    public boolean isClosed() throws SQLException {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setPoolable(boolean poolable) throws SQLException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean isPoolable() throws SQLException {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void closeOnCompletion() throws SQLException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean isCloseOnCompletion() throws SQLException {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

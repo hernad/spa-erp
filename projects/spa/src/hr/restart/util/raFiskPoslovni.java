@@ -231,6 +231,11 @@ public class raFiskPoslovni extends raUpitLite {
   boolean isOk = false;
   public void okPress() {    
     isOk = false;
+
+    /*
+
+    TODO: hernad fiskalizacija
+
     try {
       isOk = presBlag.getFis("RAC", jtCORG.getText()).fiskaliziraj(
           presBlag.getFis("RAC", jtCORG.getText()).createPoslovniProstorZahtjev(
@@ -244,10 +249,11 @@ public class raFiskPoslovni extends raUpitLite {
                   jcbZatvori.isSelected()
               )));
     } catch (Exception e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
       isOk = false;
     }
+
+    */
     
   }
   

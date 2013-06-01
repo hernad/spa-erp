@@ -269,7 +269,7 @@ public class frmRabatShema extends raMasterFakeDetailArtikl {
     if (mode == 'N' && MasterNotUnique()) {
       jlrPart.requestFocus();
       JOptionPane.showMessageDialog(this.getJPanelMaster(),
-         "Partner veæ u tablici!", "Greška", JOptionPane.ERROR_MESSAGE);
+         "Partner veï¿½ u tablici!", "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
       return false;
     }   
     mast.post();
@@ -283,12 +283,21 @@ public class frmRabatShema extends raMasterFakeDetailArtikl {
   }
   
   public void AfterDeleteDetail() {
+
+    /* TODO: hernad raWebSync out
+
     if (raWebSync.active && raWebSync.isWeb(delCart)) {
       raWebSync.updatePopust(getMasterSet().getString("CPAR"), Integer.toString(delCart), Aus.zero0);
     }
+
+    */
+
   }
   
   public void AfterSaveDetail(char mode) {
+
+     /* TODO: hernad raWebSync out
+
     if (raWebSync.active && raWebSync.isWeb(delCart)) {
       DataSet rab = rabati.getDataModule().getQueryDataSet();
       
@@ -311,7 +320,11 @@ public class frmRabatShema extends raMasterFakeDetailArtikl {
       
       raWebSync.updatePopust(getMasterSet().getString("CPAR"), Integer.toString(delCart),
           Aus.one0.subtract(uk).movePointRight(2).setScale(2, BigDecimal.ROUND_HALF_UP));
+
     }
+
+    */
+
   }
   
   public void SetFokusIzmjena() {

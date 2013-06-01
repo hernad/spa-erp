@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="elxrt351">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/elxrt351.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

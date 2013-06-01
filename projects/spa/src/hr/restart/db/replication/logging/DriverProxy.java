@@ -22,11 +22,7 @@
 
 package hr.restart.db.replication.logging;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.DriverPropertyInfo;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -238,7 +234,13 @@ public class DriverProxy implements Driver {
 		
 		return false;
 	}
-	/**
+
+    @Override
+    public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
 	 * @return Returns the driver.
 	 */
 	public Driver getDriver() {

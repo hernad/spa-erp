@@ -98,7 +98,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
         pattern = textField.getOwnPattern();
         isBlankWhenNull = textField.isOwnBlankWhenNull();
         linkType = textField.getLinkType();
-        linkTarget = textField.getLinkTarget();
+        linkTarget = textField.getLinkType();
         hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(textField, factory);
 
         evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
@@ -216,7 +216,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
      */
     public byte getHyperlinkTarget()
     {
-        return JRHyperlinkHelper.getHyperlinkTarget(this);
+        return JRHyperlinkHelper.getHyperlinkType(this);
     }
         
     /**
@@ -320,7 +320,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
     {
         if (linkTarget == null)
         {
-             linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+             linkTarget = JRHyperlinkHelper.getLinkType(hyperlinkTarget);
         }
         hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
     }

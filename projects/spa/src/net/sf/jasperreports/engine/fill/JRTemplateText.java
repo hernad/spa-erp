@@ -157,7 +157,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
         setTextElement(textField);
 
         setLinkType(textField.getLinkType());
-        setLinkTarget(textField.getLinkTarget());
+        setLinkTarget(textField.getLinkType());
         setWrapAllowed(textField.isWrapAllowed());
         
     }
@@ -505,7 +505,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
      */
     public byte getHyperlinkTarget()
     {
-        return JRHyperlinkHelper.getHyperlinkTarget(getLinkTarget());
+        return JRHyperlinkHelper.getHyperlinkType(getLinkTarget());
     }
     
     /**
@@ -966,7 +966,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
     {
         if (linkTarget == null)
         {
-             linkTarget = JRHyperlinkHelper.getLinkTarget(hyperlinkTarget);
+             linkTarget = JRHyperlinkHelper.getLinkType(hyperlinkTarget);
         }
         hyperlinkTarget = JRHyperlink.HYPERLINK_TARGET_SELF;
     }

@@ -37,6 +37,7 @@
     <orderEntry type="library" name="jbcl" level="project" />
     <orderEntry type="library" name="borland xdx" level="project" />
     <orderEntry type="library" name="elxrt351" level="project" />
+    <orderEntry type="library" name="borland dbswing" level="project" />
   </component>
 </module>
 
