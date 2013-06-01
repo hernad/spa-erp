@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="borland xdx">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/xdx.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

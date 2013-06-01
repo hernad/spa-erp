@@ -875,8 +875,10 @@ class PreparedStatementProxy implements PreparedStatement{
 	 */
 	private String getParameter(int index) {
 		return parameters[index];
+    }
 
-	private void setParameter(int index, String parameter) {
+
+    private void setParameter(int index, String parameter) {
 		parameters[index] = parameter;
 	}
 	
