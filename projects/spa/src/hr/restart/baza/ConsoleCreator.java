@@ -216,11 +216,12 @@ public class ConsoleCreator {
 		String[] comms = { "nop", "export", "import", "delete", "unlock",
 				"check", "update", "create", "recreate", "drop", "icreate",
 				"irecreate", "idrop", "ddldump" };
+
 		for (int i = 0; i < comms.length; i++)
 			if (comms[i].equalsIgnoreCase(params[0]))
 				ncom = i;
 		if (ncom <= 0) {
-			System.out.println("Pogresna naredba: " + params[0]);
+			System.out.println("PogreÅ¡na naredba: " + params[0]);
 			return;
 		}
 
@@ -277,7 +278,7 @@ public class ConsoleCreator {
 							if (kdp.DropIdx())
 								status = tables[x] + "Indeksi dropani!";
 							else
-								status = "Greška!";
+								status = "Greï¿½ka!";
 						}
 
 						if (com == TABLE_DROP || com == TABLE_RECREATE) {
@@ -333,7 +334,7 @@ public class ConsoleCreator {
 									"DELETE FROM " + tables[x]))
 								status = "Tablica obrisana!";
 							else
-								status = "Greška kod brisanja!";
+								status = "Greï¿½ka kod brisanja!";
 							//            System.out.println(tm.getValueAt(x, 0)+"
 							// obrisan!");
 						}
@@ -347,14 +348,14 @@ public class ConsoleCreator {
 									"UPDATE " + tables[x] + " SET LOKK='N'"))
 								status = "Tablica otklju\u010Dana!";
 							else
-								status = "Greška kod otkljuèavanja!";
+								status = "Greï¿½ka kod otkljuï¿½avanja!";
 						}
 						if (com == TABLE_UPDATE) {
 							status = checkData(kdp, tables[x]);
 							if (status.equals("Tablica je OK")) {
 								status = "Tablica nepromijenjena!";
                             } else if (fastUpdate(kdp, tables[x])) {
-                              status = "Tablica ažurirana! (q)";
+                              status = "Tablica aï¿½urirana! (q)";
 							} else {
 								if (!status.equals("Tablica ne postoji!"))
 									status = dumpData(kdp);
@@ -370,7 +371,7 @@ public class ConsoleCreator {
 										if (status.endsWith("spremljen!")) {
 											status = loadData(kdp);
 											if (status.equals("Tablica napunjena!"))
-												status = "Tablica ažurirana!" + noteStatus;
+												status = "Tablica aï¿½urirana!" + noteStatus;
 											else status = "Tablica rekreirana!";
 										} else if (checkTab) status = "Tablica kreirana!";
 										else status = "Tablica rekreirana!";
@@ -448,7 +449,7 @@ public class ConsoleCreator {
 					if (++errs <= 100) {
 						displayInsertError(table, (HashMap) data);
 						if (errs == 100)
-							System.err.println("Prikazano prvih 100 grešaka.");
+							System.err.println("Prikazano prvih 100 greï¿½aka.");
 					}
 				case raTransferNotifier.ROW_INSERTED:
 					++total;
@@ -505,31 +506,31 @@ public class ConsoleCreator {
       boolean wrongOrder = false;
       //table.open();
       if (cols.length != db.getColumnCount()) {
-        ret = "Greška u tablici!";
+        ret = "Greï¿½ka u tablici!";
         System.out.println("nejednak broj kolona! " + cols.length + "  " + db.getColumnCount());
         dumpColumns(cols, db);
       } else
       for (int i = 0; i < cols.length; i++) {
         Column dbc = db.hasColumn(cols[i].getColumnName());
         if (dbc == null) {
-          ret = "Greška u tablici!";
+          ret = "Greï¿½ka u tablici!";
           System.out.println("Baza nema kolonu iz dM:");
           System.out.println(getExtraData(cols[i]));
         } else if (!columnsEqual(cols[i], dbc)) {
-          ret = "Greška u tablici!";
+          ret = "Greï¿½ka u tablici!";
           System.out.println("kolone nisu jednake!");
           System.out.println("modul: " + getExtraData(cols[i]));
           System.out.println("baza:  " + getExtraData(dbc));
         } else if (!cols[i].getColumnName().equalsIgnoreCase(cols[i].getServerColumnName())) {
-          ret = "Greška u tablici!";
-          System.out.println("Greška u modulu! ColumnName = "+cols[i].getColumnName()+
+          ret = "Greï¿½ka u tablici!";
+          System.out.println("Greï¿½ka u modulu! ColumnName = "+cols[i].getColumnName()+
                              ", ServerColumnName = "+cols[i].getServerColumnName());
         } else if (db.getColumn(i) != dbc)
           wrongOrder = true;
       }
       if (wrongOrder) {
-        ret = "Greška u tablici!";
-        System.out.println("pogrešan redoslijed kolona!");
+        ret = "Greï¿½ka u tablici!";
+        System.out.println("pogreï¿½an redoslijed kolona!");
         dumpColumns(cols, db);
       }
       db.close();
@@ -633,21 +634,21 @@ public class ConsoleCreator {
             }
             
             Int2 sgt = kdp.findBestKeyForSegments();
-            if (sgt == null) return "Greška kod spremanja!";
+            if (sgt == null) return "Greï¿½ka kod spremanja!";
             
             String bestCol = kdp.getColumns()[sgt.one].getColumnName().toLowerCase();
             int bestNum = sgt.two;
             int minSegments = totalRows * kdp.getColumns().length / maxLoad + 2;
             if (bestNum / 10 <= minSegments)
-              return "Greška kod spremanja!";
+              return "Greï¿½ka kod spremanja!";
 
             Condition[] conds = kdp.createSegments(bestCol, minSegments);
             if (kdp.dumpSegments(new File(""), conds) > 0)
               return tname + ".dat - spremljen!";
-            return "Greška kod spremanja!";
+            return "Greï¿½ka kod spremanja!";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "Greška kod spremanja!";
+			return "Greï¿½ka kod spremanja!";
 		}
 	}
 
@@ -664,7 +665,7 @@ public class ConsoleCreator {
 			return "Datoteka ne postoji!";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "Greška!";
+			return "Greï¿½ka!";
 		}
 	}
 

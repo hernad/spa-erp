@@ -2,16 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a991329-3e62-4464-b50f-36bc0e398efb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/startup.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/startup/Main.java" afterPath="$PROJECT_DIR$/src/hr/restart/startup/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/baza/ConsoleCreator.java" afterPath="$PROJECT_DIR$/src/hr/restart/baza/ConsoleCreator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/DbUpdater.java" afterPath="$PROJECT_DIR$/src/hr/restart/DbUpdater.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/baza/KreirDrop.java" afterPath="$PROJECT_DIR$/src/hr/restart/baza/KreirDrop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/baza/Verinfo.java" afterPath="$PROJECT_DIR$/src/hr/restart/baza/Verinfo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/start.java" afterPath="$PROJECT_DIR$/src/hr/restart/start.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/util/startFrame.java" afterPath="$PROJECT_DIR$/src/hr/restart/util/startFrame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hr/restart/db/raConnectionFactory.java" afterPath="$PROJECT_DIR$/src/hr/restart/db/raConnectionFactory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="spa.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370075878824" ignored="false" />
+    <file path="/Dummy.txt" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370164602434" ignored="false" />
     <file path="/PreparedStatementProxy.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370073002267" ignored="false" />
     <file path="/repIzlazni.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370074303871" ignored="false" />
     <file path="/raFiskPoslovni.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370074478953" ignored="false" />
@@ -23,10 +24,12 @@
     <file path="/frmRabatShema.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370075592271" ignored="false" />
     <file path="/JRBaseTextField.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370075837344" ignored="false" />
     <file path="/repMxRacun.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370076187696" ignored="false" />
-    <file path="/fragment.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370077915446" ignored="false" />
+    <file path="/fragment.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370164792037" ignored="false" />
     <file path="/Main.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370080527454" ignored="false" />
     <file path="/startup.properties" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370077333745" ignored="false" />
-    <file path="/a.dummy" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370079133882" ignored="false" />
+    <file path="/a.dummy" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370165400158" ignored="false" />
+    <file path="/restart.properties" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370165476513" ignored="false" />
+    <file path="/raConnectionFactory.java" changelist="4a991329-3e62-4464-b50f-36bc0e398efb" time="1370165736316" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +81,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints>
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="file://$PROJECT_DIR$/src/hr/restart/start.java" line="139" class="hr.restart.start" package="hr.restart">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -136,8 +139,8 @@
         <option name="CONDITION_ENABLED" value="true" />
         <option name="CLASS_FILTERS_ENABLED" value="false" />
         <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
+        <option name="CONDITION" value="&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
     </line_breakpoints>
     <breakpoint_rules />
@@ -149,96 +152,96 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="repRacunPOS.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/repRacunPOS.java">
+      <file leaf-file-name="KreirDrop.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/KreirDrop.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="241" column="14" selection-start="10548" selection-end="10548" vertical-scroll-proportion="0.0">
+            <state line="172" column="21" selection-start="5415" selection-end="5415" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConsoleCreator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/ConsoleCreator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="108" column="19" selection-start="2690" selection-end="2690" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppleUtil.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src.apple/hr/restart/util/AppleUtil.java">
+      <file leaf-file-name="restart.properties" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/restart.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/startup/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="0" selection-start="3625" selection-end="3625" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="start.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/start.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="386" column="61" selection-start="13210" selection-end="13210" vertical-scroll-proportion="0.33125">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#6798#7031#0" expanded="true" />
-                <element signature="e#7008#7009#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="startFrame.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/util/startFrame.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="53" selection-start="4711" selection-end="4711" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="startup.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/startup.properties">
+      <file leaf-file-name="abs_imp_agenti.bsh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sql/hts/abs_imp_agenti.bsh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="11" selection-start="11" selection-end="11" vertical-scroll-proportion="0.0">
+            <state line="1" column="46" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MenuBarWinListener.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src.apple/hr/restart/util/MenuBarWinListener.java">
+      <file leaf-file-name="abs_imp_racuni.bsh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sql/hts/abs_imp_racuni.bsh">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SPAApplicationListener.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src.apple/hr/restart/util/SPAApplicationListener.java">
+      <file leaf-file-name="customers.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sql/hts/customers.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="repMxRacun.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/repMxRacun.java">
+      <file leaf-file-name="invoice_header.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sql/hts/invoice_header.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="519" column="14" selection-start="19681" selection-end="19681" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="kupci.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sql/hts/kupci.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HTSpreprepset.bsh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sql/hts/HTSpreprepset.bsh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="raConnectionFactory.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/hr/restart/db/raConnectionFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="184" column="0" selection-start="7118" selection-end="7118" vertical-scroll-proportion="-0.38860103">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -267,12 +270,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/hr/restart/db/raResultSetMetaData.java" />
-        <option value="$PROJECT_DIR$/src/hr/restart/db/replication/logging/StatementProxy.java" />
-        <option value="$PROJECT_DIR$/src/hr/restart/db/replication/logging/DriverProxy.java" />
-        <option value="$PROJECT_DIR$/src/hr/restart/util/raFiskPoslovni.java" />
-        <option value="$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/JRFillTextField.java" />
-        <option value="$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/JRTemplatePrintText.java" />
         <option value="$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/JRTemplateText.java" />
         <option value="$PROJECT_DIR$/src/hr/restart/pl/repIPDisk.java" />
         <option value="$PROJECT_DIR$/src/hr/restart/robno/frmRabatShema.java" />
@@ -283,14 +280,20 @@
         <option value="$PROJECT_DIR$/src/hr/restart/util/startFrame.java" />
         <option value="$PROJECT_DIR$/src/hr/restart/startup/Main.java" />
         <option value="$PROJECT_DIR$/src/hr/restart/start.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/baza/ConsoleCreator.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/DbUpdater.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/baza/Verinfo.java" />
+        <option value="$PROJECT_DIR$/src/hr/restart/baza/KreirDrop.java" />
+        <option value="$PROJECT_DIR$/restart.properties" />
+        <option value="$PROJECT_DIR$/src/hr/restart/db/raConnectionFactory.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="5" />
-    <option name="y" value="28" />
-    <option name="width" value="1422" />
-    <option name="height" value="802" />
+    <option name="y" value="22" />
+    <option name="width" value="1435" />
+    <option name="height" value="806" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -334,8 +337,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -416,8 +417,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -434,6 +469,7 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="dynamic.classpath" value="false" />
@@ -537,7 +573,7 @@
     <configuration default="false" name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="hr.restart.startup.Main" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-updatedb" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -617,7 +653,11 @@
       <created>1370075885245</created>
       <updated>1370075885245</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="main pokrenut&#10;">
+      <created>1370080795617</created>
+      <updated>1370080795617</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -641,31 +681,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="5" y="28" width="1422" height="802" extended-state="0" />
+    <frame x="5" y="22" width="1435" height="806" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32844576" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.08163265" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.398827" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39825583" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3328446" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33188406" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994187" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2943314" sideWeight="0.670088" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2937365" sideWeight="0.558309" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28415698" sideWeight="0.60117304" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.670088" order="5" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32991204" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28149748" sideWeight="0.9183673" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32848838" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295838" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.670088" order="5" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -711,7 +751,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="getLinkTarget -&gt; getLinkType&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="main pokrenut&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -731,9 +771,14 @@
     <MESSAGE value="borba za uspješan build / 10" />
     <MESSAGE value="borba za uspješan build / 11&#10;" />
     <MESSAGE value="getLinkTarget -&gt; getLinkType&#10;" />
+    <MESSAGE value="main pokrenut&#10;" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <PATH>
@@ -752,107 +797,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/JRFillTextField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="300" column="17" selection-start="6525" selection-end="6525" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/JRTemplatePrintText.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="216" column="45" selection-start="6280" selection-end="6280" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/sf/jasperreports/engine/fill/JRTemplateText.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="975" column="56" selection-start="21485" selection-end="21485" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/pl/repIPDisk.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="53" selection-start="3797" selection-end="3797" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/frmRabatShema.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="320" column="6" selection-start="11042" selection-end="11042" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/sf/jasperreports/engine/base/JRBaseTextField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="329" column="12" selection-start="8468" selection-end="8468" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/raTestis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="13" selection-start="1296" selection-end="1296" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/repRacunPOS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="241" column="14" selection-start="10548" selection-end="10548" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hr/restart/robno/repMxRacun.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="519" column="14" selection-start="19681" selection-end="19681" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src.apple/hr/restart/util/MenuBarWinListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src.apple/hr/restart/util/SPAApplicationListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src.apple/hr/restart/util/AppleUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/startup.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="11" selection-start="11" selection-end="11" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/hr/restart/util/startFrame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="155" column="53" selection-start="4711" selection-end="4711" vertical-scroll-proportion="0.0">
@@ -871,11 +815,105 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hr/restart/start.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="386" column="61" selection-start="13210" selection-end="13210" vertical-scroll-proportion="0.33125">
+        <state line="79" column="0" selection-start="2455" selection-end="2455" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home/jre/lib/rt.jar!/sun/misc/Unsafe.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="315" column="88" selection-start="9980" selection-end="9980" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/DbUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="32" selection-start="1000" selection-end="1000" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6798#7031#0" expanded="true" />
-            <element signature="e#7008#7009#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/Verinfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="32" selection-start="896" selection-end="896" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/KreirDrop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="172" column="21" selection-start="5415" selection-end="5415" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/baza/ConsoleCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="108" column="19" selection-start="2690" selection-end="2690" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/restart.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/hts/abs_imp_agenti.bsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="46" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/hts/abs_imp_racuni.bsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/hts/customers.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/hts/invoice_header.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/hts/kupci.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/hts/HTSpreprepset.bsh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hr/restart/db/raConnectionFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="184" column="0" selection-start="7118" selection-end="7118" vertical-scroll-proportion="-0.38860103">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

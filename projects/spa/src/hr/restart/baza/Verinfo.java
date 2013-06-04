@@ -15,6 +15,7 @@
 **   limitations under the License.
 **
 ****************************************************************************/
+
 package hr.restart.baza;
 
 import com.borland.dx.sql.dataset.QueryDataSet;

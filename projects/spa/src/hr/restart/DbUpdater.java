@@ -11,21 +11,22 @@ import hr.restart.util.raDbaseCreator;
 import hr.restart.util.raProcess;
 
 public class DbUpdater {
+
   public DbUpdater() {
     Util.redirectSystemOut();
-    int answ = JOptionPane.showConfirmDialog(null, "A엞riranti bazu?", "Pitanje", JOptionPane.YES_NO_OPTION);
-    if (answ != 0) {// nije da
+    int answ = JOptionPane.showConfirmDialog(null, "A탑uriranti bazu ?", "Pitanje", JOptionPane.YES_NO_OPTION);
+    if (answ != 0) {
       return;
     }
     azuriraj();
-    JOptionPane.showMessageDialog(null, "A엞riranje baze zavr쉋no","Info",JOptionPane.INFORMATION_MESSAGE);
+    JOptionPane.showMessageDialog(null, "A탑uriranje baze zavr탑eno","Info",JOptionPane.INFORMATION_MESSAGE);
   }
 
   private void azuriraj() {
-    raProcess.runChild("Proces","A엞riranje baze u tijeku",new Runnable() {
+    raProcess.runChild("Proces", "A탑uriranje baze u tijeku", new Runnable() {
       public void run() {
         ConsoleCreator.updateEverything();
-        raProcess.setMessage("Azuriranje database verzije", true);
+        raProcess.setMessage("A탑uriranje database verzije", true);
         updateDBVersion();
       }
     });

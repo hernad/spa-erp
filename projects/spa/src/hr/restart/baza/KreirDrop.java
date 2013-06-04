@@ -19,7 +19,6 @@ package hr.restart.baza;
 
 import hr.restart.db.raPreparedStatement;
 import hr.restart.sisfun.TextFile;
-import hr.restart.sisfun.frmParam;
 import hr.restart.util.Aus;
 import hr.restart.util.Int2;
 import hr.restart.util.Util;
@@ -32,8 +31,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -62,6 +59,7 @@ import com.borland.jb.util.TriStateProperty;
 
 
 public abstract class KreirDrop {
+
   public static String ERROR_KEY = "$ERROR";
   
   dM dm = dM.getDataModule();
@@ -626,7 +624,7 @@ public abstract class KreirDrop {
           missingKeyCols.add(origColumns[i]);
       for (int i = 0; i < missingKeyCols.size(); i++) {
         existingFields.add(i, ((Column) missingKeyCols.get(i)).getColumnName().toUpperCase());
-        System.err.println("nema kolone kljuèa: "+existingFields.get(i));
+        System.err.println("nema kolone kljuï¿½a: "+existingFields.get(i));
       }
 
       raPreparedStatement ps = raPreparedStatement.createIndependentInsert(Naziv,
