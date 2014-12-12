@@ -18,16 +18,20 @@
 /*
  * Created on 15-Sep-2004
  */
-
 package hr.restart.db.replication.logging;
 
 import hr.restart.util.VarStr;
 
 import java.rmi.server.UID;
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.Savepoint;
+import java.sql.Statement;
 import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.Executor;
 
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -902,88 +906,7 @@ class ConnectionProxy implements Connection{
     // TODO Auto-generated method stub
     return null;
   }
-
-    @Override
-    public Clob createClob() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public Blob createBlob() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public NClob createNClob() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public SQLXML createSQLXML() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public boolean isValid(int timeout) throws SQLException {
-        return false;
-    }
-
-    @Override
-    public void setClientInfo(String name, String value) throws SQLClientInfoException {
-
-    }
-
-    @Override
-    public void setClientInfo(Properties properties) throws SQLClientInfoException {
-
-    }
-
-    @Override
-    public String getClientInfo(String name) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public Properties getClientInfo() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public void setSchema(String schema) throws SQLException {
-
-    }
-
-    @Override
-    public String getSchema() throws SQLException {
-        return null;
-    }
-
-    @Override
-    public void abort(Executor executor) throws SQLException {
-
-    }
-
-    @Override
-    public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
-
-    }
-
-    @Override
-    public int getNetworkTimeout() throws SQLException {
-        return 0;
-    }
-
-    public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+  public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
     // TODO Auto-generated method stub
     return null;
   }
@@ -1010,15 +933,5 @@ class ConnectionProxy implements Connection{
 public void setTypeMap(Map arg0) throws SQLException {
 // TODO Auto-generated method stub
 
-}
-
-    @Override
-    public <T> T unwrap(Class<T> iface) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return false;
-    }
+}   
 }

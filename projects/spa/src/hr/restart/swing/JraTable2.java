@@ -21,6 +21,7 @@ package hr.restart.swing;
 
 import hr.restart.sisfun.frmParam;
 import hr.restart.util.Aus;
+import hr.restart.util.Calc;
 import hr.restart.util.NavigationAdapter;
 import hr.restart.util.Valid;
 import hr.restart.util.VarStr;
@@ -28,6 +29,7 @@ import hr.restart.util.startFrame;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -169,6 +171,8 @@ public class JraTable2 extends JTable implements JraTableInterface {
   private String tableSort;
 
   private boolean descendingTableSort = true;
+  
+  public Calc calc = new Calc();
 
   public JraTable2() {
     this(false);
@@ -642,12 +646,32 @@ public class JraTable2 extends JTable implements JraTableInterface {
       updateTableColumns();
 
     }
+    
+    calc.reset();
+    calc.setData(ds);
 
     tableSort = null;
     updateModifiers();
 
     setVisible(true);
 
+  }
+  
+  public void performAllRows(String command) {
+    if (tabModel.getDataSet() == null) return;
+    
+    try {
+      long row = tabModel.getDataSet().getInternalRow();
+      tabModel.getDataSet().enableDataSetEvents(false);
+      stopFire();
+      for (tabModel.getDataSet().first(); tabModel.getDataSet().inBounds(); tabModel.getDataSet().next())
+        calc.run(command);
+      tabModel.getDataSet().goToInternalRow(row);
+    } finally {
+      tabModel.getDataSet().enableDataSetEvents(true);
+      startFire();
+    }
+    fireTableDataChanged();
   }
   
   public void updateModifiers() {
@@ -1319,7 +1343,7 @@ public class JraTable2 extends JTable implements JraTableInterface {
     return true;
   }
 
-  class dataSetTableCellRenderer extends javax.swing.table.DefaultTableCellRenderer {
+  public class dataSetTableCellRenderer extends javax.swing.table.DefaultTableCellRenderer {
 
 
     public java.awt.Component getTableCellRendererComponent(
@@ -1353,7 +1377,7 @@ public class JraTable2 extends JTable implements JraTableInterface {
         com.borland.dx.text.VariantFormatter formater = 
           dsCol == null ? null : dsCol.getFormatter();
 
-        if (formater != null && value != null) {
+        if (formater != null && value != null && formater.getPattern() != null && formater.getPattern().length() > 0) {
 
           Variant v1 = new Variant();
 
@@ -1456,6 +1480,12 @@ public class JraTable2 extends JTable implements JraTableInterface {
           }
 
         }
+        
+        raHideDataModifier.inst.setValues(table,value,isSelected,hasFocus,row,column,this_component);
+        if (raHideDataModifier.inst.doModify()) {
+          raHideDataModifier.inst.modify();
+          this_component = raHideDataModifier.inst.renderComponent;
+        }
 
       }
 
@@ -1492,6 +1522,11 @@ public class JraTable2 extends JTable implements JraTableInterface {
 
       return "UNKNOWN";
 
+    }
+    
+    protected void paintComponent(Graphics g) {
+      // TODO Auto-generated method stub
+      super.paintComponent(g);
     }
 
   }

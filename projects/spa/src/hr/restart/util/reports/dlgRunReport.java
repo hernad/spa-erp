@@ -614,8 +614,6 @@ public class dlgRunReport {
       Class dsource;
       try {
         dsource = rd.isExtended() ? Class.forName(rd.getDataSource()) : rd.getProvider().getClass();
-        raCustomSection.addFisk(dsource, rt.getReportTemplate().getModel(raElixirProperties.SECTION_FOOTER + 1));
-        
       } catch (Exception e) {
         dsource = null;
       }
@@ -643,6 +641,11 @@ public class dlgRunReport {
         for (Iterator i = rd.getCustomSect().iterator(); i.hasNext(); )
           modifySectionIfNeeded(corg, "C", rd.getCustomVrdok(), (String) i.next(), dsource);
       else modifySectionIfNeeded(corg, "C", rd.getCustomVrdok(), "SF0", dsource);
+      
+      if (frmParam.getParam("robno", "fiskFooter", "D", 
+          "Podaci o fiskalnom raèunu u page footer (D,N)").equalsIgnoreCase("D"))
+        raCustomSection.addFisk(dsource, rt.getReportTemplate().getModel(raElixirProperties.PAGE_FOOTER), false);
+      else raCustomSection.addFisk(dsource, rt.getReportTemplate().getModel(raElixirProperties.SECTION_FOOTER + 1), true);
       
     } else ModelFactory.setCurrentReport(rt.getReportTemplate());
     if (!rd.isDisabledSignature())
@@ -800,6 +803,16 @@ public class dlgRunReport {
       } catch (Exception e) {
         e.printStackTrace();
       }
+    } else if (mode == 3) {
+      StorageDataSet ret = ReportMailDialog.showMailDialog(null, null, null);
+      if (ret != null)
+      try {
+        mxR.renameFile();
+        ReportMailDialog.sendMail(new File(mxR.getFilename()), ret);
+      } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Slanje neuspješno!!! Greška :"+e);
+        e.printStackTrace();
+      }
     }
 //    enableDlg();
   }
@@ -809,11 +822,16 @@ public class dlgRunReport {
       "Poruka",
       JOptionPane.INFORMATION_MESSAGE);
   }
+  
+  private void rememberLast() {
+    if (runner.getOwnerName() != null && runner.getReportsCount() > 1)
+      defaultIndexes.setProperty(runner.getOwnerName(), getCurrentDescriptor().getName());
+  }
+  
   private void runReport(int mode) {
     disableDlg();
 //    System.out.println(defaultIndexes);
-    if (runner.getOwnerName() != null && runner.getReportsCount() > 1)
-      defaultIndexes.setProperty(runner.getOwnerName(), getCurrentDescriptor().getName());
+    
     prw.removeDesign();
     if (isElixir()) {
       runElixir(mode);
@@ -828,6 +846,7 @@ public class dlgRunReport {
   }
   public void printReport() {
     try {
+      rememberLast();
       if (getCurrentDescriptor().getReportType() == raReportDescriptor.TYPE_CHART)
         ((IReport) getCurrentDescriptor().getProvider()).print();
       else runReport(0);
@@ -838,6 +857,7 @@ public class dlgRunReport {
 
   public void previewReport() {
     try {
+      rememberLast();
       if (getCurrentDescriptor().getReportType() == raReportDescriptor.TYPE_CHART)
         ((IReport) getCurrentDescriptor().getProvider()).preview();
       else runReport(1);
@@ -847,6 +867,7 @@ public class dlgRunReport {
   }
   public void exportReport() {
     try {
+      rememberLast();
       if (getCurrentDescriptor().getReportType() == raReportDescriptor.TYPE_CHART)
         ((IReport) getCurrentDescriptor().getProvider()).export();
       else runReport(2);
@@ -856,9 +877,11 @@ public class dlgRunReport {
   }
   public void mailReport() {
     try {
+      rememberLast();
 //      if (getCurrentDescriptor().getReportType() == raReportDescriptor.TYPE_CHART)
 //        ((IReport) getCurrentDescriptor().getProvider()).export();
 //      else 
+      if (getCurrentDescriptor().getReportType() != raReportDescriptor.TYPE_CHART)
         runReport(3);
     } catch (Exception e) {
       e.printStackTrace();
@@ -1679,8 +1702,17 @@ public class dlgRunReport {
         reportsQuerysCollector rqc = reportsQuerysCollector.getRQCModule();
         boolean spec = rd.isCustomIzlaz() && rqc.caller != null &&
             rqc.caller.raMaster.getSelectionTracker().countSelected() > 1;
-        
-      if (!expAP.equals("JAS") || !alterExport(expAP,"ispis",jpr = getJasperPrint(dlg))) {
+            
+            if (expAP != null && expAP.length() > 0 && rd.getName().equals(raReportDescriptor.DYNAMIC_CLASS)) {
+              try {
+                repDynamicProvider.getInstance().xt.exportToXLS(new File("ispis.xls"));
+                sendAlterFile("ispis", "xls");
+              } catch (Exception e) {
+                e.printStackTrace();
+              }
+              
+            } else if (!expAP.equals("JAS") || !alterExport(expAP,"ispis",jpr = getJasperPrint(dlg))) {
+              
         if (spec) {
           if (JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(dlg, "Spremiti svaki dokument posebno?", "Višestruki dokumenti", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE)) spec = false;
           else {

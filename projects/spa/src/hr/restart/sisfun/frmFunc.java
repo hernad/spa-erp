@@ -17,13 +17,18 @@
 ****************************************************************************/
 package hr.restart.sisfun;
 import hr.restart.swing.JraButton;
+import hr.restart.swing.JraTextField;
+import hr.restart.swing.raMultiLineMessage;
 import hr.restart.util.JlrNavField;
 import hr.restart.util.Valid;
 import hr.restart.util.raSifraNaziv;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
+
+import bsh.EvalError;
 
 import com.borland.jbcl.layout.XYConstraints;
 import com.borland.jbcl.layout.XYLayout;
@@ -47,6 +52,8 @@ public class frmFunc extends raSifraNaziv {
   JlrNavField jlrNazapp = new JlrNavField();
   JLabel jlApp = new JLabel();
   JraButton jbApp = new JraButton();
+  JraTextField jraSpec = new JraTextField();
+  JraTextField jraData = new JraTextField();
 
   public frmFunc() {
     try {
@@ -77,6 +84,15 @@ public class frmFunc extends raSifraNaziv {
   public boolean Validacija(char mode) {
     if (vl.isEmpty(this.jtfCSIFRA)) return false;
     if (mode == 'N' && vl.notUnique(new JTextComponent[] {jtfCSIFRA, jlrApp})) return false;
+    int p = getRaQueryDataSet().getString("DATA").indexOf(" => ");
+    if (p > 0) {
+      try {
+        new bsh.Interpreter().eval(getRaQueryDataSet().getString("DATA").substring(p + 4));
+      } catch (EvalError e) {
+        JOptionPane.showMessageDialog(this.getWindow(), new raMultiLineMessage(e.getMessage()), "Greška", JOptionPane.ERROR_MESSAGE);
+        return false;
+      }
+    }
     return true;
   }
 
@@ -84,7 +100,7 @@ public class frmFunc extends raSifraNaziv {
     this.setRaDataSet(dm.getFunkcije());
     this.setRaColumnSifra("CFUNC");
     this.setRaColumnNaziv("OPISFUNC");
-    this.setRaText("Program");
+    this.setRaText("Funkcija");
 
     jlApp.setText("Aplikacija");
     jbApp.setText("...");
@@ -101,14 +117,23 @@ public class frmFunc extends raSifraNaziv {
     jlrNazapp.setColumnName("OPIS");
     jlrNazapp.setNavProperties(jlrApp);
     jlrNazapp.setSearchMode(1);
+    
+    jraSpec.setDataSet(this.getRaQueryDataSet());
+    jraSpec.setColumnName("SPEC");
+    jraData.setDataSet(this.getRaQueryDataSet());
+    jraData.setColumnName("DATA");
 
     JPanel jp = (JPanel) this.getRaDetailPanel().getComponent(0);
-    ((XYLayout) jp.getLayout()).setHeight(100);
+    ((XYLayout) jp.getLayout()).setHeight(160);
     ((XYLayout) jp.getLayout()).setWidth(575);
 
     jp.add(jlApp, new XYConstraints(15, 65, -1, -1));
     jp.add(jlrApp, new XYConstraints(150, 65, 100, -1));
     jp.add(jlrNazapp, new XYConstraints(255, 65, 285, -1));
     jp.add(jbApp, new XYConstraints(545, 65, 21, 21));
+    jp.add(new JLabel("Definicija"), new XYConstraints(15, 100, -1, -1));
+    jp.add(jraSpec, new XYConstraints(150, 100, 390, -1));
+    jp.add(new JLabel("Dodatni podaci"), new XYConstraints(15, 125, -1, -1));
+    jp.add(jraData, new XYConstraints(150, 125, 390, -1));
   }
 }

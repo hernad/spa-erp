@@ -255,6 +255,8 @@ public class frmKAL extends frmUlazTemplate implements IZavtrHandler {
 	}
 
 	public boolean doWithSaveMaster(char mode) {
+	  if (mode == 'N') zt.prepareSave();
+	  
 		//if (mode == 'N' || mode == 'B' || (mode == 'I' && enableZT))
 			try {
 				zt.saveChanges(getMasterSet().getString("CSHZT").equals(
@@ -565,7 +567,12 @@ public class frmKAL extends frmUlazTemplate implements IZavtrHandler {
 			zt.rnvExit_action();
 		if (enableZT) getMasterSet().setString("CSHZT",
 					jpMaster.jcbZT.isSelected() ? "YES" : "");
-		zt.prepareSave();
+		
+		if (mode == 'I' && getMasterSet().getString("CSHZT").equals("YES")) {
+		  if (zt.findStructuralDiffs()) return false;
+	      refilterDetailSet();
+		}
+		//zt.prepareSave();
 		return true;
 	}
 
@@ -587,6 +594,7 @@ public class frmKAL extends frmUlazTemplate implements IZavtrHandler {
 		}
 		if (!super.ValidacijaDetail(mode))
 			return false;
+		if (!super.checkArtCijene()) return false;
 		zts.prepareSave();
 		return true;
 	}

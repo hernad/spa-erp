@@ -118,6 +118,7 @@ public class jpVirmani2 extends JPanel {
   JLabel jlStatOb = new JLabel();
   JLabel jlOvjeraNalogodavca = new JLabel();
   JLabel jlOvjeraBanke = new JLabel();
+  JLabel jlDatumPodnoöenja = new JLabel();
   JLabel jlPotpisPrimatelja = new JLabel();
 
   public jpVirmani2(frmVirmani f) {
@@ -137,11 +138,11 @@ public class jpVirmani2 extends JPanel {
 //    jlApp.setText("Aplikacija");
     jlBrracnt.setFont(new java.awt.Font("Dialog", 0, 9));
     jlBrracnt.setHorizontalAlignment(SwingConstants.CENTER);
-    jlBrracnt.setText("Broj raƒçuna platitelja");
+    jlBrracnt.setText("Broj raËuna platitelja");
     jlBrracuk.setFont(new java.awt.Font("Dialog", 0, 9));
     jlBrracuk.setHorizontalAlignment(SwingConstants.CENTER);
-    jlBrracuk.setText("Broj raÔøΩuna primatelja");
-//    jlCkey.setText("Kljuc");
+    jlBrracuk.setText("Broj raËuna primatelja");
+//    jlCkey.setText("KljuË");
 //    jlDatumpr.setFont(new java.awt.Font("Dialog", 0, 10));
 //    jlDatumpr.setText("(datum predaje Zavodu)");
 //    jlJedzav.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -151,10 +152,10 @@ public class jpVirmani2 extends JPanel {
 //    jlPozOd.setFont(new java.awt.Font("Dialog", 0, 9));
 //    jlPozOd.setText("poziv");
     jlPozivZad.setFont(new java.awt.Font("Dialog", 0, 9));
-    jlPozivZad.setText("Poziv na broj zaduÔøΩenja");
+    jlPozivZad.setText("Poziv na broj zaduûenja");
 //    jlRbr.setText("Rbr");
 //    jlSif1.setFont(new java.awt.Font("Dialog", 0, 10));
-//    jlSif1.setText("ÔøΩifra");
+//    jlSif1.setText("öifra");
     jlUkorist.setText("PRIMATELJ:");
     jraApp.setColumnName("APP");
     jraApp.setDataSet(fVirmani.getRaQueryDataSet());
@@ -272,9 +273,9 @@ public class jpVirmani2 extends JPanel {
     jlOvjeraBanke.setBorder(BorderFactory.createLineBorder(Color.black));
     jlOvjeraBanke.setHorizontalAlignment(SwingConstants.CENTER);
     jlOvjeraBanke.setText("Ovjera banke");
-    jlDatumPodnosenja.setFont(new java.awt.Font("Dialog", 0, 9));
-    jlDatumPodnosenja.setHorizontalAlignment(SwingConstants.CENTER);
-    jlDatumPodnosenja.setText("Datum podno≈°enja");
+    jlDatumPodnoöenja.setFont(new java.awt.Font("Dialog", 0, 9));
+    jlDatumPodnoöenja.setHorizontalAlignment(SwingConstants.CENTER);
+    jlDatumPodnoöenja.setText("Datum podnoöenja");
     jlPotpisPrimatelja.setFont(new java.awt.Font("Dialog", 0, 9));
     jlPotpisPrimatelja.setBorder(BorderFactory.createLineBorder(Color.black));
     jlPotpisPrimatelja.setHorizontalAlignment(SwingConstants.CENTER);
@@ -328,13 +329,13 @@ public class jpVirmani2 extends JPanel {
     jlPozivOdob.setText("Poziv na broj odobrenja");
     jlPozivOdob.setFont(new java.awt.Font("Dialog", 0, 9));
     jlOpisPlacanja.setFont(new java.awt.Font("Dialog", 0, 9));
-    jlOpisPlacanja.setText("Opis plaÔøΩanja");
+    jlOpisPlacanja.setText("Opis plaÊanja");
     jlDatumPodnosenja.setText("Datum valute/uplate/isplate");
     jlDatumPodnosenja.setFont(new java.awt.Font("Dialog", 0, 9));
     jlStatObilj.setText("Stat. ob.");
     jlStatObilj.setFont(new java.awt.Font("Dialog", 0, 9));
     jlSifraNacPl.setFont(new java.awt.Font("Dialog", 0, 9));
-    jlSifraNacPl.setText("ÔøΩifra op. pl.");
+    jlSifraNacPl.setText("äifra op. pl.");
     jlHitnost.setText("Hitnost");
     jlHitnost.setFont(new java.awt.Font("Dialog", 0, 9));
 //    jlHica.setFont(new java.awt.Font("Dialog", 0, 9));
@@ -349,7 +350,7 @@ public class jpVirmani2 extends JPanel {
     jcbIsplata.setText("ISPLATA");
     jlNalogZaPlacanje.setFont(new java.awt.Font("Dialog", 1, 9));
     jlNalogZaPlacanje.setHorizontalAlignment(SwingConstants.CENTER);
-    jlNalogZaPlacanje.setText("NALOG ZA PLAÔøΩANJE");
+    jlNalogZaPlacanje.setText("NALOG ZA PLA∆ANJE");
 //    jpDetail.add(jlHica,    new XYConstraints(200, 30, -1, -1));
     jpDetail.add(jraSif1,    new XYConstraints(85, 253, 40, 25));
     jpDetail.add(jlStatObilj,    new XYConstraints(17, 240, -1, -1));
@@ -391,7 +392,7 @@ public class jpVirmani2 extends JPanel {
     jpDetail.add(jcbPrijenos, new XYConstraints(300, 26, 67, -1));
     jpDetail.add(jcbHitnost2, new XYConstraints(283, 26, 14, -1));
     jpDetail.add(jcbHitnost1, new XYConstraints(218, 26, 66, -1));
-    jpDetail.add(jlDatumPodnosenja, new XYConstraints(15, 315, 118, -1));
+    jpDetail.add(jlDatumPodnoöenja,     new XYConstraints(15, 315, 118, -1));
     jpDetail.add(jraDatumpr,   new XYConstraints(15, 327, 120, 25));
 
     // hendlanje fokusa zbog razbacanosti po panelu

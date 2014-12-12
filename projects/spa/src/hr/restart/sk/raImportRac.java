@@ -179,8 +179,7 @@ public class raImportRac {
     setDate(sk, "DATUMKNJ", head, "InvoiceDate");
     setDate(sk, "DATPRI", head, "InvoiceDate");
     
-
-    sk.setString("BROJDOK", head.getChildText("DocumentIdentifier"));
+    sk.setString("BROJDOK", head.getChildText("DocumentIdentifier") + "/" + ut.getYear(sk.getTimestamp("DATDOK")));
     System.out.println("Dokument: " + sk.getString("BROJDOK"));
     
     Element partn = head.getChild("Buyer");
@@ -330,7 +329,7 @@ public class raImportRac {
     }
     if (totalpor.signum() != 0) {
       total = total.add(totalpor);
-      addUi(sk, ui, getKonto("17"), (short) 17, totalpor);
+      addUi(sk, ui, getKonto("22"), (short) 22, totalpor);
     }
     
     if (sk.getBigDecimal("SALDO").compareTo(total) != 0)

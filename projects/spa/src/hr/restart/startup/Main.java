@@ -31,9 +31,6 @@ import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Properties;
 
-import hr.restart.start;
-
-
 /**
  * @author andrej
  * Does everything to start SPA
@@ -49,16 +46,10 @@ public class Main {
    * @param args
    */
   public static void main(String[] args) {
-
-
     //properties
     Properties props = FileHandler.getProperties("startup.properties");
-
-    if (props.keySet().size() == 0)
-        javax.swing.JOptionPane.showMessageDialog(null, "startup.properties je prazan ?", "Belaj", javax.swing.JOptionPane.ERROR_MESSAGE);
-
-
-      //ftpStart
+    
+    //ftpStart
     if (new Boolean(props.getProperty("ftpStart","false")).booleanValue()) {
       try {
         ftpStart.redirectSystemOut("ftpstart-"+System.currentTimeMillis()+".log");
@@ -75,19 +66,13 @@ public class Main {
     try {
       startUP(args, props.getProperty("libdir","lib"));
     } catch (Exception e) {
-      showError(e.getMessage());
+      // TODO Auto-generated catch block
       e.printStackTrace();
       System.exit(0);
     }
   }
 
-  private static void showError(String msg)
-  {
-      javax.swing.JOptionPane.showMessageDialog(null, msg, "Belaj", javax.swing.JOptionPane.ERROR_MESSAGE);
-  }
-
-
-    private static void startUP(String[] args, String lib) throws Exception {
+  private static void startUP(String[] args, String lib) throws Exception {
     File libdir = new File(lib);
     if (!libdir.isDirectory()) {
       throw new RuntimeException("Invalid lib directory "+lib);
@@ -101,17 +86,13 @@ public class Main {
       cp = cp + jars[i].getAbsolutePath()+File.pathSeparator;
     }
     String oldcp = System.getProperty("java.class.path");
-    System.setProperty("java.class.path", cp + File.pathSeparator+oldcp);
+    System.setProperty("java.class.path",cp+File.pathSeparator+oldcp);
     ClassLoader cloader = new URLClassLoader(urls, Object.class.getClassLoader());
     Thread.currentThread().setContextClassLoader(cloader);
-
-    /*
     Class start = cloader.loadClass("hr.restart.start");
+    //Class start = Class.forName("hr.restart.start");
     Method main = start.getMethod("main", new Class[] {String[].class});
     main.invoke(null, new Object[] {args});
-    */
-
-    hr.restart.start.main(args);
   }
 
 }

@@ -19,6 +19,7 @@ package hr.restart.robno;
 
 import hr.restart.baza.Condition;
 import hr.restart.baza.UplRobno;
+import hr.restart.sisfun.frmParam;
 import hr.restart.swing.JraButton;
 import hr.restart.swing.JraCheckBox;
 import hr.restart.swing.JraComboBox;
@@ -65,6 +66,8 @@ import com.borland.jbcl.layout.XYLayout;
 public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 
 	private boolean isFirstEscOver = true;
+	
+	private boolean danasUpl = false;
 
 	private String status = "SVI";
 
@@ -333,6 +336,8 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 		dvo.setCaption("DVO");
 		dvo.setColumnName("dvo");
 		dvo.setWidth(4);
+		Column datdok = dm.getDoki().getColumn("DATDOK").cloneColumn();
+        datdok.setWidth(4);
 		Column datdosp = dm.getDoki().getColumn("datdosp").cloneColumn();
 		datdosp.setCaption("Dospijeæe");
 		datdosp.setColumnName("datdosp");
@@ -377,7 +382,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 		nabrac.setWidth(6);
 
 		qdsAllIzlaz.setColumns(new Column[] { cskl, vrdok, god, brdok, kljuc,
-				pnbz2, dvo, datdosp, cpar, nazpar, uirac, platiti, statpla,
+				pnbz2, datdok, dvo, datdosp, cpar, nazpar, uirac, platiti, statpla,
 				saldo });
 		qdsAllUlaz.setColumns(qdsAllIzlaz.cloneColumns());//new
 														  // Column[]{cskl,vrdok,god,brdok,kljuc,pnbz2,dvo,datdosp,cpar,nazpar,uirac,platiti,statpla,saldo});
@@ -387,7 +392,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 		qdsAllUlaz.open();
 		qdsPojedIzlaz.setColumns(new Column[] { cskl.cloneColumn(),
 				vrdok.cloneColumn(), god.cloneColumn(), brdok.cloneColumn(),
-				kljuc.cloneColumn(), pnbz2.cloneColumn(), dvo.cloneColumn(),
+				kljuc.cloneColumn(), pnbz2.cloneColumn(), datdok.cloneColumn(), dvo.cloneColumn(),
 				datdosp.cloneColumn(), datupl, cpar.cloneColumn(),
 				uirac.cloneColumn(), platiti.cloneColumn(),
 				statpla.cloneColumn(), saldo.cloneColumn(), danik });
@@ -396,12 +401,12 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 				.setColumns(new Column[] { cskl.cloneColumn(),
                         vrdok.cloneColumn(), nabrac, god.cloneColumn(),
 						brdok.cloneColumn(), kljuc.cloneColumn(),
-						pnbz2.cloneColumn(), dvo.cloneColumn(),
+						pnbz2.cloneColumn(), datdok.cloneColumn(), dvo.cloneColumn(),
 						datdosp.cloneColumn(), datupl.cloneColumn(),
 						cpar.cloneColumn(), uirac.cloneColumn(),
 						platiti.cloneColumn(), statpla.cloneColumn(),
 						saldo.cloneColumn(), danik.cloneColumn() });
-		qdsPojedUlaz.getColumn("DVO").setCaption("Datum");
+		//qdsPojedUlaz.getColumn("DVO").setCaption("DVO");
 		qdsPojedIzlaz.open();
 		qdsPojedUlaz.open();
 	}
@@ -479,10 +484,15 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 		return instanceOfMe;
 	}
 
+	String vdat = "DVO";
 	/**
 	 *  
 	 */
 	private void initializer() throws Exception {
+	    vdat = frmParam.getParam("robno", "miniDvo", "N", "Mini saldak dohvat po DVO (D,N)").equalsIgnoreCase("N") ? "DATDOK" : "DVO";
+	    
+	    danasUpl = frmParam.getParam("robno", "danasUpl", "N", "Staviti današnji dan po defaultu za uplatu (D,N)").equalsIgnoreCase("D");
+	  
 		keySupport.setNavContainer(getJPTV().getNavBar().getNavContainer());
 		setUpQDS();
 		tds.setColumns(new Column[] {
@@ -620,10 +630,10 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 		String sqlpitanje = "";
 
 		if (jrfCPAR.getText().equalsIgnoreCase("")) {
-			sqlpitanje = "select (doki.cskl||'-'||doki.vrdok||'-'||doki.god||'-'||doki.brdok) as kljuc,doki.cskl,doki.vrdok,doki.god,doki.brdok,doki.pnbz2,doki.dvo,doki.datdosp,"
+			sqlpitanje = "select (doki.cskl||'-'||doki.vrdok||'-'||doki.god||'-'||doki.brdok) as kljuc,doki.cskl,doki.vrdok,doki.god,doki.brdok,doki.pnbz2,doki.datdok,doki.dvo,doki.datdosp,"
 					+ "doki.cpar,partneri.nazpar,doki.uirac,doki.platiti,doki.datupl from doki, partneri where doki.uirac != 0 and doki.cpar = partneri.cpar and ";
 		} else {
-			sqlpitanje = "select (doki.cskl||'-'||doki.vrdok||'-'||doki.god||'-'||doki.brdok) as kljuc,doki.cskl,doki.vrdok,doki.god,doki.brdok,doki.pnbz2,doki.dvo,doki.datdosp,"
+			sqlpitanje = "select (doki.cskl||'-'||doki.vrdok||'-'||doki.god||'-'||doki.brdok) as kljuc,doki.cskl,doki.vrdok,doki.god,doki.brdok,doki.pnbz2,doki.datdok,doki.dvo,doki.datdosp,"
 					+ "doki.cpar,partneri.nazpar,doki.uirac,doki.platiti,doki.datupl from doki, partneri where doki.uirac != 0 and doki.cpar = "
 					+ jrfCPAR.getText() + " and doki.cpar = partneri.cpar and ";
 		}
@@ -691,7 +701,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 
 		sqlpitanje = sqlpitanje
 				+ " and "
-				+ Condition.between("doki.dvo", tds.getTimestamp("pocDatum"),
+				+ Condition.between("doki."+vdat, tds.getTimestamp("pocDatum"),
 						tds.getTimestamp("zavDatum"))
 				+ " order by partneri.nazpar " + collation;
 
@@ -707,6 +717,8 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 					com.borland.jb.util.TriStateProperty.FALSE);
 			qdsAllIzlaz.getColumn("DVO").setVisible(
 					com.borland.jb.util.TriStateProperty.FALSE);
+			qdsAllIzlaz.getColumn("DATDOK").setVisible(
+                com.borland.jb.util.TriStateProperty.FALSE);
 		} else {
 			qdsPojedIzlaz.emptyAllRows();
 			qdsPojedIzlaz.getColumn("CPAR").setVisible(
@@ -752,7 +764,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 			} else {
 				qdsPojedIzlaz.insertRow(true);
 				dm.copyColumns(tmpqds, qdsPojedIzlaz, new String[] { "cskl",
-						"vrdok", "god", "brdok", "pnbz2", "dvo", "uirac",
+						"vrdok", "god", "brdok", "pnbz2", "dvo", "datdok", "uirac",
 						"platiti", "datdosp", "kljuc", "cpar", "datupl" });
 				qdsPojedIzlaz.setBigDecimal("SALDO", qdsPojedIzlaz
 						.getBigDecimal("UIRAC").subtract(
@@ -794,7 +806,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 		} else {
             qdsPojedIzlaz.setTableName("izlazsingle");
 			qdsPojedIzlaz.first();
-			qdsPojedIzlaz.setSort(new SortDescriptor(new String[] {"dvo"}));
+			qdsPojedIzlaz.setSort(new SortDescriptor(new String[] {vdat}));
 			this.setDataSetAndSums(qdsPojedIzlaz,
 					new String[] { "UIRAC", "PLATITI", "SALDO" });
 			//addPojed();
@@ -813,7 +825,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 //group by cskl, vrdok, brdok, god order by nazpar
 		String sqlpitanje = "select doku.cskl as cskl, doku.vrdok as vrdok, doku.god as god, "
 				+ "doku.brdok as brdok, max(doku.brrac) as brrac, max(doku.cpar) as cpar, max(partneri.nazpar) as nazpar, max(doku.cskl||'-'||doku.vrdok||'-'||doku.god||'-'||doku.brdok) as kljuc, "
-				+ "max(doku.pnbz2) as pnbz2, max(doku.dvo) as dvo, max(doku.datdosp) as datdosp, max(doku.datupl) as datupl, max(doku.cpar) as cpar, max(doku.statpla) as statpla, "
+				+ "max(doku.pnbz2) as pnbz2, max(doku.datdok) as datdok, max(doku.dvo) as dvo, max(doku.datdosp) as datdosp, max(doku.datupl) as datupl, max(doku.cpar) as cpar, max(doku.statpla) as statpla, "
 				+ "max(doku.platiti) as platiti, max(doku.uiprpor) as uiprpor, max(doku.uikal) as uikal "
 				+ "from doku, partneri where doku.cpar = partneri.cpar ";
 
@@ -856,7 +868,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 		}
 
 		sqlpitanje += " and "
-				+ Condition.between("dvo", tds.getTimestamp("pocDatum"), tds
+				+ Condition.between(vdat, tds.getTimestamp("pocDatum"), tds
 						.getTimestamp("zavDatum"));
 
 		String collation = "";
@@ -880,6 +892,8 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 					com.borland.jb.util.TriStateProperty.FALSE);
 			qdsAllUlaz.getColumn("DVO").setVisible(
 					com.borland.jb.util.TriStateProperty.FALSE);
+			qdsAllUlaz.getColumn("DATDOK").setVisible(
+                com.borland.jb.util.TriStateProperty.FALSE);
 		} else {
 			qdsPojedUlaz.emptyAllRows();
 			qdsPojedUlaz.getColumn("CPAR").setVisible(
@@ -894,6 +908,8 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 					com.borland.jb.util.TriStateProperty.TRUE);
 			qdsPojedUlaz.getColumn("DVO").setVisible(
 					com.borland.jb.util.TriStateProperty.TRUE);
+			qdsPojedUlaz.getColumn("DATDOK").setVisible(
+                com.borland.jb.util.TriStateProperty.TRUE);
 			qdsPojedUlaz.getColumn("PLATITI").setVisible(
 					com.borland.jb.util.TriStateProperty.TRUE);
 			qdsPojedUlaz.getColumn("SALDO").setVisible(
@@ -938,7 +954,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 				qdsPojedUlaz.insertRow(true);
                 dm.copyColumns(tmpqds, qdsPojedUlaz, new String[] 
                     {"brrac", "cskl", "vrdok", "god", "brdok", "kljuc", "cpar", 
-                     "platiti", "statpla", "dvo", "datdosp", "datupl"});
+                     "platiti", "statpla", "datdok", "dvo", "datdosp", "datupl"});
 				qdsPojedUlaz.setBigDecimal("UIRAC", tmpqds.getBigDecimal(
 						"UIPRPOR").add(tmpqds.getBigDecimal("UIKAL")));
 
@@ -983,7 +999,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 		} else {
             qdsPojedUlaz.setTableName("ulazsingle");
 			qdsPojedUlaz.first();
-			qdsPojedUlaz.setSort(new SortDescriptor(new String[] {"dvo"}));			
+			qdsPojedUlaz.setSort(new SortDescriptor(new String[] {vdat}));			
 			setDataSetAndSums(qdsPojedUlaz, new String[] { "UIRAC", "PLATITI", "SALDO" });
 			//addPojed();
 		}
@@ -1514,7 +1530,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 			uplata.getDataSet().setBigDecimal("UPLATA",
 					qdsPojedIzlaz.getBigDecimal("SALDO"));
 			datupl.getDataSet().setTimestamp("datupl",
-					hr.restart.util.Valid.getValid().findDate(false, -1));
+					hr.restart.util.Valid.getValid().findDate(false, danasUpl ? 0 : -1));
 			
 			upls = UplRobno.getDataModule().getTempSet("CDOC RBR NAP DATUM IZNOS",
 			    Condition.equal("CDOC", dockey = raControlDocs.getKey(qdsPojedIzlaz, "doki")));
@@ -1562,7 +1578,7 @@ public class raRobnoMiniSaldak extends hr.restart.util.raUpitFat {
 			uplata.getDataSet().setBigDecimal("UPLATA",
 					qdsPojedUlaz.getBigDecimal("SALDO"));
 			datupl.getDataSet().setTimestamp("datupl",
-					hr.restart.util.Valid.getValid().findDate(false, -1));
+					hr.restart.util.Valid.getValid().findDate(false, danasUpl ? 0 : -1));
 			upls = UplRobno.getDataModule().getTempSet("CDOC RBR NAP DATUM IZNOS",
 			    Condition.equal("CDOC", dockey = raControlDocs.getKey(qdsPojedUlaz, "doku")));
 			upls.open();

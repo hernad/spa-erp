@@ -122,6 +122,8 @@ class rajpIzlazMPTemplate extends JPanel {
 					what_kind_of_dokument);
 			//      if (version==5 && FDI.bPonudaZaKupca) version=6;
 
+			if (what_kind_of_dokument.equalsIgnoreCase("PRD")  && fDI.bPonudaZaKupca) version = 2;
+			
 			if (version == 3 && fDI.bPonudaZaKupca) {
 				version = 2;
 			}
@@ -1719,8 +1721,8 @@ SwingUtilities.invokeLater(new Runnable(){
 
 			jbAgent.setText("...");
 			jrfAgent.setNavButton(jbAgent);
-			jbOPIS.addMouseListener(new MouseAdapter() {
-				public void mousePressed(MouseEvent e) {
+			jbOPIS.addActionListener(new java.awt.event.ActionListener() {
+		       public void actionPerformed(ActionEvent e) {
 					pressOpis();
 				}
 
@@ -1805,10 +1807,10 @@ SwingUtilities.invokeLater(new Runnable(){
 			dtx.setDodatnaNapomena(true);
 
 			if (fDI.vttextzag == null) {
-				dtx.setUP(this.getTopLevelAncestor(), fDI.getMasterSet(),
+				dtx.setUP(fDI.raMaster.getWindow(), fDI.getMasterSet(),
 						fDI.raDetail.getLocation());
 			} else {
-				dtx.setUP(this.getTopLevelAncestor(), fDI.getMasterSet(),
+				dtx.setUP(fDI.raMaster.getWindow(), fDI.getMasterSet(),
 						fDI.raDetail.getLocation(), fDI.vttextzag);
 			}
 

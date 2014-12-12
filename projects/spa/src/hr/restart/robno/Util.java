@@ -17,6 +17,10 @@
 ****************************************************************************/
 package hr.restart.robno;
 
+import hr.restart.baza.Condition;
+import hr.restart.baza.Kampanje;
+import hr.restart.crm.frmKampanje;
+import hr.restart.crm.presKampanje;
 import hr.restart.sisfun.frmParam;
 import hr.restart.util.Aus;
 import hr.restart.util.SanityException;
@@ -341,28 +345,7 @@ public class Util {
       return nul;
     }
   }
-  /**
-   * Rachunanje postotka od iznosa
-   */
-    public java.math.BigDecimal findPostotak6(java.math.BigDecimal Iznos, java.math.BigDecimal Osnovica) {
-      if (Iznos.doubleValue()>0) {
-        return Osnovica.multiply(sto).divide(Iznos, 6, BigDecimal.ROUND_HALF_UP);
-      }
-      else {
-        return nul;
-      }
-    }
-    /**
-     * Rachunanje postotka od iznosa
-     */
-      public java.math.BigDecimal findPostotak7(java.math.BigDecimal Iznos, java.math.BigDecimal Osnovica) {
-        if (Iznos.doubleValue()>0) {
-          return Osnovica.multiply(sto).divide(Iznos, 7, BigDecimal.ROUND_HALF_UP);
-        }
-        else {
-          return nul;
-        }
-      }
+  
 /**
  * Zbrajanje
  */
@@ -725,7 +708,10 @@ public class Util {
  * @return
  */
   java.math.BigDecimal findZC(com.borland.dx.sql.dataset.QueryDataSet qds) {
-    if (dm.getSklad().getString("VRZAL").equals("N")) {
+    if (dm.getSklad().getString("VRZAL").equals("N") ||
+        dm.getSklad().getString("VRZAL").equals("F") ||
+        dm.getSklad().getString("VRZAL").equals("L") ||
+        dm.getSklad().getString("VRZAL").equals("H")) { /* FLH */
       return qds.getBigDecimal("NC");
     }
     else if (dm.getSklad().getString("VRZAL").equals("V")) {
@@ -896,8 +882,11 @@ public class Util {
     String Godina;
     Integer Broj;
     Godina=vl.findYear(ds.getTimestamp("DATDOK"));
-    if (ds.hasColumn("SYSDAT") != null)
-      ds.setTimestamp("SYSDAT", ut.getCurrentDatabaseTime());
+    if (ds.hasColumn("SYSDAT") != null) {
+      if (frmParam.getParam("sisfun", "localTime", "N", "Uzeti lokalno vrijeme za SYSDAT (D,N)").equals("D"))
+        ds.setTimestamp("SYSDAT", vl.getToday());
+      else ds.setTimestamp("SYSDAT", ut.getCurrentDatabaseTime());
+    }
     ds.setString("GOD",Godina);
     Broj=vl.findSeqInteger(ds);
 //    System.out.println(Broj);
@@ -1072,13 +1061,26 @@ public class Util {
   }
   
 
-  public void showDocs(String skl, String sklul, 
-      final String vrdok, int brdok, String god) {
+  public void showDocs(String skl, String sklul, String vrdok, int brdok, String god) {
     showDocs(skl, sklul, vrdok, brdok, god, null);
   }
   
+  public void showDocs(String skl, String sklul, String vrdok, int brdok, String god, String cart) {
+  	showDocs(skl, sklul, vrdok, brdok, god, null, null, cart);
+  }
+  
+  public void showDocs(String skl, String vrdok, Timestamp datfrom, Timestamp datto) {
+  	showDocs(skl, null, vrdok, 0, null, datfrom, datto, null);
+  }
+  
+  public void showDocs(String skl, String sklul, String vrdok, Timestamp datfrom, Timestamp datto) {
+  	showDocs(skl, sklul, vrdok, 0, null, datfrom, datto, null);
+  }
+  
+  
   public void showDocs(String skl, String sklul, 
       final String vrdok, int brdok, String god, 
+      Timestamp datfrom, Timestamp datto, 
       final String cart) {
     System.out.println("skl="+skl+" vrdk="+vrdok+" brdok"+brdok+"god "+god);
 
@@ -1119,25 +1121,97 @@ public class Util {
     }
     DataSet pres = md.getPreSelect().getSelRow();
     pres.setString("VRDOK", vrdok);
-    pres.setTimestamp("DATDOK-from", findFirstDayOfYear(Integer.parseInt(god)));
-    pres.setTimestamp("DATDOK-to", findLastDayOfYear(Integer.parseInt(god)));
-    Runnable afterShow = cart == null ? null :
+    
+    if (god != null) {
+	    pres.setTimestamp("DATDOK-from", findFirstDayOfYear(Integer.parseInt(god)));
+	    pres.setTimestamp("DATDOK-to", findLastDayOfYear(Integer.parseInt(god)));
+	    Runnable afterShow = cart == null ? null :
+	      new Runnable() {
+	        public void run() {
+	          lookupData.getlookupData().raLocate(md.getDetailSet(), "CART", cart);
+	        }
+	      };      
+	    if (TypeDoc.getTypeDoc().isDocMeskla(vrdok)) {
+	      pres.setString("CSKLIZ", skl);
+	      pres.setString("CSKLUL", sklul);
+	      ((jpSelectMeskla) md.getPreSelect()).memorize();
+	      md.showRecord(new String[] {skl, sklul, vrdok, 
+	          god, Integer.toString(brdok)}, afterShow);
+	    } else {
+	      pres.setString("CSKL", skl);
+	      ((jpPreselectDoc) md.getPreSelect()).memorize();
+	      md.showRecord(new String[] {skl, vrdok, god, 
+	          Integer.toString(brdok)}, afterShow);
+	    }
+    } else {
+    	pres.setTimestamp("DATDOK-from", datfrom);
+	    pres.setTimestamp("DATDOK-to", datto);
+	    md.getPreSelect().setUserSelected(false);
+	    if (TypeDoc.getTypeDoc().isDocMeskla(vrdok)) {
+	      pres.setString("CSKLIZ", skl);
+	      pres.setString("CSKLUL", sklul);
+	      ((jpSelectMeskla) md.getPreSelect()).memorize();
+	    } else {
+	      pres.setString("CSKL", skl);
+	      ((jpPreselectDoc) md.getPreSelect()).memorize();
+	    }
+	    try {
+				md.showRecord(null,  null, false, null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    }
+  }
+  
+  public void showKampanja(int uid) {
+    showKampanja(uid, -1);
+  }
+  
+  public void showKampanja(int uid, final int stavka) {
+    DataSet kamp = Kampanje.getDataModule().getTempSet(Condition.equal("UID", uid));
+    kamp.open();
+    
+    if (kamp.rowCount() == 0) {
+      JOptionPane.showMessageDialog(null, "Ne postoji tražena kampanja!",
+          "Prikaz kampanje", JOptionPane.WARNING_MESSAGE);
+      return;
+    }
+    
+    raProcess.runChild(new Runnable() {
+      public void run() {
+        frmKampanje fk = (frmKampanje) raLoader.load("hr.restart.crm.frmKampanje");
+        presKampanje pres = (presKampanje) raLoader.load("hr.restart.crm.presKampanje");
+        fk.setPreSelect(pres, "Kampanje");
+        raProcess.yield(fk);
+      }
+    });
+    
+    final frmKampanje fk = (frmKampanje) raProcess.getReturnValue();
+    if (fk == null) {
+      JOptionPane.showMessageDialog(null, "Greška kod otvaranja kampanje!",
+          "Prikaz kampanje", JOptionPane.WARNING_MESSAGE);
+      return;
+    }
+    DataSet pres = fk.getPreSelect().getSelRow();
+    pres.setString("CORG",  kamp.getString("CORG"));
+    pres.setTimestamp("DATPOC-from", kamp.getTimestamp("DATPOC"));
+    pres.setTimestamp("DATPOC-to", kamp.getTimestamp("DATPOC"));
+    ((presKampanje) fk.getPreSelect()).jcbAktiv.setSelected(false);
+    ((presKampanje) fk.getPreSelect()).setUserSelected(false);
+    
+    Runnable afterShow = stavka < 0 ? null :
       new Runnable() {
         public void run() {
-          lookupData.getlookupData().raLocate(md.getDetailSet(), "CART", cart);
+          lookupData.getlookupData().raLocate(fk.getDetailSet(), "UID", Integer.toString(stavka));
         }
-      };      
-    if (TypeDoc.getTypeDoc().isDocMeskla(vrdok)) {
-      pres.setString("CSKLIZ", skl);
-      pres.setString("CSKLUL", sklul);
-      ((jpSelectMeskla) md.getPreSelect()).memorize();
-      md.showRecord(new String[] {skl, sklul, vrdok, 
-          god, Integer.toString(brdok)}, afterShow);
-    } else {
-      pres.setString("CSKL", skl);
-      ((jpPreselectDoc) md.getPreSelect()).memorize();
-      md.showRecord(new String[] {skl, vrdok, god, 
-          Integer.toString(brdok)}, afterShow);
+      };    
+    
+    try {
+      fk.showRecord(new String[] {"UID"}, new String[] {Integer.toString(uid)}, true, afterShow);
+    } catch (Exception e) {
+      e.printStackTrace();
+      JOptionPane.showMessageDialog(null, "Greška kod otvaranja kampanje!",
+          "Prikaz kampanje", JOptionPane.WARNING_MESSAGE);
     }
   }
   

@@ -212,7 +212,7 @@ public class raKalkulBDDoc extends raTopCalcUtil {
   }
 
   private void kalkFinancPartRikverc(){
-    if (TD.isDocFinanc(what_kind_of_document)) {
+    if (TD.isDocFinanc(what_kind_of_document) || (raDOS.dosfc && what_kind_of_document.equals("DOS"))) {
       if (stavka.kol.compareTo(Nula)!=0) {
         stavka.ineto= stavka.kol.multiply(stavka.fc).setScale(2, BigDecimal.ROUND_HALF_UP);   // fixed 2 (ab.f)
         stavka.fmc = stavka.iprodsp.divide(stavka.kol,2,BigDecimal.ROUND_HALF_UP);
@@ -247,7 +247,7 @@ public class raKalkulBDDoc extends raTopCalcUtil {
 
   private BigDecimal porezizbruta(BigDecimal bruto,BigDecimal posto){  // fixed 2 (ab.f)
     if (posto.compareTo(Nula)!=0) {
-      return bruto.subtract(bruto.multiply(Sto.divide(Sto.add(posto),6,BigDecimal.ROUND_HALF_UP)).setScale(2, BigDecimal.ROUND_HALF_UP));
+      return bruto.subtract(bruto.movePointRight(2).divide(Sto.add(posto),2,BigDecimal.ROUND_HALF_UP));
     }
       return Aus.zero2;
   }
@@ -261,9 +261,16 @@ public class raKalkulBDDoc extends raTopCalcUtil {
   private void kalkFinancMalIznos() {
 
     stavka.iprodsp = stavka.kol.multiply(stavka.fmc).setScale(2, BigDecimal.ROUND_HALF_UP); // fixed 2 (ab.f)
-    stavka.por1= porezizbruta(stavka.iprodsp,stavka.ppor1);
+    stavka.uipor = porezizbruta(stavka.iprodsp, stavka.ppor1.add(stavka.ppor2).add(stavka.ppor3));
+    stavka.iprodbp = stavka.iprodsp.subtract(stavka.uipor);
+    
+    stavka.por1 = stavka.iprodbp.multiply(stavka.ppor1).divide(Sto,2,BigDecimal.ROUND_HALF_UP);
+    stavka.por2 = stavka.iprodbp.multiply(stavka.ppor2).divide(Sto,2,BigDecimal.ROUND_HALF_UP);
+    stavka.por3 = stavka.iprodbp.multiply(stavka.ppor3).divide(Sto,2,BigDecimal.ROUND_HALF_UP);
+    
+    /*stavka.por1= porezizbruta(stavka.iprodsp,stavka.ppor1);
     stavka.por2= porezizbruta(stavka.iprodsp,stavka.ppor2);
-    stavka.por3= porezizbruta(stavka.iprodsp,stavka.ppor3);
+    stavka.por3= porezizbruta(stavka.iprodsp,stavka.ppor3);*/
     stavka.uipor = stavka.por1.add(stavka.por2).add(stavka.por3);  // fixed 2 (ab.f)
     stavka.iprodbp = stavka.iprodsp.subtract(stavka.uipor); 
     if (stavka.uprab.compareTo(Nula)!=0) {
@@ -288,7 +295,7 @@ public class raKalkulBDDoc extends raTopCalcUtil {
 
   public void kalkFinancPart(){
 
-    if (TD.isDocFinanc(what_kind_of_document)) {
+    if (TD.isDocFinanc(what_kind_of_document) || (raDOS.dosfc && what_kind_of_document.equals("DOS"))) {
 //_NETTO");
       stavka.ineto= stavka.kol.multiply(stavka.fc).setScale(2, BigDecimal.ROUND_HALF_UP);  // fixed 2 (ab.f)
 //_RABAT

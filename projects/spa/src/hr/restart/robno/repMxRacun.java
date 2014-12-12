@@ -92,7 +92,7 @@ public class repMxRacun extends mxReport {
     printerRM.first();
     
     oib = frmParam.getParam("robno", "oibMode", "MB", 
-    "Staviti matiï¿½ni broj (MB) ili OIB?");
+    "Staviti matièni broj (MB) ili OIB?");
     
     fiskForm = frmParam.getParam("robno", "fiskForm", "[FBR]-[FPP]-[FNU]",
       "Format fiskalnog broja izlaznog dokumenta na ispisu");
@@ -136,6 +136,9 @@ public class repMxRacun extends mxReport {
     sumaIneto = Aus.zero2;
     sumaMC = Aus.zero2;
     popustMC = Aus.zero2;
+    String knjig = hr.restart.zapod.OrgStr.getKNJCORG(false);
+    String r1 = frmParam.getParam("robno", "izlazObr"+knjig,
+        "R-1", "Vrsta obrasca ispisa raèuna za knjigovodstvo "+knjig);
     getDatum();
     String param = Aut.getAut().getIzlazCART();
 
@@ -202,10 +205,10 @@ public class repMxRacun extends mxReport {
           getPorezRekapitulacija()+getNP()+"<$newline$><$newline$>" + getNapomenaOpis() +addLines()});
     }
 
-    this.setHeader(new String[]{"                                                                                                                                                         "+"<$DoubleWidthON$>"+/*"R-1"+*/"<$DoubleWidthOFF$>"+"<$newline$>"+
+    this.setHeader(new String[]{"                                                                                                                                                         "+"<$DoubleWidthON$>"+r1+/*"R-1"+*/"<$DoubleWidthOFF$>"+"<$newline$>"+
                    "<$Reset$><$CondensedON$>"+getKupac()+getRacun()+getSkladiste()+
                    "----------------------------------------------------------------------------------------------------------------------------------------"+"<$newline$>"+
-                   "R.B."+" ï¿½ifra               "+" Naziv artikla/usluge                "+"     Koliï¿½ina"+"     JM"+"  Popust (%)"+"  Porez (%)"+"        Cijena"+"            Iznos"+"<$newline$>"+
+                   "R.B."+" Šifra               "+" Naziv artikla/usluge                "+"     Kolièina"+"     JM"+"  Popust (%)"+"  Porez (%)"+"        Cijena"+"            Iznos"+"<$newline$>"+
         "----------------------------------------------------------------------------------------------------------------------------------------"});
     this.setPgHeader("<$Reset$>"+Util.getUtil().getDefaultMxHeader()+
                      "");
@@ -248,9 +251,13 @@ public class repMxRacun extends mxReport {
     ds.open();
     ds.first();
     String kupacTemp=ds.getInt("CKUPAC")+"";
+    String knjig = hr.restart.zapod.OrgStr.getKNJCORG(false);
+    String r1 = frmParam.getParam("robno", "izlazObr"+knjig,
+        "R-1", "Vrsta obrasca ispisa raèuna za knjigovodstvo "+knjig);
+    
     if(!kupacTemp.equals("0") )
     {
-      racunString = "R-1 RAï¿½UN";
+      racunString = r1+" RAÈUN";
       brRedKupac = 1;
       ld.raLocate(dm.getKupci(), new String []{"CKUPAC"}, new String []{kupacTemp});
       String firstRow;
@@ -293,14 +300,14 @@ public class repMxRacun extends mxReport {
       }
       return firstRow+secondRow+thirdRow+fourthRow;
     } else {
-      racunString = "RAï¿½UN";
+      racunString = "RAÈUN";
     }
     return "";
   }
 
 //  private String getRekapPl()
 //  {
-//    return "REKAPITULACIJA PLAï¿½ANJA";
+//    return "REKAPITULACIJA PLAÆANJA";
 //  }
 
   protected String getSkladiste()
@@ -318,7 +325,7 @@ public class repMxRacun extends mxReport {
   {
     ds.open();
     ds.first();
-    String vrati = /*"RAï¿½UN"*/racunString+" br.  "+ds.getString("VRDOK")+"-"+ds.getString("CSKL")+"/"+ds.getString("GOD")+"-"+ds.getInt("BRDOK");
+    String vrati = /*"RAÈUN"*/racunString+" br.  "+ds.getString("VRDOK")+"-"+ds.getString("CSKL")+"/"+ds.getString("GOD")+"-"+ds.getInt("BRDOK");
     
     if (ds.getString("FOK").equalsIgnoreCase("D")) {
       vrati = racunString+" br.  " + Aus.formatBroj(ds, fiskForm);
@@ -493,7 +500,7 @@ public class repMxRacun extends mxReport {
       rata.add(formatIznos(sumaSP,48-nacinPlacanja.get(0).toString().length()));
       datumNaplate.add("");
     }
-    np="              REKAPITULACIJA PLAï¿½ANJA\n";
+    np="              REKAPITULACIJA PLAÆANJA\n";
     for(int i=0;i<nacinPlacanja.size();i++)
     {
       np += nacinPlacanja.get(i)+myFormatStr(rata.get(i).toString(),50-nacinPlacanja.get(i).toString().length() )+
@@ -517,16 +524,11 @@ public class repMxRacun extends mxReport {
   }
   
   protected String getZKI() {
-
-    /* TODO: hernad ractype
     try {
       return presBlag.getFis(ds).generateZKI(raIzlazTemplate.getRacType(ds));
     } catch (Exception e) {
       return "";
     }
-    */
-
-    return "";
   }
   
   protected String getJIR() {

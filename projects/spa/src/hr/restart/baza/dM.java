@@ -15,10 +15,8 @@
 **   limitations under the License.
 **
 ****************************************************************************/
-
 package hr.restart.baza;
 
-import hr.restart.robno.raSalepodTrans;
 import hr.restart.robno.raVart;
 import hr.restart.sisfun.TextFile;
 import hr.restart.sisfun.frmParam;
@@ -64,7 +62,6 @@ public class dM implements DataModule {
   private String insertStatement = null;
 
   public static boolean modulesLoaded = false;
-
 // Parametri iz fajla
   String conURL;// = paramReader.VratiSadrzajTaga("url");
   String conUSER;// = paramReader.VratiSadrzajTaga("user");
@@ -572,8 +569,10 @@ public class dM implements DataModule {
       while ((line = tf.in()) != null) {
         line = line.trim();
         tabledef.add(line);
-        if (line.startsWith("$")) 
-          tabledefStart.put(line.substring(1).toUpperCase(), new Integer(tabledef.size()));
+        if (line.startsWith("$")) {
+          Object old = tabledefStart.put(line.substring(1).toUpperCase(), new Integer(tabledef.size()));
+          if (old != null) System.out.println("Duplicate "+line.substring(1).toUpperCase());
+        }
       }
       tf.close();
       is.close();
@@ -2419,6 +2418,18 @@ public class dM implements DataModule {
   public com.borland.dx.sql.dataset.QueryDataSet getArtrans() {
     return Artrans.getDataModule().getQueryDataSet();
   }
+  
+  public QueryDataSet getKlijentStat() {
+    return KlijentStat.getDataModule().getQueryDataSet();
+  }
+  
+  public QueryDataSet getSegmentacija() {
+    return Segmentacija.getDataModule().getQueryDataSet();
+  }
+  
+  public QueryDataSet getKanali() {
+    return Kanali.getDataModule().getQueryDataSet();
+  }
 
   public void loadModules() {
     if (modulesLoaded) return;
@@ -2468,16 +2479,19 @@ public class dM implements DataModule {
     } catch (Exception e) {}
     return false;
   }
+  
+  protected static HashMap moduleNames = new HashMap(400);
 
   public static QueryDataSet getDataByName(String name) {
-    try {
+  	QueryDataSet ret = (QueryDataSet) moduleNames.get(name);
+  	if (ret == null) 
+  	try {
+  		if (!name.startsWith("get")) name = "get" + name;
       Method m = dM.class.getMethod(name, null);
-      if (name.startsWith("get") && m.getReturnType().isAssignableFrom(QueryDataSet.class))
-        return (QueryDataSet) m.invoke(getDataModule(), null);
+      if (m.getReturnType().isAssignableFrom(QueryDataSet.class))
+      	moduleNames.put(name.substring(3), ret = (QueryDataSet) m.invoke(getDataModule(), null));
     } catch (Exception e) {}
-    return null;
+    return ret;
   }
-  
-  
 }
 

@@ -429,12 +429,13 @@ public class raRPSectionHeaderROT extends raReportSection {
     String knjig = hr.restart.zapod.OrgStr.getKNJCORG(false);
     String r1 = frmParam.getParam("robno", "izlazObr"+knjig,
         "R-1", "Vrsta obrasca ispisa raèuna za knjigovodstvo "+knjig);
-    LabelR1.setCaption(r1); 
+    LabelR1.setCaption(r1);
+    if (r1.length() == 0) LabelObrazac.setCaption("");
     
     if (frmParam.getParam("robno","ispisPJ","D", "Ispis poslovne jedinice na ROT-u " +
             "(D-u adresi, I-kao isporuka, O-na oba mjesta, N-bez P.J.)").equalsIgnoreCase("I") ||
         frmParam.getParam("robno","ispisPJ").equalsIgnoreCase("O"))
-      LabelIsporuka.setCaption("Isporuka");  //LabelIsporuka.setCaption("");
+      LabelIsporuka.restoreDefault(ep.CAPTION);  //LabelIsporuka.setCaption("");
     else LabelIsporuka.setCaption("");
     
     String now = hr.restart.sisfun.frmParam.getParam("robno", "ispProzor");

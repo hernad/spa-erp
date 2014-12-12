@@ -181,7 +181,6 @@ public class raROT extends raIzlazTemplate  {
     MP.panelBasicExt.jlrCNACPL.setRaDataSet(dm.getNacplB());
         
     stozbroiti();    
-    checkLimit = hr.restart.sisfun.frmParam.getParam("robno","checkLimit","D","Provjera limita kreditiranja").equalsIgnoreCase("D");
     
     if (frmParam.getParam("robno", "ROTzarada", "D",
         "Izraèunati stvarnu zaradu na ROT-u (D,N)").equals("D")) {
@@ -305,6 +304,7 @@ public class raROT extends raIzlazTemplate  {
      if (hr.restart.sisfun.frmParam.getParam("robno","IspisGetroROTs","N","Stavke ispisa sadržavaju i ispis za Getro",true).equals("D")){
        raMaster.getRepRunner().addReport("hr.restart.robno.repRacuniGetro","hr.restart.robno.repRacuniPnP","RacGetro","Raèun za Getro");
      }
+     raMaster.getRepRunner().addReport("hr.restart.robno.repInvoiceNew","hr.restart.robno.repIzlazni","InvoiceNew","Invoice");
      raMaster.getRepRunner().addReport("hr.restart.robno.repMxROT","Matri\u010Dni ispis ra\u010Duna");
      raMaster.getRepRunner().addReport("hr.restart.robno.repMxROTPop","Matri\u010Dni ispis ra\u010Duna s više popusta");
      
@@ -367,6 +367,7 @@ System.err.println("getMasterSet().getInt(FBR) = "+getMasterSet().getInt("FBR"))
      if (hr.restart.sisfun.frmParam.getParam("robno","IspisGetroROTs","N","Stavke ispisa sadržavaju i ispis za Getro",true).equals("D")){
        raDetail.getRepRunner().addReport("hr.restart.robno.repRacuniGetro","hr.restart.robno.repRacuniPnP","RacGetro","Raèun za Getro");
      }
+     raDetail.getRepRunner().addReport("hr.restart.robno.repInvoiceNew","hr.restart.robno.repIzlazni","InvoiceNew","Invoice");
      raDetail.getRepRunner().addReport("hr.restart.robno.repMxROT","Matri\u010Dni ispis ra\u010Duna");
      raDetail.getRepRunner().addReport("hr.restart.robno.repMxROTPop","Matri\u010Dni ispis ra\u010Duna s više popusta");
 //     if (repFISBIH.isFISBIH()) raDetail.getRepRunner().addReport("hr.restart.robno.repFISBIHRN","FISKALNI ispis ra\u010Duna");
@@ -625,48 +626,7 @@ System.err.println("getMasterSet().getInt(FBR) = "+getMasterSet().getInt("FBR"))
       setDetailObr(true, new QueryDataSet[] {ulaz, AST.gettrenSTANJE()});
     }
   }
-  
-  public boolean ValidacijaLimit(java.math.BigDecimal oldvalue,
-      java.math.BigDecimal newvalue) {
-  //if (checkLimit) {
-      lD.raLocate(dm.getPartneri(), new String[] { "CPAR" },
-              new String[] { String
-                      .valueOf(getMasterSet().getInt("CPAR")) });
-      if (dm.getPartneri().getString("STATUS").equalsIgnoreCase("C")) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Partneru je zabranjeno fakturiranje!", "Greška", JOptionPane.ERROR_MESSAGE);
-        return false;
-      }
 
-      java.math.BigDecimal limit = dm.getPartneri().getBigDecimal(
-              "LIMKRED");
-      if (limit.doubleValue() != 0 && dm.getPartneri().getString("STATUS").equalsIgnoreCase("B")) {
-          java.math.BigDecimal saldo = getSaldo();
-          if (!checkLimit(limit, saldo, oldvalue, newvalue)) {
-              javax.swing.JOptionPane.showMessageDialog(null,
-                      new raMultiLineMessage("Saldo dugovanja partnera "
-                              + dm.getPartneri().getString("NAZPAR")
-                              + " iznosi "
-                              + calculateSaldo(saldo, oldvalue, newvalue)
-                                      .setScale(2) + " kuna i prelazi "
-                              + "limit kreditiranja koji iznosi "
-                              + dm.getPartneri().getBigDecimal("LIMKRED")
-                              + " kuna.!", JLabel.CENTER, 80), "Greška",
-                      javax.swing.JOptionPane.ERROR_MESSAGE);
-              return false;
-          }
-      }
-  //}
-  return true;
-  }
-  
-  private BigDecimal calculateSaldo(java.math.BigDecimal saldo,
-      java.math.BigDecimal oldvalue, java.math.BigDecimal newvalue) {
-
-  saldo = saldo.subtract(oldvalue);
-  saldo = saldo.add(newvalue);
-  return saldo;
-  }
- 
  public boolean DodatnaValidacijaDetail() {
 
    if (val.isEmpty(DP.jtfKOL)) return false;
@@ -755,7 +715,7 @@ System.out.println("dodatkic");
       }
     }
 
-   if (statpar.equalsIgnoreCase("B")) {
+   if (statpar.equalsIgnoreCase("B") && !checkLimit) {
      if (javax.swing.JOptionPane.showConfirmDialog(null,
        "Partner je oznaèen za fakturiranje uz provjeru. Da li da nastavim s dokumentom ?","Greška",javax.swing.JOptionPane.OK_CANCEL_OPTION,
        javax.swing.JOptionPane.QUESTION_MESSAGE)==javax.swing.JOptionPane.OK_OPTION){
@@ -765,7 +725,7 @@ System.out.println("dodatkic");
        MP.panelBasic.jrfCPAR.requestFocus();
        return false;
      }
-   } else if (statpar.equalsIgnoreCase("C")) {
+   } else if (statpar.equalsIgnoreCase("C") && !checkLimit) {
 
      javax.swing.JOptionPane.showMessageDialog(null,
        "Partner ima oznaku zabrane fakturiranja !","Obavijest",javax.swing.JOptionPane.INFORMATION_MESSAGE);

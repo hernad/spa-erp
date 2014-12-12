@@ -525,9 +525,11 @@ System.out.println("key4del "+ key4del);
     super.Funkcija_ispisa_detail();
   }
 
-  public String getNaTemelju() {
-    if (getMasterSet().getString("OPIS").equalsIgnoreCase("")) return "";
-    return jpMaster.jp1.rcbUvjet.getSelectedItem() + " " + getMasterSet().getString("OPIS") + " izvolite " +
+  public String getNaTemelju() {    
+    if (getMasterSet().getString("OPIS").length() == 0) return "";
+    if (jpMaster.jp1.rcbUvjet.getSelectedItem().toString().length()==0) 
+      return getMasterSet().getString("OPIS");
+    return jpMaster.jp1.rcbUvjet.getSelectedItem() + " " + getMasterSet().getString("OPIS") + " " +
         jpMaster.jp1.rcbAkcija.getSelectedItem();
   }
 
@@ -609,6 +611,18 @@ System.out.println("key4del "+ key4del);
   void afterKOL() {
     getDetailSet().setBigDecimal("INAB", rut.multiValue(getDetailSet().getBigDecimal("NC"),
         getDetailSet().getBigDecimal("KOL")));
+    
+    if (getDetailSet().getBigDecimal("KOL1").signum() == 0 && 
+        ld.raLocate(dm.getArtikli(), "CART", Integer.toString(getDetailSet().getInt("CART")))) {
+      
+      if (dm.getArtikli().getBigDecimal("BRJED").signum() != 0) {
+        getDetailSet().setBigDecimal("KOL1", getDetailSet().getBigDecimal("KOL").
+            divide(dm.getArtikli().getBigDecimal("BRJED"), 3, BigDecimal.ROUND_HALF_UP));
+      } else {
+        getDetailSet().setBigDecimal("KOL1", Aus.zero3);
+      }
+    }
+
     afterAll();
   }
 
@@ -632,18 +646,20 @@ System.out.println("key4del "+ key4del);
   void afterVc() {
 	    getDetailSet().setBigDecimal("IBP", rut.multiValue(getDetailSet().getBigDecimal("VC"),
 	            getDetailSet().getBigDecimal("KOL")));
-	    getDetailSet().setBigDecimal("UPRAB", rut.negateValue(rut.sto, rut.findPostotak(getDetailSet().getBigDecimal("NC"), getDetailSet().getBigDecimal("VC"))));
+	    getDetailSet().setBigDecimal("UPRAB", rut.negateValue(rut.sto, rut.findPostotak(getDetailSet().getBigDecimal("INAB"), getDetailSet().getBigDecimal("IBP"))));
   }
   void afterIvc() {
 	    getDetailSet().setBigDecimal("VC", rut.divideValue(getDetailSet().getBigDecimal("IBP"),
 	            getDetailSet().getBigDecimal("KOL")));
-	    getDetailSet().setBigDecimal("UPRAB", rut.negateValue(rut.sto, rut.findPostotak(getDetailSet().getBigDecimal("NC"), getDetailSet().getBigDecimal("VC"))));
+	    getDetailSet().setBigDecimal("UPRAB", rut.negateValue(rut.sto, rut.findPostotak(getDetailSet().getBigDecimal("INAB"), getDetailSet().getBigDecimal("IBP"))));
 	  }
   void afterAll() {
-	getDetailSet().setBigDecimal("VC", findMxFormula(getDetailSet().getBigDecimal("NC"),
+	getDetailSet().setBigDecimal("IBP", findMxFormula(getDetailSet().getBigDecimal("INAB"),
 	            getDetailSet().getBigDecimal("UPRAB")));
-    getDetailSet().setBigDecimal("IBP", rut.multiValue(getDetailSet().getBigDecimal("VC"),
-            getDetailSet().getBigDecimal("KOL")));
+	getDetailSet().setBigDecimal("VC", rut.divideValue(getDetailSet().getBigDecimal("IBP"),
+        getDetailSet().getBigDecimal("KOL")));
+    /*getDetailSet().setBigDecimal("IBP", rut.multiValue(getDetailSet().getBigDecimal("VC"),
+            getDetailSet().getBigDecimal("KOL")));*/
 	  
   }
   private BigDecimal findMxFormula(BigDecimal osnovica, BigDecimal posto) {
@@ -678,11 +694,13 @@ System.out.println("key4del "+ key4del);
     this.raMaster.getRepRunner().addReport("hr.restart.robno.repNarPop", "hr.restart.robno.repNarDobSource", "NarPop", "Narudžbe dobavljaèu s popustom");
     this.raMaster.getRepRunner().addReport("hr.restart.robno.repNarDobV", "hr.restart.robno.repNarDobSource", "NarDob", "Narudžbe dobavljaèu u valuti");
     this.raMaster.getRepRunner().addReport("hr.restart.robno.repNarDobKol", "hr.restart.robno.repNarDobSource", "NarDobKol", "Narudžbe dobavljaèu - kolièinska");
+    this.raMaster.getRepRunner().addReport("hr.restart.robno.repNarDobKolTwo", "hr.restart.robno.repNarDobSource", "NarDobKolTwo", "Narudžbe dobavljaèu - dvije kolièine");
     
     this.raDetail.getRepRunner().addReport("hr.restart.robno.repNarDob", "hr.restart.robno.repNarDobSource", "NarDob", "Narudžbe dobavljaèu");
     this.raDetail.getRepRunner().addReport("hr.restart.robno.repNarPop", "hr.restart.robno.repNarDobSource", "NarPop", "Narudžbe dobavljaèu s popustom");
     this.raDetail.getRepRunner().addReport("hr.restart.robno.repNarDobV", "hr.restart.robno.repNarDobSource", "NarDob", "Narudžbe dobavljaèu u valuti");
     this.raDetail.getRepRunner().addReport("hr.restart.robno.repNarDobKol", "hr.restart.robno.repNarDobSource", "NarDobKol", "Narudžbe dobavljaèu - kolièinska");
+    this.raDetail.getRepRunner().addReport("hr.restart.robno.repNarDobKolTwo", "hr.restart.robno.repNarDobSource", "NarDobKolTwo", "Narudžbe dobavljaèu - dvije kolièine");
   }
 	public boolean updateTxt() {
 		if (raDetail.getMode() == 'N') {

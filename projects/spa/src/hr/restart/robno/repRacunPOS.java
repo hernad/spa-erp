@@ -72,23 +72,23 @@ public class repRacunPOS extends mxReport {
     String wdt = frmParam.getParam("pos", "sirPOSpr", "41", 
             "Sirina pos ispisa. Preporuka 39 - 46", true);
     ispSif = frmParam.getParam("pos", "ispSifra", "N",
-        "Ispis ï¿½ifre na raï¿½unima POS-a (D,N)", true).equalsIgnoreCase("D");
+        "Ispis šifre na raèunima POS-a (D,N)", true).equalsIgnoreCase("D");
     oneRow = frmParam.getParam("pos", "oneRow", "N",
-        "Ispis raï¿½una u jednoj liniji (D,N)").equalsIgnoreCase("D");
+        "Ispis raèuna u jednoj liniji (D,N)").equalsIgnoreCase("D");
     uk = frmParam.getParam("pos", "iznosStavka", "UKUPNO",
-    "Kolona iznosa koja se prikazuje na pos raï¿½unu (UKUPNO,IZNOS,NETO)");
+    "Kolona iznosa koja se prikazuje na pos raèunu (UKUPNO,IZNOS,NETO)");
     pop = "D".equalsIgnoreCase(frmParam.getParam("pos", 
-    "popustPrikaz", "N", "Prikaz popusta na pos raï¿½unima (D,N)"));
+    "popustPrikaz", "N", "Prikaz popusta na pos raèunima (D,N)"));
     cash = "D".equalsIgnoreCase(frmParam.getParam("pos",
-      "autoCash", "D", "Otvoriti blagajnu kod ispisa raï¿½una (D,N)"));
+      "autoCash", "D", "Otvoriti blagajnu kod ispisa raèuna (D,N)"));
     oib = frmParam.getParam("robno", "oibMode", "MB", 
-          "Staviti matiï¿½ni broj (MB) ili OIB?");
+          "Staviti matièni broj (MB) ili OIB?");
     isnac = "D".equalsIgnoreCase(frmParam.getParam("pos", "ispisNacpl", 
-        "D", "Ispis naï¿½ina plaï¿½anja na POS raï¿½unu (D,N)"));
+        "D", "Ispis naèina plaæanja na POS raèunu (D,N)"));
     pov = Aus.getDecNumber(frmParam.getParam("robno", "iznosPov", "0.5",
     "Iznos povratne naknade"));
     specForm = frmParam.getParam("pos", "formatBroj", "",
-        "Format broja raï¿½una na POS-u");
+        "Format broja raèuna na POS-u");
     pcorg = frmParam.getParam("pos", "posCorg", "",
       "OJ za logotip na POS-u");
     dw = getParamStr(frmParam.getParam("pos", "doubleWidth", "\\u000E", "Komanda za dvostruki ispis", true));
@@ -127,6 +127,19 @@ public class repRacunPOS extends mxReport {
     setRM(rm);
   }
 
+  private String breakLines(String src, boolean center) {
+    if (!center)
+      return new VarStr(src).append('|').replaceAll("|", "<$newline$>").toString();
+    
+    String[] parts = new VarStr(src).split('|');
+    VarStr buf = new VarStr();
+    for (int i = 0; i < parts.length; i++)
+      if (parts[i].length() == 0) buf.append("<$newline$>");
+      else buf.append("<#").append(parts[i]).append('|').
+        append(width).append("|center#><$newline$>");
+    return buf.toString();
+  }
+  
   private void makeIspis(){
      dm.getLogotipovi().open();
      
@@ -134,7 +147,7 @@ public class repRacunPOS extends mxReport {
      
      
      
-     String kh = getNazivSplit(dm.getLogotipovi().getString("NAZIVLOG"))+
+     String kh = breakLines(dm.getLogotipovi().getString("NAZIVLOG"), true)+
      "<#"+dm.getLogotipovi().getString("ADRESA")+ ", " +String.valueOf(dm.getLogotipovi().getInt("PBR"))+" "+dm.getLogotipovi().getString("MJESTO") +"|"+width+"|center#><$newline$>"+
      "<#OIB "+dm.getLogotipovi().getString("OIB")+"|"+width+"|center#><$newline$>"+ getPhones();
      
@@ -147,7 +160,7 @@ public class repRacunPOS extends mxReport {
      String ph = kh;
      if (!sks.getString("CORG").equals(OrgStr.getKNJCORG(false)) &&
          lD.raLocate(dm.getLogotipovi(), "CORG", sks.getString("CORG"))) {
-       ph = getNazivSplit(dm.getLogotipovi().getString("NAZIVLOG"))+
+       ph = breakLines(dm.getLogotipovi().getString("NAZIVLOG"), true)+
        "<#"+dm.getLogotipovi().getString("ADRESA")+ ", " +String.valueOf(dm.getLogotipovi().getInt("PBR"))+
        " "+dm.getLogotipovi().getString("MJESTO") +"|"+width+"|center#><$newline$>"+ 
        (dm.getLogotipovi().getString("OIB").length()== 0 ? "" : "<#OIB "+
@@ -160,24 +173,25 @@ public class repRacunPOS extends mxReport {
      ru.setDataSet(master);
      
      String prep = frmParam.getParam("pos", "addHeader", "",
-         "Dodatni header ispred POS raï¿½una", true);
+         "Dodatni header ispred POS raèuna", true);
      
-     if (prep.length() > 0) {
-       String[] parts = new VarStr(prep).split('|');
-       VarStr buf = new VarStr();
-       for (int i = 0; i < parts.length; i++)
-         buf.append("<#").append(parts[i]).append('|').
-           append(width).append("|center#><$newline$>");
-       prep = buf.toString();
-     }
+     if (prep.length() > 0)
+       prep = breakLines(prep, true);
+     
+     String post = frmParam.getParam("pos", "addHeaderAfter", "", 
+           "Dodatni header iza zaglavlja", true);
+     if (post.length() > 0) 
+       post = breakLines(post, true);
      
      String th = frmParam.getParam("pos", "posHeader", "",
          "POS header (1 - poslovnica, knjigovodstvo  2 - obrnuto, ostalo - samo knjigovodstvo)");
-     String header = prep + kh;
+     String header = kh;
      if (th.equals("1") && !kh.equals(ph))
        header = ph + kh;
      if (th.equals("2") && !kh.equals(ph))
        header = kh + ph;
+     
+     header = prep + header + post;
 
      this.setPgHeader(
          (cash ? "\u0007" : "")+header+
@@ -200,7 +214,7 @@ public class repRacunPOS extends mxReport {
 //         "<#POPUST |26|left#> <#"+master.getBigDecimal("UIPOPUST1").add(master.getBigDecimal("UIPOPUST2"))+"|15|right#><$newline$>"+
 //         "<#PLATITI |26|left#> <#"+master.getBigDecimal("NETO")+"|15|right#><$newline$>"+   //   %sum(IZNOS|15|right)%
          (isnac ? (oneRow ? "" : doubleLineSep + "<$newline$>")+
-         /*"NAï¿½IN PLAï¿½ANJA - "+*/getNacinPlacanja(master.getInt("BRDOK"),master.getString("CSKL")) : "")+//"<$newline$>"+
+         /*"NAÈIN PLAÆANJA - "+*/getNacinPlacanja(master.getInt("BRDOK"),master.getString("CSKL")) : "")+//"<$newline$>"+
          (oneRow ? "" : doubleLineSep)+"<$newline$>"+
          porezString+
          "<$newline$>"+ getPotpis_i_MP(master.getInt("CKUPAC")) +/*"<$newline$>"+ */
@@ -210,13 +224,20 @@ public class repRacunPOS extends mxReport {
 //         "<$newline$>"+
          getBlagajnaOperater(prodMjesto,user)+"<$newline$>"+
          (presBlag.isFiskal(master) && master.getString("FOK").equals("D") ? getFisk() : "") +
-         "<$newline$><$newline$><$newline$>"+
+         getLastPadding() +
          //"\u001B\u0064\u0000"//+"\u0007" //"\07"
          getLastEscapeString()
     );
   }
   
-  private String getNazivSplit(String naziv) {
+  private String getLastPadding() {
+    int num = Aus.getAnyNumber(frmParam.getParam("pos", "paddLines", "6", "Broj praznih linija na kraju POS raèuna"));
+    VarStr padd = new VarStr();
+    for (int i = 0; i < num; i++) padd.append("<$newline$>");
+    return padd.toString();
+  }
+  
+ /* private String getNazivSplit(String naziv) {
     if (naziv.indexOf('|') <= 0) return    
       "<#"+naziv+"|"+width+"|center#><$newline$>";
     
@@ -226,32 +247,24 @@ public class repRacunPOS extends mxReport {
       ret = ret + "<#"+lines[i]+"|"+width+"|center#><$newline$>";
     
     return ret;
-  }
+  }*/
   
   private String getFisk() {
-
-   /* TODO: hernad fiskalizacija hr
-
     System.out.println("fisk string");
     //System.out.println(frmMasterBlagajna.getInstance().rtype);
     return "ZKI: " + presBlag.getFis("GRC", master.getString("CSKL")).generateZKI(frmMasterBlagajna.getInstance().getRacType(master)) + "<$newline$>" +
       "JIR: " + master.getString("JIR") + "<$newline$><$newline$>";
-
-   */
-
-    return "";
-
   }
   
   private String getDetailHeader() {
     if (oneRow) return "NAZIV" + Aus.spc(width-24) +  "KOL  CIJENA   IZNOS<$newline$>";
     return (!ispSif ? "RBR  NAZIV<$newline$>" :
-      Aut.getAut().getCARTdependable("RBR ï¿½IFRA   NAZIV<$newline$>",
+      Aut.getAut().getCARTdependable("RBR ŠIFRA   NAZIV<$newline$>",
                                      "RBR OZNAKA        NAZIV<$newline$>",
                                      "RBR BARCODE       NAZIV<$newline$>")
                                      )+   /** @todo prilagodit cart, cart1, bc uvjetima */
-      (!pop ? " KOLIï¿½INA   JM       CIJENA       "+getRazlikaWidthBlank()+"IZNOS<$newline$>"
-          : " KOLIï¿½INA  JM     CIJENA   % POP  "+Aus.spc(width-39)+"IZNOS<$newline$>");
+      (!pop ? " KOLIÈINA   JM       CIJENA       "+getRazlikaWidthBlank()+"IZNOS<$newline$>"
+          : " KOLIÈINA  JM     CIJENA   % POP  "+Aus.spc(width-39)+"IZNOS<$newline$>");
   }
   
   private String getManualDetail() {
@@ -301,7 +314,7 @@ public class repRacunPOS extends mxReport {
   }
   
   private String getPotpis_i_MP(int ckupac){
-    if (ckupac != 0 && hr.restart.sisfun.frmParam.getParam("pos","potpisMP","D","Mjesto za peï¿½at i potpis na POS raï¿½unu").equalsIgnoreCase("D"))
+    if (ckupac != 0 && hr.restart.sisfun.frmParam.getParam("pos","potpisMP","D","Mjesto za peèat i potpis na POS raèunu").equalsIgnoreCase("D"))
       return "<$newline$><#MP|"+width+"|center#><$newline$>"+
              "<#_______________________________________|"+width+"|center#><$newline$>"+"<$newline$>"+"<$newline$>";
 
@@ -361,8 +374,8 @@ public class repRacunPOS extends mxReport {
     
     //TODO obrati paznju na sgQuerys.getSgQuerys().format(BD,int) ;)
 
-    String np = (oneRow ? "" : "<#P R E G L E D  P L A ï¿½ A N J A|"+width+"|center#><$newline$>"+
-//                  "<#NAï¿½INA PLAï¿½ANJA|21|left#>               IZNOS<$newline$>"+
+    String np = (oneRow ? "" : "<#P R E G L E D  P L A Æ A N J A|"+width+"|center#><$newline$>"+
+//                  "<#NAÈINA PLAÆANJA|21|left#>               IZNOS<$newline$>"+
                   doubleLineSep+"<$newline$>");
     do {
       String nac = npos.getString("NAZNACPL");
@@ -468,6 +481,10 @@ public class repRacunPOS extends mxReport {
 
   private String jeliR1(int brdok, int ckupac){
     System.out.println("\n\nKUPAC - "+ckupac+"\n\n");
+    String knjig = hr.restart.zapod.OrgStr.getKNJCORG(false);
+    String r1 = frmParam.getParam("robno", "izlazObr"+knjig,
+        "R-1", "Vrsta obrasca ispisa raèuna za knjigovodstvo "+knjig);
+    
     calculatePorez((QueryDataSet)getRekapitulacija(this.getDataSet()));
     if(ckupac != 0){
      /*System.out.println("Refresham...");
@@ -482,16 +499,17 @@ public class repRacunPOS extends mxReport {
             ((!dr.getString("MJ").equals(""))?((dr.getInt("PBR")==0)? "       "+dr.getString("MJ"):dr.getString("MJ")):"")+
             getJMBG(dr);
 
-        kupac += "<$newline$><$newline$><#RAï¿½UN R-1 br. " + getBRDOK() + "|"+(width-2)+"|left#><$newline$>";
+        kupac += "<$newline$><$newline$><#RAÈUN "+r1+" br. " + getBRDOK() + "|"+(width-2)+"|left#><$newline$>";
             //"\u000E<#"+ru.getFormatBroj()+"|"+((width-2)/2)+"|center#>\u0014<$newline$>";
         return kupac;
       } System.out.println("Kupac je (ako ga ima) null!!!");
     }
 //    porezString = "";
     
-    String ractex = "<$newline$><#RAï¿½UN br. " + getBRDOK() + "|"+(width-2)+"|left#><$newline$>";
-    if (presBlag.isFiskal(master) && !master.getString("FOK").equals("D"))
-      ractex = "<$newline$><#PREDRAï¿½UN br. " + getBRDOK() + "|"+(width-2)+"|left#><$newline$>";
+    String ractex = "<$newline$><#RAÈUN br. " + getBRDOK() + "|"+(width-2)+"|left#><$newline$>";
+    if (presBlag.isFiskal(master) && !master.getString("FOK").equals("D") && 
+        !master.getTimestamp("DATDOK").before(Aus.createTimestamp(2013, 4, 1)))
+      ractex = "<$newline$><#PREDRAÈUN br. " + getBRDOK() + "|"+(width-2)+"|left#><$newline$>";
     
     return ractex;
 //        "\u001B\u0045<#"+ru.getFormatBroj()+"|20|center#>\u001B\u0046<$newline$>";
@@ -520,6 +538,7 @@ public class repRacunPOS extends mxReport {
       if (mb.length() == 0) result = "";
       else result = "<$newline$>       MB: " + mb; 
     }   
+    System.out.println(result);
     return result;
   }
 
@@ -530,14 +549,17 @@ public class repRacunPOS extends mxReport {
     BigDecimal popust = ut.setScale((qds.getBigDecimal("UIPOPUST1").add(qds.getBigDecimal("UIPOPUST2"))),2);
     BigDecimal neto = ut.setScale(qds.getBigDecimal("NETO"),2);
     
+    String val = " " + hr.restart.zapod.Tecajevi.getDomOZNVAL();
+    
     String izn = sgq.format(neto,2);
     if ((qds.getBigDecimal("UIPOPUST1").add(qds.getBigDecimal("UIPOPUST2"))).compareTo(Aus.zero2) == 0)
-      return dw + "<#PLATITI|7|left#>" + nw + Aus.spc(width-(isw ? 38 :19)) + dw + "<#"+izn+"|12|right#>" + nw + "<$newline$>";
+      return dw + "<#PLATITI|7|left#>" + nw + val + Aus.spc(width- val.length() - (isw ? 34 :17)) + dw + "<#"+izn+"|10|right#>" + nw + "<$newline$>";
+    
 
     return
       "<#UKUPNO |26|left#> <#"+sgq.format(ukupno,2)+"|"+(width-26)+"|right#><$newline$>"+
       "<#POPUST |10|left#> <#"+sgq.format(ppop,2)+" %|15|left#> <#"+sgq.format(popust,2)+"|"+(width-26)+"|right#><$newline$>"+
-      dw + "<#PLATITI|7|left#>" + nw + Aus.spc(width-(isw ? 38 :19)) + dw + "<#"+izn+"|12|right#>" + nw + "<$newline$>";
+      dw + "<#PLATITI|7|left#>" + nw + val + Aus.spc(width - val.length() - (isw ? 34 :17)) + dw + "<#"+izn+"|10|right#>" + nw + "<$newline$>";
 //          "<#UKUPNO |26|left#> <#"+qds.getBigDecimal("UKUPNO")+"|15|right#><$newline$>"+
 //          "<#POPUST |26|left#> <#"+qds.getBigDecimal("UIPOPUST1").add(qds.getBigDecimal("UIPOPUST2"))+"|15|right#><$newline$>"+
 //          "<#PLATITI |26|left#> <#"+qds.getBigDecimal("NETO")+"|15|right#><$newline$>"
@@ -545,13 +567,13 @@ public class repRacunPOS extends mxReport {
   }
 
   private String getBlagajnaOperater(String blag, String user){
-    String blop = hr.restart.sisfun.frmParam.getParam("pos","BlOp","0","Ispis i pozicija blagajne i operatora na malim raï¿½unima (0,1,2,3)");
+    String blop = hr.restart.sisfun.frmParam.getParam("pos","BlOp","0","Ispis i pozicija blagajne i operatora na malim raèunima (0,1,2,3)");
     if (!blop.equalsIgnoreCase("0")){
       DataRow usr = lD.raLookup(hr.restart.baza.dM.getDataModule().getUseri(),"CUSER", user);
-      String operater = usr.getString("NAZIV");
+      String operater = usr == null ? "" : usr.getString("NAZIV");
       if (!presBlag.isUserOriented()) {
         usr = lD.raLookup(hr.restart.baza.dM.getDataModule().getBlagajnici(),"CBLAGAJNIK", master.getString("CBLAGAJNIK"));
-        operater = usr.getString("NAZBLAG");
+        operater = usr == null ? "" : usr.getString("NAZBLAG");
       }
       if (blop.equalsIgnoreCase("1")){
         return "BLAGAJNA: "+blag+"<$newline$>"+
@@ -559,9 +581,9 @@ public class repRacunPOS extends mxReport {
       } else if (blop.equalsIgnoreCase("2")) {
         return blag+", "+operater+"<$newline$>";
       } else if (blop.equalsIgnoreCase("3")) {
-        //return "Posluï¿½io: "+operater+"<$newline$>"+
+        //return "Poslužio: "+operater+"<$newline$>"+
         //"Broj stola: " + getStol() + "<$newline$>";
-        return "Stol: " + getStol() + "   Posluï¿½io: " + operater + "<$newline$>";
+        return "Stol: " + getStol() + "   Poslužio: " + operater + "<$newline$>";
       } else if (blop.equalsIgnoreCase("4")) {
         return "OPERATER: "+operater+"<$newline$>";
       }
@@ -580,11 +602,10 @@ public class repRacunPOS extends mxReport {
     if (!sadrzaj.equals("")){
       footing = "<#"+sadrzaj+"|"+width+"|center#><$newline$>";
     }
-    if (!presBlag.isFiskPDV(master)) {
-      
-      footing = "<#PDV nije obraï¿½unat sukladno ï¿½lanku 22.|"+width+"|center#><$newline$>" +
-                "<#stavak 1. zakona o PDV-u|"+width+"|center#><$newline$><$newline$>" + footing;
-      
+    if (!presBlag.isFiskPDV(master)) {      
+      footing = breakLines(frmParam.getParam("pos", "noPDV", 
+          "PDV nije obraèunat sukladno èlanku 90|stavak 1. zakona o PDV-u|",
+        "Tekst za osloboðeno od poreza za obrtnike na POS raèunu"), true) + footing;
     }
     return footing;
   }

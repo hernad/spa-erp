@@ -15,9 +15,7 @@
 **   limitations under the License.
 **
 ****************************************************************************/
-
 package hr.restart.gk;
-
 import hr.restart.baza.dM;
 import hr.restart.sisfun.frmParam;
 import hr.restart.sk.raSaldaKonti;
@@ -28,7 +26,9 @@ import hr.restart.util.lookupData;
 import hr.restart.util.raLocalTransaction;
 import hr.restart.util.raTransaction;
 import hr.restart.util.sysoutTEST;
+
 import java.math.BigDecimal;
+
 import com.borland.dx.sql.dataset.QueryDataSet;
 
 
@@ -54,7 +54,7 @@ public class raObrIzvoda {
     dM.getSynchronizer().markAsDirty("pokriveni");
 /*
     if (!raKnjizenjeSK.getRaKnjizenjeSK().copyGKuSK(fIzvodi,pokriv)) {
-      javax.swing.JOptionPane.showConfirmDialog(null,"Obrada temeljnice uspjela, ali greï¿½ka u pokrivanju","Obrada",javax.swing.JOptionPane.DEFAULT_OPTION,javax.swing.JOptionPane.ERROR_MESSAGE);
+      javax.swing.JOptionPane.showConfirmDialog(null,"Obrada temeljnice uspjela, ali greška u pokrivanju","Obrada",javax.swing.JOptionPane.DEFAULT_OPTION,javax.swing.JOptionPane.ERROR_MESSAGE);
     }
 */
     return true;

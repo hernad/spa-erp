@@ -20,6 +20,7 @@ package hr.restart.util;
 import hr.restart.start;
 import hr.restart.help.raLiteBrowser;
 import hr.restart.help.raSendMessage;
+import hr.restart.sisfun.raUser;
 import hr.restart.swing.JraFrame;
 import hr.restart.swing.raCalculator;
 import hr.restart.util.mail.LogMailer;
@@ -72,29 +73,28 @@ import javax.swing.plaf.FontUIResource;
 
 public class startFrame extends JraFrame implements Cloneable {
   public static boolean STEALTH_MODE = false;
-  public static boolean SFMain = false;
   static startFrame myStFr;
-  private static hr.restart.help.raLiteBrowser uputebrowser;
-
-  public JDesktopPane jDesktop = new JDesktopPane();
-
+//  private static startFrame SFR;
   ResourceBundle res = ResourceBundle.getBundle("hr.restart.util.aiRes");
   raStatusBar jpMsg = new raStatusBar();
   LinkedList visibleFrames = new LinkedList();
   LinkedList loadedFrames = new LinkedList();
   hr.restart.help.raUserDialog userDialog = hr.restart.start.getUserDialog();
-
+  private javax.swing.JMenuBar raJMenuBar;
+  private javax.swing.JCheckBoxMenuItem jmiStartFrHprHelp;
+  /*
+  optionsDialog optd = new optionsDialog(this,"Opcije",true);
+  hr.restart.sisfun.frmParam fappar = hr.restart.sisfun.frmParam.getFrmParam();
+  */
+  public JDesktopPane jDesktop = new JDesktopPane();
+//meniji
   javax.swing.JMenuItem jmiStartFrExit;
   javax.swing.JMenu jmStartFrWindow;
   javax.swing.JMenu jmStartFrHelp;
   javax.swing.JMenu jmStartFrSys;
   javax.swing.JMenuItem jmiStartFrSysFun;
   javax.swing.JMenuItem jmiKreator = new javax.swing.JMenuItem("kreator...");
-  private javax.swing.JMenuBar raJMenuBar;
-  private javax.swing.JCheckBoxMenuItem jmiStartFrHprHelp;
-
-  private JMenu toolMenu;
-
+//
   public startFrame() {
     try {
       jbInit();
@@ -105,225 +105,20 @@ public class startFrame extends JraFrame implements Cloneable {
       e.printStackTrace();
     }
   }
-
-  public static void setActiveFrameTitle(Frame f) {
-    f.setTitle(hr.restart.zapod.dlgGetKnjig.getTitleText(f.getTitle())
-    .concat(" (")
-    .concat(hr.restart.sisfun.raUser.getInstance().getImeUsera())
-    .concat(")")
-    );
-    if (f instanceof startFrame) {
-      ((startFrame)f).statusMSG();    
-    }
-  }
-
-  /**
-   * Vraca text menija iz menus.properties. Pogodno za setiranje naslova ekrana.
-   * PRIMJER:
-   *  public void jmiNeobKred_actionPerformed(ActionEvent e) {
-   * 		showFrame("hr.restart.pl.frmNeobKred",getMenuText("jmiNeobKred"));
-   *	}
-   * @param cmenu
-   */
-  public static String getMenuText(String cmenu) {
-    return MenuFactory.getMenuProperties().getProperty(cmenu,cmenu);
-  }
-
-  /**
-   * vraca klasu (po uzoru na datamodul)
-  */
-  public static startFrame getStartFrame() {
-    if (myStFr == null) {
-      myStFr = new startFrame();
-    }
-    return myStFr;
-  }
-
-  /**
-   * <pre>
-   * Postavlja lookand feel zapisan u ini fileu.
-   * Zove se iz main klase prije svega.
-   * Metoda je staticna i poziva se BEZ instanciranja (getanja) startFrame-a
-   *
-   * Primjer:
-   * hr.restart.util.startFrame.raLookAndFeel();
-   *
-   * </pre>
-   */
-  public static void raLookAndFeel() {
-    raSkinDialog.makeLookAndFeel();
-
-		switchFonts(getFontDelta(), getFontFamily());
-  }
-
-  public static String getFontFamily() {
-  	String fam = IntParam.getTag("font.family");
-  	if (fam == null || fam.trim().length() == 0)
-    	IntParam.setTag("font.family", fam = "Arial");
-  	try {
-			if (new HashSet(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().
-					getAvailableFontFamilyNames())).contains(fam)) return fam;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-  	return null;
-  }
-  
-  public static int getFontDelta() {
-  	String delta = IntParam.getTag("font.delta");
-    if (delta == null || delta.trim().length() == 0)
-    	IntParam.setTag("font.delta", delta = "1");
-
-    return Aus.getNumber(delta);
-  }
-
-  public static void switchFonts(int delta, String family) {
-  	if (delta < -2 || delta > 5) delta = 0;
-  	if (delta == 0 && family == null) return;
-
-  	System.out.println("Changing fonts, delta: " + delta + " family: " + family);
-  	UIDefaults defs = UIManager.getLookAndFeelDefaults();
-  	HashSet keys = new HashSet(defs.keySet());
-  	HashMap fams = new HashMap();
-  	String oldf = "";
-  	int maxf = 0;
-
-  	for (Iterator i = keys.iterator(); i.hasNext(); ) {
-  		Font font = defs.getFont(i.next());
-      if (font != null) {
-      	Integer in = (Integer) fams.get(font.getFamily());
-      	if (in == null) in = new Integer(1);
-      	else in = new Integer(in.intValue() + 1);
-      	fams.put(font.getFamily(), in);
-      	if (in.intValue() > maxf) {
-      		maxf = in.intValue();
-      		oldf = font.getFamily();
-      	}
-      }
-  	}
-  	System.out.println("Old family: " + oldf);
-
-    for(Iterator i = keys.iterator(); i.hasNext(); ) {
-      Object key = i.next();
-      Font font = defs.getFont(key);
-      if (font != null) {
-      	if (font.getFamily().equals(oldf))
-      		font = new FontUIResource(family, font.getStyle(), font.getSize());
-        UIManager.put(key, font.deriveFont(font.getSize2D() + delta));
-      }
-    }
-  }
-
-  public static void showLog() {
-    dlgFileViewer d = new dlgFileViewer(Util.getLogFileName(),false);
-    d.setStandAlone(true);
-    d.setSize(Toolkit.getDefaultToolkit().getScreenSize().width,300);
-    d.setLocation(0,Toolkit.getDefaultToolkit().getScreenSize().height-350);
-    d.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    d.reload();
-    d.show();
-  }
-
-  public static void changeUser() {
-    Frame parent;
-    if (hr.restart.start.isMainFrame())
-      parent = hr.restart.mainFrame.getMainFrame();
-    else
-      parent = null;
-
-    if (!hr.restart.start.getFrmPassword().askLogin()) {
-      JOptionPane.showMessageDialog(parent,"Promjena korisnika nije uspjela!");
-    } else {
-      if (parent == null) parent = raLLFrames.getRaLLFrames().getMsgStartFrame();
-      setActiveFrameTitle(parent);
-    }
-  }
-
-  public static void main(String[] args) {
-
-    hr.restart.start.runtimeArgs = args;
-    hr.restart.raSplashAWT.showSplash();
-    String runArg = hr.restart.start.getRunArg();
-    if (!hr.restart.start.checkModule(runArg)) {
-      hr.restart.start.main(args);
-      return;
-    }
-    try {
-
-      if (!hr.restart.start.checkArgs("direct")) {
-        System.out.println("Log je redirektiran u restart.log. \n"
-                           +"Odaberi Sistem/Log opciju da bi vidio log. \n"
-                           +"Da bi vidio log u standard outputu proslijedi parametar 'direct' u pozivu programa \n"
-                           +"   primjer: java -cp ... hr.restart.util.startFrame direct -Rrobno ..."
-                           );
-        hr.restart.util.Util.redirectSystemOut();
-      }
-
-      SFMain = true;
-      hr.restart.start.startClient();
-      hr.restart.start.parseURL();
-      hr.restart.raSplashAWT.splashMSG("Priprema ekrana ...");
-      startFrame.raLookAndFeel();
-      if (runArg.equals("Pilot")) {
-        hr.restart.raSplashAWT.splashMSG("PokreÄ‡em pilot ...");
-        startFrame.getStartFrame().showFrame("hr.restart.sisfun.raPilot","SQL Pilot");
-        return;
-      }
-
-      hr.restart.raSplashAWT.splashMSG("Priprema autorizacije ...");
-      hr.restart.start.getFrmPassword();
-      hr.restart.raSplashAWT.splashMSG("Autorizacija ...");
-      if (!hr.restart.start.checkLogin()) System.exit(0);
-      if (hr.restart.start.checkInstaled(runArg) < 1) {
-        JOptionPane.showMessageDialog(null,"Aplikacija nije instalirana!","SPA",JOptionPane.ERROR_MESSAGE);
-        hr.restart.sisfun.raUser.getInstance().unlockUser();
-        System.exit(0);
-      }
-      if (!hr.restart.sisfun.raUser.getInstance().canAccessApp(runArg,"P")) {
-        JOptionPane.showMessageDialog(null,"Pristup aplikaciji "+runArg+" nije Vam dozvoljen!","SPA",JOptionPane.ERROR_MESSAGE);
-        hr.restart.sisfun.raUser.getInstance().unlockUser();
-        System.exit(0);
-      }
-
-      hr.restart.raSplashAWT.splashMSG("Priprema ekrana ...");
-      hr.restart.zapod.dlgGetKnjig.changeKnjig(hr.restart.start.getFlaggedArg("knjig:"),true);
-      String resModule = "APL".concat(runArg);
-      String raModule = runArg;
-      ResourceBundle raRes = ResourceBundle.getBundle(hr.restart.start.RESBUNDLENAME);
-      Class modStart = Class.forName(raRes.getString(resModule));
-      String modTitle = raRes.getString("jB"+raModule+"_text");
-      startFrame modFrame = (hr.restart.util.startFrame)modStart.newInstance();
-
-      modFrame.getJMenuBar().setToolTipText(modTitle);
-      hr.restart.start.getUserDialog().getUserPanel().getMenuTree().addMenuBar(modFrame.getJMenuBar(),modFrame);
-
-      hr.restart.raSplashAWT.hideSplash();
-      modFrame.ShowMe(false,modTitle);
-      hr.restart.raToolBar.loadForOptimize();
-    }
-    catch (Exception ex) {
-      javax.swing.JOptionPane.showMessageDialog(null,"Program nije moguÄ‡e pokrenuti na ovaj naÄin!");
-      ex.printStackTrace();
-    }
-  }
-
   private void jbInit() throws Exception {
     this.setIconImage(raImages.getImageIcon(raImages.IMGRAICON).getImage());
-
+    
     this.addWindowListener(new java.awt.event.WindowAdapter() {
       public void windowClosing(WindowEvent e) {
         //CloseAll();
         frameExit();
       }
-
       public void windowIconified(WindowEvent e) {
         MinimizeWins();
       }
-
       public void windowDeiconified(WindowEvent e) {
         RestoreWins();
       }
-
       public void windowActivated(WindowEvent e) {
 //        winActivated();
       }
@@ -343,31 +138,67 @@ public class startFrame extends JraFrame implements Cloneable {
           }
         }
     );
-
+    //addDefToolMenu();
+/*
+    centerFrame(fappar,0,res.getString("jmiStartFrSysApp"));
+    centerFrame(optd,0,res.getString("jmiStartFrSysUsr"));
+*/
     start.invokeAppleUtilMethod("startFrameInit", new startFrame[] {this}, new Class[] {startFrame.class});
   }
 
+/*  public void setTitle(String tit) {
+    System.out.println("Title = "+tit);
+    super.setTitle(tit);
+    new Throwable().printStackTrace();
+  }*/
+
   private void sfShown() {
     setStartFrameTitle();
-
-    try {
+/*    if (jmiStartFrHprHelp == null) return;
+    if (userDialog == null) return;
+    if (jmiStartFrHprHelp.isSelected()) userDialog.show();
+*/  try {
       jmiStartFrHprHelp.setSelected(userDialog.isShowing());
     } catch (Exception ex) {
       System.out.println("nema userDialoga, valjda je inicijalizacija");
     }
 
   }
-
   public void setStartFrameTitle() {
     setActiveFrameTitle(this);
   }
 
+  public static void setActiveFrameTitle(Frame f) {
+    f.setTitle(hr.restart.zapod.dlgGetKnjig.getTitleText(f.getTitle())
+    .concat(" (")
+    .concat(hr.restart.sisfun.raUser.getInstance().getImeUsera())
+    .concat(")")
+    );
+    if (f instanceof startFrame) {
+      ((startFrame)f).statusMSG();    
+    }
+  }
+  /**
+   * Vraca text menija iz menus.properties. Pogodno za setiranje naslova ekrana.
+   * <code><pre>
+   * PRIMJER:
+   *  public void jmiNeobKred_actionPerformed(ActionEvent e) {
+   * 		showFrame("hr.restart.pl.frmNeobKred",getMenuText("jmiNeobKred"));
+   *	}
+   * </pre></code>
+   * @param cmenu
+   */
+  public static String getMenuText(String cmenu) {
+    return MenuFactory.getMenuProperties().getProperty(cmenu,cmenu);
+  }
 /**
  * Pokazuje glavni frame na cijelom ekranu /ShowMe(true)/
  * ili samo u vrhu ekrana /ShowMe(true)/
  * Drugi parametar je naslov na ekranu
  */
   public void ShowMe(boolean isFullScreen,String frTitle) {
+//    this.setTitle(frTitle);
+//    setActiveFrameTitle(this);
     if (!isShowing()) this.pack();
     Dimension screenSize = hr.restart.start.getSCREENSIZE();
     Dimension frameSize = this.getSize();
@@ -388,33 +219,67 @@ public class startFrame extends JraFrame implements Cloneable {
 //    hideToolBar();
     } catch (Exception e){e.printStackTrace();}
   }
-
   public void setVisible(boolean b) {
     if (STEALTH_MODE) return;
     super.setVisible(b);
   }
-
-
+/*
+  private void hideToolBar() {
+    if (hr.restart.raToolBar.rTB!=null) {
+      hr.restart.raToolBar.rTB.setVisible(false);
+    }
+  }
+*/
+/*
+  private void showToolBar() {
+    if (hr.restart.raToolBar.rTB!=null) {
+      hr.restart.raToolBar.rTB.setVisible(true);
+    }
+  }
+*/
   public void ShowMeP(String frTitle) {
     setTitle(frTitle);
     hr.restart.mainFrame.getMainFrame().showModule(this);
   }
-
+  
   private int raToolBarRelativeY() {
 	return 0;
+    /*
+    try {
+      Class.forName("hr.restart.raToolBar");//moguce da paketa uopce nema
+      if (hr.restart.raToolBar.rTB!=null) {
+        if (hr.restart.raToolBar.TPOSITION==hr.restart.raLoad.TOP) {
+          return hr.restart.raToolBar.BUTTONSIZE;
+        }
+      }
+      return 0;
+    } catch (Exception e){
+      return 0;
+    }
+    */
   }
-
   private int raToolBarRelativeWidth() {
     return 0;
+    /*
+    try {
+      Class.forName("hr.restart.raToolBar");
+      if (hr.restart.raToolBar.rTB!=null) {
+        if (hr.restart.raToolBar.TPOSITION==hr.restart.raLoad.RIGHT) {
+          return hr.restart.raToolBar.BUTTONSIZE;
+        }
+      }
+      return 0;
+    } catch (Exception e) {
+      return 0;
+    }
+    */
   }
-
 /**
  * Prikazuje text zadan u String msgText u status baru
  */
   public void statusMSG(String msgText){
     jpMsg.statusMSG(msgText);
   }
-
 /**
  * Metoda statusMSG pozvana bez parametara brise text u status baru
  */
@@ -425,7 +290,6 @@ public class startFrame extends JraFrame implements Cloneable {
   public raStatusBar getStatusBar() {
     return jpMsg;
   }
-
 /**
  * Gasi aplikaciju
  */
@@ -440,22 +304,6 @@ public class startFrame extends JraFrame implements Cloneable {
     }
   }
 
-  private void removeDummyMenu() {
-    for (int i=0;i<raJMenuBar.getMenuCount();i++) {
-      JMenu currMenu = raJMenuBar.getMenu(i);
-      if (currMenu.getText().equals("")) {
-        raJMenuBar.remove(currMenu);
-      }
-    }
-  }
-
-  /**
-   * Vraca inicijalni JMenuBar (bez izmjena) koji je pusten u setteru
-   */
-  public javax.swing.JMenuBar getRaJMenuBar() {
-    return raJMenuBar;
-  }
-
   public void setRaJMenuBar(javax.swing.JMenuBar newRaJMenuBar) {
     raJMenuBar = newRaJMenuBar;
     if (hr.restart.start.isMainFrame()) {
@@ -466,14 +314,26 @@ public class startFrame extends JraFrame implements Cloneable {
     }
     this.setJMenuBar(raJMenuBar);
   }
-
+  private void removeDummyMenu() {
+    for (int i=0;i<raJMenuBar.getMenuCount();i++) {
+      JMenu currMenu = raJMenuBar.getMenu(i);
+      if (currMenu.getText().equals("")) {
+        raJMenuBar.remove(currMenu);
+      }
+    }
+  }
+  /**
+   * Vraca inicijalni JMenuBar (bez izmjena) koji je pusten u setteru
+   */
+  public javax.swing.JMenuBar getRaJMenuBar() {
+    return raJMenuBar;
+  }
   /**
    * Radi defaultne izmjene na zadanom JMenuBaru; dodaje opcije izlaz, prozori, pomoc, system
    */
   public void makeDefMenu(javax.swing.JMenuBar jMnuB) {
     makeDefMenu(jMnuB,true);
   }
-
   /**
    * Radi defaultne izmjene na zadanom JMenuBaru; dodaje opcije prozori, pomoc, system,
    * dok opciju Izlaz dodaje opcionalno :) ako je showExitOption=true
@@ -525,13 +385,13 @@ public class startFrame extends JraFrame implements Cloneable {
         About();
       }
     });
-    JMenuItem jmiStartFrHlpMailLog = new JMenuItem("Poï¿½alji izvjeï¿½ï¿½e o greï¿½ci");
+    JMenuItem jmiStartFrHlpMailLog = new JMenuItem("Pošalji izvješæe o grešci");
     jmiStartFrHlpMailLog.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e) {
         new LogMailer().sendMailUI(null);
       }
     });
-    JMenuItem jmiQuickMsg = new JMenuItem("Poï¿½alji poruku");
+    JMenuItem jmiQuickMsg = new JMenuItem("Pošalji poruku");
     jmiQuickMsg.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e) {
         raSendMessage.show(null);
@@ -547,6 +407,12 @@ public class startFrame extends JraFrame implements Cloneable {
     jmiStartFrCalc.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(ActionEvent e) {
         raCalculator.getInstance().show();
+      }
+    });
+    JMenuItem jmiSearch = new JMenuItem("Pretraga");
+    jmiSearch.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        new raSearchTextFiles().show();
       }
     });
 //Systemski menui
@@ -684,6 +550,9 @@ public class startFrame extends JraFrame implements Cloneable {
     jmStartFrHelp.add(jmiShowMsg);
     jmStartFrHelp.addSeparator();
     jmStartFrHelp.add(jmiStartFrCalc);
+    if (raUser.getInstance().getUser().equals("restart") ||
+    		raUser.getInstance().getUser().equals("test") ||
+    		raUser.getInstance().getUser().equals("root")) jmStartFrHelp.add(jmiSearch);
     jmStartFrHelp.addSeparator();
     jmStartFrHelp.add(jmiStartFrHlpAbout);
     jMnuB.add(jmStartFrHelp);
@@ -703,7 +572,6 @@ public class startFrame extends JraFrame implements Cloneable {
       setVisible(false);
     }
   }
-
   /**
    * Minimizira sve otvorene prozore
    */
@@ -713,14 +581,12 @@ public class startFrame extends JraFrame implements Cloneable {
       setFrameState(visibleFrames.get(i),Frame.ICONIFIED);
     }
   }
-
   public void RestoreWins() {
     createVisibleFramesList();
     for (int i=0;i<visibleFrames.size();i++) {
       setFrameState(visibleFrames.get(i),Frame.NORMAL);
     }
   }
-
   private void setFrameState(java.lang.Object frame,int state) {
     if (frame instanceof javax.swing.JFrame) {
       ((javax.swing.JFrame)frame).setState(state);
@@ -728,7 +594,6 @@ public class startFrame extends JraFrame implements Cloneable {
       ((hr.restart.util.raFrame)frame).setState(state);
     }
   }
-
   private int getFrameState(java.lang.Object frame,int state) {
     if (frame instanceof javax.swing.JFrame) {
       return ((javax.swing.JFrame)frame).getState();
@@ -738,14 +603,12 @@ public class startFrame extends JraFrame implements Cloneable {
       return -1;
     }
   }
-
   /**
    * Sredjuje prozore tako da svi budu vidljivi
    */
   public void ArangeWins() {
     RestoreWins();
   }
-
   /**
    * Zatvara sve otvorene prozore osim glavnog
    */
@@ -753,7 +616,6 @@ public class startFrame extends JraFrame implements Cloneable {
     emptyList(visibleFrames);
     LoadedWinsVisible(false);
   }
-
   private void emptyList(LinkedList ll) {
     for (int i=0;i<ll.size();i++) {
       ll.remove(i);
@@ -790,7 +652,6 @@ public class startFrame extends JraFrame implements Cloneable {
     }
     return false;
   }
-
   private boolean isModalDialogActive(startFrame sf) {//ne koristi se osim u checkModalDialogActive()
     java.util.LinkedList ll = raLLFrames.getRaLLFrames().getChildFrames(sf);
     for (int i=0;i<ll.size();i++) {
@@ -824,7 +685,15 @@ System.out.print(dial.isVisible());
 System.out.println("Nije modal dialog...Vracam false");
     return false;
   }
-
+/**
+ * vraca klasu (po uzoru na datamodul)
+ */
+  public static startFrame getStartFrame() {
+    if (myStFr == null) {
+      myStFr = new startFrame();
+    }
+    return myStFr;
+  }
   /**
    * Svim prozorima u visibleFrames kaze setVisible(visible)
    */
@@ -834,18 +703,15 @@ System.out.println("Nije modal dialog...Vracam false");
       setFrameVisible(visibleFrames.get(i),visible);
     }
   }
-
   private void createVisibleFramesList() {
       emptyList(visibleFrames);
       for (int i=loadedFrames.size()-1;i>=0;i--) {
         if (getFrameVisible(loadedFrames.get(i))) visibleFrames.add(loadedFrames.get(i));
       }
   }
-  
   private java.util.LinkedList getLoadedFrames() {
     return raLLFrames.getRaLLFrames().getChildFrames(this);
   }
-
   /**
    * Svim prozorima u LoadedFrames kaze setVisible(Visible)
    */
@@ -855,7 +721,6 @@ System.out.println("Nije modal dialog...Vracam false");
       setFrameVisible(frm,visible);
     }
   }
-
   private void setFrameVisible(java.lang.Object frame, boolean visible) {
     if (frame instanceof hr.restart.util.raFrame) {
       if (visible) ((hr.restart.util.raFrame)frame).show();
@@ -864,7 +729,6 @@ System.out.println("Nije modal dialog...Vracam false");
       ((java.awt.Window)frame).setVisible(visible);
     }
   }
-
   private boolean getFrameVisible(java.lang.Object frame) {
     if (frame instanceof hr.restart.util.raFrame) {
       return ((hr.restart.util.raFrame)frame).isVisible();
@@ -872,19 +736,23 @@ System.out.println("Nije modal dialog...Vracam false");
       return ((java.awt.Window)frame).isVisible();
     }
   }
-
   /**
    * Postavlja look&feel
    */
   public void LookAndFeel() {
+//    showFrame(skind);
+//    applyLookAndFeel();
   }
-
   /**
    * postavlja mod rada
    */
   public void ModRada() {
+//    showFrame(moded);
   }
-
+  private static hr.restart.help.raLiteBrowser uputebrowser;
+  /**
+   * Poziva help, ma kakav on bio
+   */
   public void ViewHelp() {
     if (uputebrowser==null) uputebrowser = new hr.restart.help.raLiteBrowser();
     uputebrowser.pack();
@@ -892,10 +760,24 @@ System.out.println("Nije modal dialog...Vracam false");
   }
 
   public void ToggleHelper() {
-
+//    if (hr.restart.start.isMainFrame()) {
+//      hr.restart.mainFrame.getMainFrame().toggleHelp();
+//    } else {
       toggleHelp();
+//    }
   }
-
+  /*
+  void initHP(raMatPodaci rMP) {
+    if (userDialog == null) return;
+    if (!userDialog.isShowing()) return;
+    userDialog.getUserPanel().getHelpPanel().initHP(rMP);
+  }
+  void clearHP() {
+    if (userDialog == null) return;
+    if (!userDialog.isShowing()) return;
+    userDialog.getUserPanel().getHelpPanel().forceInitHP(null);
+  }
+   */
   private void toggleHelp() {
     if (userDialog.isShowing()) {
       userDialog.hide();
@@ -903,24 +785,31 @@ System.out.println("Nije modal dialog...Vracam false");
       userDialog.show();
     }
   }
-
+  
+  /*
+  public hr.restart.help.raUserDialog getUserDialog() {
+    if (userDialog == null) {
+//      userDialog = new hr.restart.help.raUserDialog(this);
+//      userDialog.getUserPanel().getMenuTree().addMenuBar(getJMenuBar(),this);
+      userDialog = hr.restart.start.getUserDialog();
+    }
+    return userDialog;
+  }*/
+  public void setHelpOptionChecked(boolean checked) {
+    if (jmiStartFrHprHelp!=null) jmiStartFrHprHelp.setSelected(checked);
+  }
   public boolean isHelpOptionChecked() {
     if (jmiStartFrHprHelp!=null)
       return jmiStartFrHprHelp.isSelected();
     else return false;
   }
-
-  public void setHelpOptionChecked(boolean checked) {
-    if (jmiStartFrHprHelp!=null) jmiStartFrHprHelp.setSelected(checked);
-  }
-
   /**
    * Poziva splash screen o programu
    */
   public void About() {
-    String msg = raVersionInfo.getVersionInfo();
+    String msg = raVersionInfo.getVersionInfo(); 
       //"Sustav poslovnih aplikacija \n Ver: "+hr.restart.util.versions.raVersionInfo.getCurrentVersion();
-    int ret = JOptionPane.showOptionDialog(this, msg, "O programu",
+    int ret = JOptionPane.showOptionDialog(this, msg, "O programu", 
         JOptionPane.PLAIN_MESSAGE,JOptionPane.PLAIN_MESSAGE,raImages.getImageIcon(raImages.IMGRAICON),
         new String[] {"Prekid","Patchevi"},null);
     if (ret == 1) {
@@ -937,7 +826,6 @@ System.out.println("Nije modal dialog...Vracam false");
       }
     }
   }
-
   /**
    * Poziva parametre upisane u fileu "robno.ini"
    */
@@ -948,7 +836,6 @@ System.out.println("Nije modal dialog...Vracam false");
 //    opd.show();
     showFrame("hr.restart.util.optionsDialog",0,"Alati");
   }
-
   /**
    * poziva parametre upisane u bazu koji se odnose na rad odredjene aplikacije
    */
@@ -969,11 +856,9 @@ System.out.println("Nije modal dialog...Vracam false");
 //ET
 //    hr.restart.util.reports.raJDO.main(null);
   }
-
   public void GetKnjig() {
     hr.restart.zapod.dlgGetKnjig.showDlgGetKnjig();
   }
-
   /**
    * Prikazuje zadani JFrame. Molim pozivati ekrane sa tom funkcijom
    */
@@ -984,7 +869,6 @@ System.out.println("Nije modal dialog...Vracam false");
     jFr.setState(Frame.NORMAL);
     LoadFrame(jFr);
   }
-
   public void showFrame(hr.restart.util.raFrame jFr) {
 //    jFr.pack();
     showWithFrame();
@@ -992,7 +876,6 @@ System.out.println("Nije modal dialog...Vracam false");
     jFr.setState(Frame.NORMAL);
     LoadFrame(jFr);
   }
-
   /**
    * Prikazuje zadani JDialog. Molim pozivati ekrane sa tom funkcijom
    */
@@ -1010,7 +893,6 @@ System.out.println("Nije modal dialog...Vracam false");
     if (raLLFrames.getRaLLFrames().findMsgStartFrame() != null) return;
     if (!isShowing()) ShowMe(false,getTitle());
   }
-
   /**
    * Ako je klasa definirana prvim parametrom instanca od JFrame, JDialog i raFrame (raMatPodaci)
    * vraca ekran centriran, pakiran... cak ga i prikaze ako je zadnji parametar = true.
@@ -1051,14 +933,12 @@ System.out.println("Nije modal dialog...Vracam false");
   public Object showFrame(String classname, int rightMargin, String title) {
     return showFrame(classname,rightMargin,title,true);
   }
-
   /**
    * Zove {@link #showFrame(String,int,String,boolean)} sa marginom 0 i zadnjim parametrom true
    */
   public Object showFrame(String classname, String title) {
     return showFrame(classname,0,title,true);
   }
-
   /**
    * packa i centrira zadani JFrame na ekran sa zadanom desnom marginom
    */
@@ -1077,7 +957,6 @@ System.out.println("Nije modal dialog...Vracam false");
     frame.setSize(frameSize.width+rightMargin,frameSize.height);
 //->showFrame    LoadFrame(frame);
   }
-
   /**
    * packa i centrira zadani JDialog na ekran sa zadanom desnom marginom
    */
@@ -1097,7 +976,6 @@ System.out.println("Nije modal dialog...Vracam false");
     frame.setSize(frameSize.width+rightMargin,frameSize.height);
 //->showFrame    LoadFrame(frame);
   }
-
   /**
    * packa i centrira zadani raFrame na ekran sa zadanom desnom marginom
    */
@@ -1121,7 +999,6 @@ System.out.println("Nije modal dialog...Vracam false");
     frame.setSize(frameSize.width+rightMargin,frameSize.height);
 //->showFrame    LoadFrame(frame);
   }
-
   /**
    * dodaje ekrane u linkedlist
    */
@@ -1131,14 +1008,12 @@ System.out.println("Nije modal dialog...Vracam false");
       raLLFrames.getRaLLFrames().add(frameToLoad,this);
       loadedFrames = raLLFrames.getRaLLFrames().getChildFrames(this);
    }
-
    public void LoadFrame(javax.swing.JDialog frameToLoad) {
 /*      if (loadedFrames.contains(frameToLoad)) loadedFrames.remove(frameToLoad);
       loadedFrames.add(frameToLoad);*/
       raLLFrames.getRaLLFrames().add(frameToLoad,this);
       loadedFrames = raLLFrames.getRaLLFrames().getChildFrames(this);
    }
-
    public void LoadFrame(hr.restart.util.raFrame frameToLoad) {
 /*      if (loadedFrames.contains(frameToLoad)) loadedFrames.remove(frameToLoad);
       loadedFrames.add(frameToLoad);*/
@@ -1146,12 +1021,18 @@ System.out.println("Nije modal dialog...Vracam false");
       raLLFrames.getRaLLFrames().add(frameToLoad,this);
       loadedFrames = raLLFrames.getRaLLFrames().getChildFrames(this);
    }
-
   /**
    * packa i centrira zadani JFrame na ekran sa defoultnom desnom marginom=0
    */
   public void centerFrame(javax.swing.JFrame frame) {
     centerFrame(frame,0,"");
+  }
+
+  private JMenu toolMenu;
+
+  public void setToolMenu(JMenu tmenu) {
+    toolMenu = tmenu;
+    //addDefToolMenu();//zakomentirati
   }
 
   private void addDefToolMenu() {
@@ -1165,11 +1046,6 @@ System.out.println("Nije modal dialog...Vracam false");
     return toolMenu;
   }
 
-  public void setToolMenu(JMenu tmenu) {
-    toolMenu = tmenu;
-    //addDefToolMenu();//zakomentirati
-  }
-
   private void addToolMenu() {
     if (toolMenu == null) return;
     if (!checkToolAccess()) return;
@@ -1178,11 +1054,9 @@ System.out.println("Nije modal dialog...Vracam false");
     jmStartFrSys.add(toolMenu);
     JOptionPane.showMessageDialog(this,"Sistemski alati aktivirani");
   }
-
   private void addSystemJMenuBar() {
     addSystemJMenuBar(toolMenu);
   }
-  
   void addSystemJMenuBar(JMenu _menu) {
     if (hr.restart.sisfun.frmSistem.getFrmSistem() == null) new hr.restart.sisfun.frmSistem();
     JMenuBar sisMenuBar = hr.restart.sisfun.frmSistem.getFrmSistem().getJMenuBar();
@@ -1191,7 +1065,6 @@ System.out.println("Nije modal dialog...Vracam false");
       if (!containsMenu(getJMenuBar(),jm2Add)) _menu.add(cloneMenu(jm2Add));
     }
   }
-  
   private JMenuItem cloneMenu(final JMenuItem jm) {
     if (jm instanceof JMenu) {
       JMenu newJm = new JMenu();
@@ -1214,7 +1087,7 @@ System.out.println("Nije modal dialog...Vracam false");
       return newJm;
     }
   }
-  
+
   private boolean containsMenu(JMenuBar jmb,JMenu jm) {
     try {
       for (int i = 0; i < jmb.getMenuCount(); i++) {
@@ -1225,14 +1098,12 @@ System.out.println("Nije modal dialog...Vracam false");
       return false;
     }
   }
-  
   public boolean checkToolAccess() {
     String usro = hr.restart.sisfun.raUser.getInstance().getUser();
     if (usro.equals("root") || usro.equals("test")) return true;
     String psw = JOptionPane.showInputDialog(this,"Unesite root lozinku","Autorizacija",JOptionPane.QUESTION_MESSAGE);
     return (psw != null && psw.equals(new hr.restart.sisfun.frmPassword().getRootPassword()));
   }
-
   /**
    * setira look&feel
    */
@@ -1248,7 +1119,6 @@ System.out.println("Nije modal dialog...Vracam false");
     }
 //    applyLookAndFeelMenus();
   }
-
   private void applyLookAndFeelMenus() {
     //PROBALI SMO LIJEPO
     for (int i=0;i<raJMenuBar.getComponentCount();i++) {
@@ -1262,8 +1132,196 @@ System.out.println("Nije modal dialog...Vracam false");
       }
     }
   }
-
   private void makeLookNFeel(String laf) {
 //    System.out.println(laf);
+  }
+  /**
+   * <pre>
+   * Postavlja lookand feel zapisan u ini fileu.
+   * Zove se iz main klase prije svega.
+   * Metoda je staticna i poziva se BEZ instanciranja (getanja) startFrame-a
+   *
+   * Primjer:
+   * hr.restart.util.startFrame.raLookAndFeel();
+   *
+   * </pre>
+   */
+  public static void raLookAndFeel() {
+    raSkinDialog.makeLookAndFeel();
+
+		switchFonts(getFontDelta(), getFontFamily());
+    
+		UIManager.put("ComboBox.disabledForeground", UIManager.get("ComboBox.foreground"));
+	
+		
+/*    try {
+      SkinDialog.getSkinDialog().makeLookAndFeel(hr.restart.util.IntParam.VratiSadrzajTaga("lookandfeel"));
+    }
+    catch (Throwable tr) {
+      try {
+        UIManager.setLookAndFeel(hr.restart.util.IntParam.VratiSadrzajTaga("lookandfeel"));
+      }
+      catch (Exception ex) {
+        try {
+          UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (Exception ex2) {
+
+        }
+      }
+    }*/
+  }
+  
+  public static String getFontFamily() {
+  	String fam = IntParam.getTag("font.family");
+  	if (fam == null || fam.trim().length() == 0)
+    	IntParam.setTag("font.family", fam = "Arial");
+  	try {
+			if (new HashSet(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().
+					getAvailableFontFamilyNames())).contains(fam)) return fam;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+  	return null;
+  }
+  
+  public static int getFontDelta() {
+  	String delta = IntParam.getTag("font.delta");
+    if (delta == null || delta.trim().length() == 0)
+    	IntParam.setTag("font.delta", delta = "1");
+    
+    return Aus.getNumber(delta);
+  }
+  
+  public static void switchFonts(int delta, String family) {
+  	if (delta < -2 || delta > 5) delta = 0;
+  	if (delta == 0 && family == null) return;
+  	
+  	System.out.println("Changing fonts, delta: " + delta + " family: " + family);
+  	UIDefaults defs = UIManager.getLookAndFeelDefaults();
+  	HashSet keys = new HashSet(defs.keySet());
+  	HashMap fams = new HashMap();
+  	String oldf = "";
+  	int maxf = 0;
+  	
+  	for (Iterator i = keys.iterator(); i.hasNext(); ) {
+  	  Object k = i.next();
+  
+  		Font font = defs.getFont(k);
+      if (font != null) {
+      	Integer in = (Integer) fams.get(font.getFamily());
+      	if (in == null) in = new Integer(1);
+      	else in = new Integer(in.intValue() + 1);
+      	fams.put(font.getFamily(), in);
+      	if (in.intValue() > maxf) {
+      		maxf = in.intValue();
+      		oldf = font.getFamily();
+      	}
+      }
+      
+  	}
+  	System.out.println("Old family: " + oldf);
+
+    for(Iterator i = keys.iterator(); i.hasNext(); ) {
+      Object key = i.next();
+      Font font = defs.getFont(key);
+      if (font != null) {
+      	if (font.getFamily().equals(oldf))
+      		font = new FontUIResource(family, font.getStyle(), font.getSize());
+        UIManager.put(key, font.deriveFont(font.getSize2D() + delta));
+      }
+    }
+  }
+  
+  public static void showLog() {
+    dlgFileViewer d = new dlgFileViewer(Util.getLogFileName(),false);
+    d.setStandAlone(true);
+    d.setSize(Toolkit.getDefaultToolkit().getScreenSize().width,300);
+    d.setLocation(0,Toolkit.getDefaultToolkit().getScreenSize().height-350);
+    d.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    d.reload();
+    d.show();
+  }
+  public static void changeUser() {
+    Frame parent;
+    if (hr.restart.start.isMainFrame())
+      parent = hr.restart.mainFrame.getMainFrame();
+    else
+      parent = null;
+
+    if (!hr.restart.start.getFrmPassword().askLogin()) {
+      JOptionPane.showMessageDialog(parent,"Promjena korisnika nije uspjela!");
+    } else {
+      if (parent == null) parent = raLLFrames.getRaLLFrames().getMsgStartFrame();
+      setActiveFrameTitle(parent);
+    }
+  }
+  public static boolean SFMain = false;
+  public static void main(String[] args) {
+    hr.restart.start.expirationCheck();
+    hr.restart.start.runtimeArgs = args;
+    hr.restart.raSplashAWT.showSplash();
+    String runArg = hr.restart.start.getRunArg();
+    if (!hr.restart.start.checkModule(runArg)) {
+      hr.restart.start.main(args);
+      return;
+    }
+    try {
+
+      if (!hr.restart.start.checkArgs("direct")) {
+        System.out.println("Log je redirektiran u restart.log. \n"
+                           +"Odaberi Sistem/Log opciju da bi vidio log. \n"
+                           +"Da bi vidio log u standard outputu proslijedi parametar 'direct' u pozivu programa \n"
+                           +"   primjer: java -cp ... hr.restart.util.startFrame direct -Rrobno ..."
+                           );
+        hr.restart.util.Util.redirectSystemOut();
+      }
+
+      SFMain = true;
+      hr.restart.start.startClient();
+      hr.restart.start.parseURL();
+      hr.restart.raSplashAWT.splashMSG("Priprema ekrana ...");
+      startFrame.raLookAndFeel();
+      if (runArg.equals("Pilot")) {
+        hr.restart.raSplashAWT.splashMSG("Pokreæem pilot ...");
+        startFrame.getStartFrame().showFrame("hr.restart.sisfun.raPilot","SQL Pilot");
+        return;
+      }
+//      hr.restart.sisfun.frmPassword fpass = new hr.restart.sisfun.frmPassword();
+      hr.restart.raSplashAWT.splashMSG("Priprema autorizacije ...");
+      hr.restart.start.getFrmPassword();
+      hr.restart.raSplashAWT.splashMSG("Autorizacija ...");
+      if (!hr.restart.start.checkLogin()) System.exit(0);
+      if (hr.restart.start.checkInstaled(runArg) < 1) {
+        JOptionPane.showMessageDialog(null,"Aplikacija nije instalirana!","SPA",JOptionPane.ERROR_MESSAGE);
+        hr.restart.sisfun.raUser.getInstance().unlockUser();
+        System.exit(0);
+      }
+      if (!hr.restart.sisfun.raUser.getInstance().canAccessApp(runArg,"P")) {
+        JOptionPane.showMessageDialog(null,"Pristup aplikaciji "+runArg+" nije Vam dozvoljen!","SPA",JOptionPane.ERROR_MESSAGE);
+        hr.restart.sisfun.raUser.getInstance().unlockUser();
+        System.exit(0);
+      }
+//      hr.restart.zapod.dlgGetKnjig.getKNJCORG();
+      hr.restart.raSplashAWT.splashMSG("Priprema ekrana ...");
+      hr.restart.zapod.dlgGetKnjig.changeKnjig(hr.restart.start.getFlaggedArg("knjig:"),true);
+      String resModule = "APL".concat(runArg);
+      String raModule = runArg;
+      ResourceBundle raRes = ResourceBundle.getBundle(hr.restart.start.RESBUNDLENAME);
+      Class modStart = Class.forName(raRes.getString(resModule));
+      String modTitle = raRes.getString("jB"+raModule+"_text");
+      startFrame modFrame = (hr.restart.util.startFrame)modStart.newInstance();
+
+      modFrame.getJMenuBar().setToolTipText(modTitle);
+      hr.restart.start.getUserDialog().getUserPanel().getMenuTree().addMenuBar(modFrame.getJMenuBar(),modFrame);
+
+      hr.restart.raSplashAWT.hideSplash(); // za svaki slucaj
+      modFrame.ShowMe(false,modTitle);
+      hr.restart.raToolBar.loadForOptimize();
+    }
+    catch (Exception ex) {
+      javax.swing.JOptionPane.showMessageDialog(null,"Program nije mogu\u0107e pokrenuti na ovaj na\u010Din!");
+      ex.printStackTrace();
+    }
   }
 }

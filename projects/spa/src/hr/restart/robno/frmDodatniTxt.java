@@ -17,7 +17,6 @@
 ****************************************************************************/
 package hr.restart.robno;
 
-import hr.restart.baza.Condition;
 import hr.restart.baza.VTText;
 import hr.restart.baza.dM;
 import hr.restart.swing.AWTKeyboard;
@@ -28,7 +27,6 @@ import hr.restart.swing.JraScrollPane;
 import hr.restart.swing.JraTextField;
 import hr.restart.swing.KeyAction;
 import hr.restart.util.OKpanel;
-import hr.restart.util.VarStr;
 import hr.restart.util.lookupData;
 import hr.restart.util.lookupFrame;
 
@@ -38,7 +36,6 @@ import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -76,6 +73,7 @@ abstract public class frmDodatniTxt {
     public void run() {
       if (isDodatnaNapomena) presDodatnaNapomena();
       else if (cart != null) checkArtGroup();
+      else if (cgrart != null) checkGroup(cgrart);
     }
   };
   private JraDialog miniFrame ;//= new JraDialog((java.awt.Frame)this.getJframe(),"Ažuriranje raèuna",true);
@@ -95,7 +93,7 @@ abstract public class frmDodatniTxt {
 
     prijeuporabe();
     stoakojesnimio(qds);
-    if (cart != null && toSave) saveArtGroup();
+    //if (cart != null && toSave) saveArtGroup();
     saveUplatu();
   }
   public void prijeuporabe(){
@@ -144,6 +142,9 @@ abstract public class frmDodatniTxt {
     else cart = Integer.toString(ds.getInt("CART"));
     toSave = ds.hasColumn("CART") != null && 
              ds.hasColumn("VRDOK") == null;
+    
+    if (ds.hasColumn("CGRART") == null) cgrart = null;
+    else cgrart = ds.getString("CGRART");
   }
   public void setUP(java.awt.Container con,QueryDataSet ds,Point loc){
     initsetUP(con,ds,loc);
@@ -156,6 +157,7 @@ abstract public class frmDodatniTxt {
   private boolean isDodatnaNapomena = false;
   String cart = null;
   boolean toSave = false;
+  String cgrart = null;
 
   public void setDodatnaNapomena(boolean isDodatnaNapomena) {
 	this.isDodatnaNapomena = isDodatnaNapomena;
@@ -207,8 +209,9 @@ abstract public class frmDodatniTxt {
     jp.add(labelich);
     jp.add(dodNapomena);
     miniFrame.pack();
-    miniFrame.setLocation((int)(loc.getX()+150),
-                          (int)(loc.getY()+100));
+    miniFrame.setLocationRelativeTo(miniFrame.getParent());
+    /*miniFrame.setLocation((int)(loc.getX()+150),
+                          (int)(loc.getY()+100));*/
     miniFrame.setVisible(true);
   }
 
@@ -223,7 +226,7 @@ abstract public class frmDodatniTxt {
     }
   }
   
-  void saveArtGroup() {
+  /*void saveArtGroup() {
     String txt = dodtxt.getText();
     if (txt.trim().length() == 0) return;
     String opts = getGroupOptions();
@@ -242,9 +245,43 @@ abstract public class frmDodatniTxt {
     }
     dod.setString("TEXTFAK", opts);
     dod.saveChanges();
+  }*/
+  
+  void checkGroup(String cg) {
+    StorageDataSet doh = VTText.getDataModule().getScopedSet("textfak");
+    doh.open();
+   
+    do {
+      addOptions(doh, cg);
+    } while (LD.raLocate(dm.getGrupart(), "CGRART", cg) &&
+        !cg.equals(dm.getGrupart().getString("CGRARTPRIP")) &&
+        (cg = dm.getGrupart().getString("CGRARTPRIP")) != null);
+    
+    doh.setSort(new SortDescriptor(new String[] {"TEXTFAK"}));
+    doh.setTableName("art-group-extra");
+    String[] result = LD.lookUp(miniFrame, doh, new String[] {"TEXTFAK"}, 
+        new String[] {""}, new int[] {0});    
+    if (result != null)
+      if (dodtxt.getText().length() > 0) 
+        dodtxt.append(" " + result[0]);
+      else dodtxt.setText(result[0]);
+  }
+  
+  void addOptions(StorageDataSet doh, String cg) {
+    DataSet ds = VTText.getDataModule().openTempSet("ckey LIKE 'group-" + cg + "-%'");
+    for (ds.first(); ds.inBounds(); ds.next()) {
+      doh.insertRow(false);
+      doh.setString("TEXTFAK", ds.getString("TEXTFAK"));
+      doh.post();
+    }
   }
   
   void checkArtGroup() {
+    if (LD.raLocate(dm.getArtikli(), "CART", cart))
+      checkGroup(dm.getArtikli().getString("CGRART"));
+  }
+  
+  /*void checkArtGroup() {
     String opts = getGroupOptions();
     StorageDataSet doh = VTText.getDataModule().getScopedSet("textfak");
     doh.open();
@@ -264,9 +301,9 @@ abstract public class frmDodatniTxt {
       if (dodtxt.getText().length() > 0) 
         dodtxt.append(" " + result[0]);
       else dodtxt.setText(result[0]);
-  }
+  }*/
   
-  String getGroupOptions() {
+  /*String getGroupOptions() {
     if (LD.raLocate(dm.getArtikli(), "CART", cart)) {
       DataSet dod = VTText.getDataModule().getTempSet(Condition.equal("CKEY", 
               "group-" + dm.getArtikli().getString("CGRART")));
@@ -275,5 +312,5 @@ abstract public class frmDodatniTxt {
         return dod.getString("TEXTFAK");
     }
     return null;
-  }
+  }*/
 }

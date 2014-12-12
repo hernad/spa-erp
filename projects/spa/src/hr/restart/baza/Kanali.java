@@ -1,5 +1,5 @@
 /****license*****************************************************************
-**   file: pokusable.java
+**   file: Kanali.java
 **   Copyright 2006 Rest Art
 **
 **   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,21 +16,20 @@
 **
 ****************************************************************************/
 package hr.restart.baza;
-import java.util.ArrayList;
 
-public class pokusable {
+import com.borland.dx.dataset.DataModule;
+import com.borland.dx.sql.dataset.QueryDataSet;
 
-  public ArrayList anagram(String word) {
-    ArrayList anagrams = new ArrayList();
+public class Kanali extends KreirDrop implements DataModule {
 
-    for (int i = 0; i < word.length(); i++) {
-      ArrayList anag1 = anagram(word.substring(0, i) + word.substring(i + 1, word.length()));
-      for (int e = 0; e < anag1.size(); e++)
-        anag1.set(e, word.substring(i, i + 1) + anag1.get(e));
-      anagrams.addAll(anag1);
-    }
-    if (anagrams.size() == 0)
-      anagrams.add("");
-    return anagrams;
+  private static Kanali inst = new Kanali();
+
+  public static Kanali getDataModule() {
+    return inst;
+  }
+
+
+  public boolean isAutoRefresh() {
+    return true;
   }
 }

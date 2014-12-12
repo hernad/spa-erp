@@ -24,11 +24,14 @@ import hr.restart.swing.JraCheckBox;
 import hr.restart.swing.JraTextField;
 import hr.restart.util.JlrNavField;
 import hr.restart.util.raComboBox;
+import hr.restart.util.raImages;
+import hr.restart.util.raLoader;
 import hr.restart.util.raMatPodaci;
+import hr.restart.util.raNavAction;
+import hr.restart.util.startFrame;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -36,6 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import com.borland.dx.sql.dataset.QueryDataSet;
 import com.borland.jbcl.layout.XYConstraints;
 import com.borland.jbcl.layout.XYLayout;
 
@@ -86,6 +90,13 @@ public class frmGrupArt extends raMatPodaci {
   
   JLabel jLabel1 = new JLabel();
   com.borland.dx.sql.dataset.QueryDataSet grart;
+  
+  raNavAction rnvGrupNap = new raNavAction("Dodaj opciju napomene",
+      raImages.IMGHISTORY, java.awt.event.KeyEvent.VK_F7) {
+      public void actionPerformed(ActionEvent e) {
+        addNapomena();
+      }
+    };
 
   public frmGrupArt() {
     try {
@@ -96,6 +107,47 @@ public class frmGrupArt extends raMatPodaci {
     }
 
   }
+  
+  QueryDataSet vttext = null;
+  
+  void addNapomena() {
+    /*frmDodatniTxt dtx= new frmDodatniTxt(){
+      public void stoakojesnimio(QueryDataSet vtt){
+        if (vttext.rowCount() == 0 || vttext.getString("TEXTFAK").trim().length() == 0) return;
+        
+        DataSet old = VTText.getDataModule().getTempSet("CKEY", "CKEY LIKE 'group-" + getRaQueryDataSet().getString("CGRART")+"-%'");
+        old.open();
+        int max = 0;
+        for (old.first(); old.inBounds(); old.next()) {
+          String key = old.getString("CKEY");
+          int num = Aus.getNumber(key.substring(key.lastIndexOf('-') + 1));
+          if (num > max) max = num;
+        }
+        VarStr mx = new VarStr(Integer.toString(max + 1));
+        if (mx.length() < 4) mx.paddLeft(4 - mx.length(), '0');
+        String next = "group-" + getRaQueryDataSet().getString("CGRART")+"-" + mx;
+        QueryDataSet nv = VTText.getDataModule().getTempSet("1=0");
+        nv.open();
+        nv.insertRow(false);
+        nv.setString("CKEY", next);
+        nv.setString("TEXTFAK", vttext.getString("TEXTFAK"));
+        nv.saveChanges();
+      }
+      public void stoakonijesnimio(QueryDataSet qtt){
+      }
+    };
+
+//    dtx.setUP((java.awt.Frame)fDI.getParent(),fDI.getDetailSet(),fDI.raDetail.getLocation());
+
+    vttext = VTText.getDataModule().getTempSet("1=0");
+    vttext.open();
+    dtx.setUP(getWindow(), getRaQueryDataSet(), getLocation(), vttext);*/
+    
+    frmDodTextUnos.getInstance().setKey("group-" + getRaQueryDataSet().getString("CGRART") + "-");
+    startFrame.getStartFrame().showFrame("hr.restart.robno.frmDodTextUnos", 15, 
+        "Dodatni tekst za grupu " + getRaQueryDataSet().getString("NAZGRART"), true);
+  }
+  
   private void jbInit() throws Exception {
     dm = hr.restart.baza.dM.getDataModule();
     grart = hr.restart.baza.Grupart.getDataModule().getFilteredDataSet("");
@@ -239,6 +291,10 @@ public class frmGrupArt extends raMatPodaci {
     jp.add(jbNap, new XYConstraints(545, 140, 21, 21));
     
     jp.add(jcbCGRARTPRIP, new XYConstraints(15, 165, -1, -1));
+    
+    raLoader.load("hr.restart.robno.frmDodTextUnos");
+    
+    addOption(rnvGrupNap,4,true);
   }
 
   public boolean Validacija(char mode) {

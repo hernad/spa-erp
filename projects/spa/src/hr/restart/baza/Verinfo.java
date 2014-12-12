@@ -15,35 +15,21 @@
 **   limitations under the License.
 **
 ****************************************************************************/
-
 package hr.restart.baza;
 
 import com.borland.dx.sql.dataset.QueryDataSet;
 
 public class Verinfo extends KreirDrop {
 
-  private static Verinfo verinfoclass;
+  private static Verinfo inst = new Verinfo();
   
-  QueryDataSet verinfo = new raDataSet();
   
   public static Verinfo getDataModule() {
-    if (verinfoclass == null) {
-      verinfoclass = new Verinfo();
-    }
-    return verinfoclass;
+    return inst;
   }
 
-  public QueryDataSet getQueryDataSet() {
-    return verinfo;
-  }
 
-  public Verinfo() {
-    try {
-      modules.put(this.getClass().getName(), this);
-      initModule();
-    }
-    catch(Exception e) {
-      e.printStackTrace();
-    }
+  public boolean isAutoRefresh() {
+    return true;
   }
 }

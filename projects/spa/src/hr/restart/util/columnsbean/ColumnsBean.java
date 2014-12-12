@@ -845,8 +845,8 @@ public class ColumnsBean extends JPanel {
       tabheight = ((JViewport) tab.getParent().getParent()).getHeight();
       tab.setPreferredScrollableViewportSize(new Dimension(total, tabheight));
     } else tabheight = tab.getPreferredScrollableViewportSize().height;
-    if (tabheight > start.getSCREENSIZE().height)
-      tabheight = start.getSCREENSIZE().height;
+    if (tabheight > start.getSCREENSIZE().height-50)
+      tabheight = start.getSCREENSIZE().height-50;
     ret.append('*').append(tabheight);
     Container w = tab.getTopLevelAncestor();
     if (w instanceof Window) {
@@ -1023,7 +1023,7 @@ System.out.println(raDataSet.getColumn(i).getWidth());
 
 
 
-  String getSelectedColumnName() {
+  public String getSelectedColumnName() {
   	if (raJdbTable == null) return "";
   	
   	return raJdbTable.getModelColumnName(jComboB.getSelectedIndex());

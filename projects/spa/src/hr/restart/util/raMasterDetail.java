@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import com.borland.dx.dataset.ReadRow;
+import com.borland.dx.dataset.RowFilterListener;
 import com.borland.dx.dataset.SortDescriptor;
 
 /**
@@ -473,7 +474,7 @@ sysoutTEST sT = new sysoutTEST(false);
 
     JOptionPane.showMessageDialog(getJPanelMaster(),
 
-      "Uneseni podaci ne odgovaraju zadanim kriterijima u predselekciji",
+      "Uneseni podaci ne odgovaraju zadanim kriterijima u predselekciji (polje " + getPreSelect().getOffendingCol() + ").",
 
       "Greška",
 
@@ -1756,9 +1757,9 @@ sysoutTEST sT = new sysoutTEST(false);
 
     if (detailSet.getQuery().getQueryString().equals(newQuery)) {
 
-      if (!detailSet.isOpen()) detailSet.open();
+      return detailSet.open();
 
-      return false; //nije morao querat bazu
+      // return false; //nije morao querat bazu
 
     } else {
 
@@ -2302,6 +2303,18 @@ sysoutTEST sT = new sysoutTEST(false);
 
 
         public void afterSetMode(char oldMod,char newMod) {
+        	
+        	if (newMod == 'N') {
+        		RowFilterListener filter = getRaQueryDataSet().getRowFilterListener();
+            if (filter != null) {
+            	getRaQueryDataSet().removeRowFilterListener(filter);
+            	getRaQueryDataSet().refilter();
+              
+              raSelectTableModifier stm = getJpTableView().getMpTable().hasSelectionTrackerInstalled();
+              if (stm != null && stm.isNatural()) stm.clearSelection();
+              fireTableDataChanged();
+            }
+          }
 
           afterSetModeMaster(oldMod, newMod);
 
@@ -2412,8 +2425,6 @@ sysoutTEST sT = new sysoutTEST(false);
   public void masterSet_navigated(com.borland.dx.dataset.NavigationEvent e) {
 
   }
-
-
 
   public boolean isNewDetailNeeded() {
 
@@ -2567,9 +2578,7 @@ sysoutTEST sT = new sysoutTEST(false);
         afterToggleTableDetail();
 
       }
-
-
-
+      
       public boolean doBeforeSave(char mode) {
 
         return doBeforeSaveDetail(mode);
@@ -3084,7 +3093,7 @@ System.out.println("Detail.hide()  versionall="+versionall);
   public void showRecord(String[] keyNames, String[] keyValues, 
       final boolean showDetail, final Runnable afterShow) throws Exception {
 
-    final String qry = getFilteredQuery(getMasterSet(),keyNames,keyValues);
+    final String qry = keyNames == null ? null : getFilteredQuery(getMasterSet(),keyNames,keyValues);
     
     if (raDetail.isShowing()) {
       char dm = raDetail.getMode();
@@ -3108,7 +3117,8 @@ System.out.println("Detail.hide()  versionall="+versionall);
 
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
-      	Aus.refilter(getMasterSet(), qry);        
+      	if (qry == null) getPreSelect().applySQLFilter();
+      	else Aus.refilter(getMasterSet(), qry);        
         show();
         if (showDetail) //raMaster.table2Clicked(); TV. update
           SwingUtilities.invokeLater(new Runnable() {

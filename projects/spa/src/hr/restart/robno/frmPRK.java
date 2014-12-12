@@ -119,11 +119,15 @@ public class frmPRK extends frmUlazTemplate implements IZavtrHandler {
     setJPanelMaster(jpMaster);
     setJPanelDetail(jpDetail);
     setMasterSet(dm.getDokuPRK());
+    
     setDetailSet(dm.getStdokuPRK());
+    System.out.println("DC_VAL");
+    System.out.println(getDetailSet().hasColumn("DC_VAL").getScale());
     zt.setMasterFrame(this);
     zts.setMasterFrame(this);
     jpMaster.setDataSet(getMasterSet());
     jpDetail.setDataSet(getDetailSet(), getMasterSet());
+    
     
     raDetail.addOption(rnvKartica, 4, false);
     if (allowRecalc) raDetail.addOption(rnvRecalc, 4, true);
@@ -160,15 +164,18 @@ public class frmPRK extends frmUlazTemplate implements IZavtrHandler {
   }
   
   public boolean doWithSaveMaster(char mode) {
+    if (mode != 'B') zt.prepareSave();
     //if (mode == 'N' || mode == 'B' || (mode == 'I' && enableZT))
       try {
         zt.saveChanges(getMasterSet().getString("CSHZT").equals("YES") ? mode : 'B');
       } catch (Exception e) {
+        e.printStackTrace();
         return false;
       }
     return super.doWithSaveMaster(mode);
   }
   public boolean doWithSaveDetail(char mode) {
+    if (mode != 'B') zts.prepareSave();
     if (getMasterSet().getString("CSHZT").equals("YES"))
       try {
         zts.saveChanges(mode);
@@ -202,10 +209,16 @@ public class frmPRK extends frmUlazTemplate implements IZavtrHandler {
   
   private void recalcStavke() {
     
+    if (getMasterSet().getString("CSHZT").equals("YES")) {
+      
+      return;
+    }
+    
     if (JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(jpDetail,
         "Rekalkulirati sve stavke s teèajem i troškovima?", "Rekalkulacija", JOptionPane.OK_CANCEL_OPTION,
         JOptionPane.WARNING_MESSAGE)) return;
     
+    getDetailPanel().rekalk = true;
     for (getDetailSet().first(); getDetailSet().inBounds(); getDetailSet().next()) {
       findOldValues('I');
       getDetailSet().setBigDecimal("PZT", getMasterSet().getBigDecimal("UPZT"));
@@ -216,6 +229,7 @@ public class frmPRK extends frmUlazTemplate implements IZavtrHandler {
       raTransaction.saveChangesInTransaction(new QueryDataSet[] {
                       getDetailSet(), stanjeSet});
     }
+    getDetailPanel().rekalk = false;
     
     raDetail.getJpTableView().fireTableDataChanged();
     JOptionPane.showMessageDialog(jpDetail, 
@@ -446,7 +460,11 @@ public class frmPRK extends frmUlazTemplate implements IZavtrHandler {
     if (vl.isEmpty(jpMaster.jrfCPAR))
       return false;
     if (!super.ValidacijaMaster(mode)) return false;
-    zt.prepareSave();
+    if (mode == 'I' && getMasterSet().getString("CSHZT").equals("YES")) {
+      if (zt.findStructuralDiffs()) return false;
+      refilterDetailSet();
+    }
+    //zt.prepareSave();
     return true;
   }
   public void AfterCancelMaster() {
@@ -476,11 +494,12 @@ public class frmPRK extends frmUlazTemplate implements IZavtrHandler {
       return false;
     if (vl.isEmpty(jpDetail.jtfMC))
       return false;
-    if (mode == 'N') super.saveDobArt();
+
     if (!dlgSerBrojevi.getdlgSerBrojevi().findSB(jpDetail.rpcart, getDetailSet(), 'U', mode)) {
       return false;
     }
     if (!super.ValidacijaDetail(mode)) return false;
+    if (!super.checkArtCijene()) return false;
     if (rotStavkaNew != null && isTranzit) {
       rotStavkaNew.refresh();
       if (getDetailSet().getBigDecimal("KOL").compareTo(
@@ -508,7 +527,8 @@ public class frmPRK extends frmUlazTemplate implements IZavtrHandler {
             JOptionPane.WARNING_MESSAGE)) return false;
       }
     }
-    zts.prepareSave();
+    //zts.prepareSave();
+    if (mode == 'N') super.saveDobArt();
     return true;
   }
   public void AfterSaveDetail(char mode) {

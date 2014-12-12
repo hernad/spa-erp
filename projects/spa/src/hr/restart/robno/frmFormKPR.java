@@ -147,6 +147,11 @@ public class frmFormKPR extends raUpitLite {
       rbr = 1;
     }
 */
+    
+    String otpdod = "";
+    if (frmParam.getParam("robno", "kprOtp", "N", "Otpremnice staviti u KPR tek kad se prebace u racune (D,N)?").equalsIgnoreCase("D")) {
+      otpdod = " AND (doki.vrdok!='OTP' OR doki.statira!='N') ";
+    }
 
     int rbr = lastNum.getInt("LAST_NUMBER")+1;
     String tipkpr = frmParam.getParam("robno","indKPR","B",
@@ -188,10 +193,13 @@ public class frmFormKPR extends raUpitLite {
     }
 
     updateDoki = "update doki set stat_kpr='D' where cskl='" + tds.getString("CSKL") + "' "+
-                 "and god = '"+knjigodina+"' and datdok <= '"+ut.getLastSecondOfDay(tds.getTimestamp("zavDatum"))+"' and vrdok not in ('PON','TRE','ZAH')";
+                 "and god = '"+knjigodina+"' and datdok <= '"+ut.getLastSecondOfDay(tds.getTimestamp("zavDatum"))+"' and vrdok not in ('PON','TRE','ZAH') "+ otpdod;
     
-    updateDokiPOS = "update doki set stat_kpr='D' where cskl='" + hr.restart.zapod.OrgStr.getOrgStr().getKNJCORG() + "' "+
-    				"and god = '"+knjigodina+"' and datdok <= '"+ut.getLastSecondOfDay(tds.getTimestamp("zavDatum"))+"'";
+    /*updateDokiPOS = "update doki set stat_kpr='D' where cskl='" + hr.restart.zapod.OrgStr.getOrgStr().getKNJCORG() + "' "+
+    				"and god = '"+knjigodina+"' and datdok <= '"+ut.getLastSecondOfDay(tds.getTimestamp("zavDatum"))+"'";*/
+    
+    updateDokiPOS = "update doki set stat_kpr='D' where "+Condition.in("CSKL", hr.restart.zapod.OrgStr.getOrgStr().getOrgstrAndCurrKnjig(), "CORG")+
+      " and god = '"+knjigodina+"' and datdok <= '"+ut.getLastSecondOfDay(tds.getTimestamp("zavDatum"))+"'";
 
     updateDoku = "update doku set stat_kpr='D' where cskl='" + tds.getString("CSKL") + "' "+//"' and vrdok = 'POS' "+
                  "and god = '"+knjigodina+"' and datdok <= '"+ut.getLastSecondOfDay(tds.getTimestamp("zavDatum"))+"'";
@@ -537,6 +545,8 @@ public class frmFormKPR extends raUpitLite {
   private String nazivDok(QueryDataSet data, String vd) {
     if (vd.equals("ROT")) {
       return "Ra\u010Dun otpremnica br. " + getKey(data);
+    } else if (vd.equals("RAC")) {
+      return "Ra\u010Dun br. " + getKey(data);
     } else if (vd.equals("DON")) {
       return "Donos";
     } else if (vd.equals("PRK")) {

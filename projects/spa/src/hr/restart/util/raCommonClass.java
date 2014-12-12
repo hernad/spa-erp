@@ -145,9 +145,10 @@ public class raCommonClass {
       while (j<i) {
         sve_comp = ContainerName.getComponent(j);
         rList.add(sve_comp);
-        try {
-          addCompTreeToList((java.awt.Container) sve_comp,rList);
-        } catch (java.lang.ClassCastException e) {}
+        if (sve_comp instanceof java.awt.Container)
+          try {
+            addCompTreeToList((java.awt.Container) sve_comp,rList);
+          } catch (java.lang.ClassCastException e) {}
         j++;
       }
     }
@@ -179,7 +180,7 @@ public class raCommonClass {
       if (enabled) {
         // jos jedan workaround za jebeni basicComboboxui
         jcomp.setOpaque(true);
-        if (!(comp instanceof hr.restart.util.raComboBox))
+        if (!(comp instanceof hr.restart.swing.JraComboBox))
         {
 // tu ne nacrta dobro na javi 5 ako je prije bilo offano
               jcomp.updateUI();

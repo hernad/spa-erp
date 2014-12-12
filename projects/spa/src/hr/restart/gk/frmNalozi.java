@@ -16,12 +16,7 @@
 **
 ****************************************************************************/
 package hr.restart.gk;
-import hr.restart.baza.Condition;
-import hr.restart.baza.Gkstavke;
-import hr.restart.baza.Gkstavkerad;
-import hr.restart.baza.Nalozi;
-import hr.restart.baza.Skstavke;
-import hr.restart.baza.dM;
+import hr.restart.baza.*;
 import hr.restart.robno.raRobno;
 import hr.restart.sisfun.frmParam;
 import hr.restart.sk.raSaldaKonti;
@@ -45,12 +40,14 @@ import hr.restart.util.raNavAction;
 import hr.restart.util.raNavBar;
 import hr.restart.util.raProcess;
 import hr.restart.util.raTransaction;
+import hr.restart.util.reports.ReportMailDialog;
 import hr.restart.zapod.raKonta;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -62,6 +59,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.borland.dx.dataset.DataSet;
 import com.borland.dx.dataset.ReadRow;
 import com.borland.dx.dataset.RowFilterListener;
 import com.borland.dx.dataset.RowFilterResponse;
@@ -96,9 +94,14 @@ public class frmNalozi extends raMasterDetail {
       masovnaObrNaloga_action();
     }
   };
- raNavAction rnvToggleSelect = new raNavAction("Okreni odabir",raImages.IMGALIGNJUSTIFY,KeyEvent.VK_A,KeyEvent.CTRL_MASK) {
+  raNavAction rnvToggleSelect = new raNavAction("Okreni odabir",raImages.IMGALIGNJUSTIFY,KeyEvent.VK_A,KeyEvent.CTRL_MASK) {
     public void actionPerformed(ActionEvent e) {
       toggleSelection();
+    }
+  };
+ raNavAction rnvSendData = new raNavAction("Pošalji",raImages.IMGEXPORT,KeyEvent.VK_S,KeyEvent.CTRL_MASK) {
+    public void actionPerformed(ActionEvent e) {
+      sendData();
     }
   };
 
@@ -184,6 +187,7 @@ public class frmNalozi extends raMasterDetail {
     raMaster.addOption(rnvObrNaloga,5,false);
     raMaster.addOption(rnvObrNalogaMas,6,false);
     raMaster.addOption(rnvToggleSelect,7,false);
+    raMaster.addOption(rnvSendData,8,false);
     setMasterKey(keys);
     setDetailKey(dkeys);
     setNaslovMaster("Nalozi - temeljnice");
@@ -261,6 +265,10 @@ public class frmNalozi extends raMasterDetail {
 
     if (getStavkeSK() != null) {
       raMPa.getRepRunner().addReport("hr.restart.gk.repTemeljSK","Ispis stavaka za salda konti",5);
+    }
+    if (getDetailSet() != null && getDetailSet().isOpen())
+    if (getDetailSet().getString("OPIS").startsWith("Kompenzacija po raèunu - ")) {
+      raMPa.getRepRunner().addReport("hr.restart.gk.repKompNalog","hr.restart.gk.repNalog","Komp","Ispis kompenzacije");
     }
     if (!fake && !det) raMPa.getRepRunner().addReport("hr.restart.gk.repNalozi","Ispis zaglavlja temeljnica",5);
   }
@@ -1447,14 +1455,92 @@ System.out.println(nalID+"   "+nalIP+"   "+oldID+"   "+oldIP+"   "+newNalID+"   
     }
     //Rasknji?avanje
     else if (strSTATUS.equals("K")) {
-      if (raObrNaloga.getRaObrNaloga().hasSkStavke(getMasterSet().getString("CNALOGA"))) {
-        msgObr = "Nalog je nemoguæe rasknjižiti jer sadrži stavke sada konti!";
+      System.out.println("cgkstavke like '"+getMasterSet().getString("CNALOGA")+"%'");
+      raProcess.runChild("Provjera", "Provjera salda konti stavaka...", new Runnable() {
+        public void run() {
+          DataSet ds = Skstavke.getDataModule().getTempSet("cgkstavke like '"+getMasterSet().getString("CNALOGA")+"%'");
+          ds.open();
+          raProcess.yield(ds);
+        }
+      });
+      DataSet sk = (DataSet) raProcess.getReturnValue();
+      DataSet ui = UIstavke.getDataModule().getTempSet(Condition.in("CSKSTAVKE",  sk));
+      
+      boolean pok = false;
+      for (sk.first(); sk.inBounds(); sk.next())
+        if (sk.getBigDecimal("SALDO").compareTo(sk.getBigDecimal("SSALDO")) != 0) pok = true;
+      
+      if (pok) {
+        msgObr = "Nalog je nemoguæe rasknjižiti jer sadrži stavke sada konti koje su pokrivene!";
       } else if (askDialog("Nalog je obraðen. Želite li poništiti obradu?")) {
         startProcessMessage();
+        
+        rdw.setMessage("Provjera knjiženja iz robnog ...");
+        
+        String god = getMasterSet().getString("GOD").substring(2, 4);
+        String vrnal = getMasterSet().getString("CVRNAL");
+        String rbr = vl.maskZeroInteger(new Integer(getMasterSet().getInt("RBR")), 4);
+        String brnal = god.concat(vrnal).concat(rbr); 
+        
+        DataSet di = doki.getDataModule().getTempSet(Condition.equal("BRNAL",  brnal));
+        di.open();
+        DataSet du = Doku.getDataModule().getTempSet(Condition.equal("BRNAL",  brnal));
+        du.open();
+        DataSet mi = Meskla.getDataModule().getTempSet(Condition.equal("BRNAL",  brnal));
+        mi.open();
+        DataSet mu = Meskla.getDataModule().getTempSet(Condition.equal("BRNALU",  brnal));
+        mu.open();
+        boolean robno = di.rowCount() > 0 || du.rowCount() > 0 || mi.rowCount() > 0 || mu.rowCount() > 0;
+        
+        System.out.println("Rasknj: saldak = " + sk.rowCount() + "  robno: " + robno);
+        
+        rdw.setMessage("Rasknjižavanje naloga ...");
         obradaInProgress = true;
         setDetailSet(dm.getGkstavkerad());
-        if (obrada.raskNaloga(this)) {
+        if (obrada.raskNaloga(this, sk.rowCount() > 0 ? sk : null)) {
           msgObr = "Obrada naloga je uspješno poništena!";
+          
+          if (sk.rowCount() > 0) {
+            rdw.setMessage("Ažuriranje statusa salda konti stavaka ...");
+            ui.open();
+            if (ui.rowCount() > 0 && !robno) {
+              for (sk.first(); sk.inBounds(); sk.next()) sk.setString("CGKSTAVKE", "");
+              raTransaction.saveChanges((QueryDataSet) sk);
+            } else {
+              ui.deleteAllRows();
+              sk.deleteAllRows();
+              
+              raTransaction.saveChanges((QueryDataSet) sk);
+              raTransaction.saveChanges((QueryDataSet) ui);
+            }
+          } 
+          if (robno) {
+            for (di.first(); di.inBounds(); di.next()) {
+              di.setString("BRNAL", "");
+              di.setAssignedNull("DATKNJ");
+              di.setString("STATKNJ", "N");
+            }
+            for (du.first(); du.inBounds(); du.next()) {
+              du.setString("BRNAL", "");
+              du.setAssignedNull("DATKNJ");
+              du.setString("STATKNJ", "N");
+            }
+            for (mi.first(); mi.inBounds(); mi.next()) {
+              mi.setString("BRNAL", "");
+              mi.setAssignedNull("DATKNJ");
+              mi.setString("STATKNJI", "N");
+            }
+            for (mu.first(); mu.inBounds(); mu.next()) {
+              mi.setString("BRNALU", "");
+              mi.setAssignedNull("DATKNJU");
+              mi.setString("STATKNJU", "N");
+            }
+            raTransaction.saveChanges((QueryDataSet) di);
+            raTransaction.saveChanges((QueryDataSet) du);
+            raTransaction.saveChanges((QueryDataSet) mi);
+            raTransaction.saveChanges((QueryDataSet) mu);
+          }
+          
           isObrNalogaSucc = true;
         } else {
           msgObr = "Poništenje obrade naloga je neuspješno!";
@@ -1710,5 +1796,16 @@ System.out.println(nalID+"   "+nalIP+"   "+oldID+"   "+oldIP+"   "+newNalID+"   
     }
     if (updateNalog) raTransaction.saveChanges(nalog);
     return changeDatumKnjizenja_ret;
-}
+  }
+  
+  //zove skriptu za pripremu i šalje na zadanu e-mail adresu
+  protected void sendData() {
+    
+    File attachment = GKDataTransfer.serializeData(getMasterSet(), frmParam.getParam("gk", "mode4data", "", "Mod prijenosa podataka mailom iz GK")); // tu zdampaj
+    if (attachment == null) return;
+    String kome = frmParam.getParam("gk", "mail4data", "andrej@rest-art.hr", "email adresa na koju se šalju podaci iz temeljnice");
+    String naslov = "Podaci iz naloga za knjiženje "+getMasterSet().getString("CNALOGA")+" od "+getMasterSet().getTimestamp("DATUMKNJ");
+    String txt = "U privitku ...";
+    ReportMailDialog.sendMail(attachment, ReportMailDialog.showMailDialog(kome, naslov, txt));
+  }
 }

@@ -27,6 +27,8 @@ import hr.restart.baza.Condition;
 import hr.restart.baza.Odbici;
 import hr.restart.baza.Radnici;
 import hr.restart.baza.Radnicipl;
+import hr.restart.sk.JOPPDhndlr;
+import hr.restart.sk.frmPDV2;
 import hr.restart.util.Util;
 import hr.restart.util.Valid;
 import hr.restart.util.lookupData;
@@ -123,7 +125,16 @@ public class raVirPlMnWorker extends hr.restart.util.raMnemWorker {
     addVar(new raMnemVar("$rsind","Identifikator RS") {
       public String getText() {
         ld.raLocate(dm.getOrgpl(),new String[] {"CORG"},new String[] {hr.restart.zapod.OrgStr.getKNJCORG()});
-        return dm.getOrgpl().getString("RSIND");        
+        return JOPPDhndlr.getOZNJOPPD(dm.getOrgpl().getTimestamp("DATUMISPL"));
+        /*        return dm.getOrgpl().getString("RSIND");*/        
+      }
+    });
+
+    addVar(new raMnemVar("$joppd","Oznaka JOPPD") {
+      public String getText() {
+        ld.raLocate(dm.getOrgpl(),new String[] {"CORG"},new String[] {hr.restart.zapod.OrgStr.getKNJCORG()});
+        return JOPPDhndlr.getOZNJOPPD(dm.getOrgpl().getTimestamp("DATUMISPL"));
+        /*        return dm.getOrgpl().getString("RSIND");*/        
       }
     });
     
@@ -238,7 +249,7 @@ public class raVirPlMnWorker extends hr.restart.util.raMnemWorker {
       }
     });
     
-    addVar(new raMnemVar("$pnbzN", "Poziv na broj zaduzenja za NETO (nn 49/12)") {
+    addVar(new raMnemVar("$pnbzN", "Poziv na broj zaduzenja za NETO sa JOPPD (nn 31/14)") {
       
       public String getText() {
         return getPnb2zNeto();
@@ -272,8 +283,12 @@ public class raVirPlMnWorker extends hr.restart.util.raMnemWorker {
     ld.raLocate(dm.getLogotipovi(),new String[] {"CORG"},new String[] {hr.restart.zapod.OrgStr.getKNJCORG()});
     ret = dm.getLogotipovi().getString(raObracunPL.isOIB()?"OIB":"MATBROJ");
     ld.raLocate(dm.getOrgpl(),new String[] {"CORG"},new String[] {hr.restart.zapod.OrgStr.getKNJCORG()});
+/* 2012
     ret = ret + "-" + Valid.getValid().maskZeroInteger(new Integer(dm.getOrgpl().getShort("MJOBR")), 2);
     ret = ret + Short.toString(dm.getOrgpl().getShort("GODOBR")).substring(2);
+*/
+    //2014
+    ret = ret + "-" + JOPPDhndlr.getOZNJOPPD(dm.getOrgpl().getTimestamp("DATUMISPL"));
 //    Podatak o plaæi:
 //      0 – isplata plaæe u cijelosti
 //      1 – isplata prvog dijela plaæe

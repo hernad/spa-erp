@@ -164,8 +164,8 @@ public class presBlag extends PreSelect {
     /*
      * QueryDataSet qds = hr.restart.robno.Util.getMPSklDataset(); qds.open();
      * if (qds.rowCount()==0) { JOptionPane.showConfirmDialog(null,"Nema
-     * definiranog maloprodajnog skladiï¿½ta !",
-     * "Greï¿½ka",JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE);
+     * definiranog maloprodajnog skladišta !",
+     * "Greška",JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE);
      * this.cancelSelect(); }
      */
     // jrfCSKL.setText(qds.getString("CSKL"));
@@ -198,7 +198,7 @@ public class presBlag extends PreSelect {
       dm.getBlagajnici().open();
       if (!lookupData.getlookupData().raLocate(dm.getBlagajnici(), "LOZINKA",
           String.valueOf(jpswd.getPassword()))) {
-        JOptionPane.showMessageDialog(null, "Pogreï¿½na lozinka!", "Greï¿½ka",
+        JOptionPane.showMessageDialog(null, "Pogrešna lozinka!", "Greška",
             JOptionPane.ERROR_MESSAGE);
         return false;
       } else {
@@ -216,7 +216,7 @@ public class presBlag extends PreSelect {
      * LOZINKA='"+String.valueOf(jpswd.getPassword())+"'"; QueryDataSet qds =
      * hr.restart.util.Util.getNewQueryDataSet(str); System.out.println("sql:
      * "+str); qds.open(); if (qds.rowCount()==0) {
-     * JOptionPane.showMessageDialog(null, "Pogreï¿½na lozinka!", "Greï¿½ka",
+     * JOptionPane.showMessageDialog(null, "Pogrešna lozinka!", "Greška",
      * JOptionPane.ERROR_MESSAGE); return false; } else {
      * 
      * blagajnik=qds.getString("CBLAGAJNIK"); if
@@ -227,7 +227,7 @@ public class presBlag extends PreSelect {
     // if (vl.isEmpty(jrfCBLAGAJNIK))
     // return false;
     if (frmMasterBlagajna.allReadyRun == true) {
-      JOptionPane.showConfirmDialog(null, "Blagajna veï¿½ pokrenuta !", "Greï¿½ka",
+      JOptionPane.showConfirmDialog(null, "Blagajna veæ pokrenuta !", "Greška",
           JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
       this.cancelSelect();
       return false;
@@ -275,7 +275,7 @@ public class presBlag extends PreSelect {
     jLabel4.setText("Smjena");
     jLabel3.setText("Zaporka");
     jLabel2.setText("Blagajna");
-    jLabel1.setText(isSkladOriented() ? "Skladiï¿½te" : "Prodajno mjesto");
+    jLabel1.setText(isSkladOriented() ? "Skladište" : "Prodajno mjesto");
     jrfCPRODMJ.setRaDataSet(dm.getProd_mj());
     jrfCPRODMJ.setTextFields(new javax.swing.text.JTextComponent[] {
       jrfNAZPRODMJ
@@ -337,7 +337,7 @@ public class presBlag extends PreSelect {
       
     }
     //if (isFiskal()) {
-      jcbAktiv.setText(" Samo raï¿½uni ");
+      jcbAktiv.setText(" Samo raèuni ");
       jcbAktiv.setHorizontalTextPosition(SwingConstants.LEADING);
       jcbAktiv.setHorizontalAlignment(SwingConstants.TRAILING);
       jp.add(jcbAktiv, new XYConstraints(350, 120, 165, -1));
@@ -407,10 +407,9 @@ public class presBlag extends PreSelect {
     boolean sklad = TypeDoc.getTypeDoc().isCsklSklad(vrdok) || vrdok.equalsIgnoreCase("PRD") || 
           (isSkladOriented() && vrdok.equalsIgnoreCase("GRC"));
     String corg = cskl;
-    if (sklad) {
-      lookupData.getlookupData().raLocate(myskl, "CSKL", cskl);
-      corg = myskl.getString("CORG");
-    }
+    if (sklad && lookupData.getlookupData().raLocate(myskl, "CSKL", cskl)) 
+        corg = myskl.getString("CORG");
+    
     lookupData.getlookupData().raLocate(myorg, "CORG", corg);
     while (myorg.getString("FISK").equalsIgnoreCase("X") && 
         !myorg.getString("PRIPADNOST").equals(myorg.getString("CORG")))
@@ -439,7 +438,7 @@ public class presBlag extends PreSelect {
   public static boolean isSkladOriented() {
     if (skladOriented < 0) {
       skladOriented = frmParam.getParam("pos", "skladPos", "N",
-          "Da li se POS vodi na nivou skladiï¿½ta (D) ili prodajnog mjesta")
+          "Da li se POS vodi na nivou skladišta (D) ili prodajnog mjesta")
           .equalsIgnoreCase("D") ? 1 : 0;
     }
     return skladOriented == 1;
@@ -526,11 +525,11 @@ public class presBlag extends PreSelect {
     findOJ(ms);
     if (ms.getString("VRDOK").equals("IZD")) {
       String io = frmParam.getParam("robno", "fiskNapI-"+myorg.getString("FPP"), "", 
-          "Oznaka naplatnog ureï¿½aja za izdatnice PP " + myorg.getString("FPP") + " (lokalno)", true);
+          "Oznaka naplatnog ureðaja za izdatnice PP " + myorg.getString("FPP") + " (lokalno)", true);
       if (io != null && io.length() > 0) Aus.getNumber(io);
     }
     String ur = frmParam.getParam("robno", "fiskNap-"+myorg.getString("FPP"), "1", 
-        "Oznaka naplatnog ureï¿½aja PP " + myorg.getString("FPP") + " (lokalno)", true);
+        "Oznaka naplatnog ureðaja PP " + myorg.getString("FPP") + " (lokalno)", true);
     if (ur == null || ur.length() == 0) return 1;
     return Aus.getNumber(ur);
   }
@@ -538,7 +537,7 @@ public class presBlag extends PreSelect {
   public static int getFiskNapG(DataSet ms) {
     findOJ(ms);
     String ur = frmParam.getParam("robno", "fiskNapG-"+myorg.getString("FPP"), "2", 
-        "Oznaka naplatnog ureï¿½aja za gotovinu PP " + myorg.getString("FPP") + " (lokalno)", true);
+        "Oznaka naplatnog ureðaja za gotovinu PP " + myorg.getString("FPP") + " (lokalno)", true);
     if (ur == null || ur.length() == 0) return 1;
     return Aus.getNumber(ur);
   }
@@ -561,7 +560,7 @@ public class presBlag extends PreSelect {
   public static boolean isFiskSep() {
     if (fisksep < 0) {
       fisksep = frmParam.getParam("robno", "fiskPojed", "N",
-          "Brojaï¿½ fiskalizacije po naplatnom mjestu (D,N)")
+          "Brojaè fiskalizacije po naplatnom mjestu (D,N)")
           .equalsIgnoreCase("D") ? 1 : 0;
     }
     return fisksep == 1;
@@ -579,14 +578,14 @@ public class presBlag extends PreSelect {
   }
   
   public static int getFiskNapG() {
-    String ur = frmParam.getParam("robno", "fiskNapG", "2", "Oznaka naplatnog ureï¿½aja za gotovinu (lokalno)", true);
+    String ur = frmParam.getParam("robno", "fiskNapG", "2", "Oznaka naplatnog ureðaja za gotovinu (lokalno)", true);
     if (ur == null || ur.length() == 0) return 1;
     return Aus.getNumber(ur);
   }
   
   public static int getFiskNap(String cskl) {
     if (isSkladOriented()) {
-      String ur = frmParam.getParam("robno", "fiskNap"+cskl, "1", "Oznaka naplatnog ureï¿½aja " + cskl + " (lokalno)", true);
+      String ur = frmParam.getParam("robno", "fiskNap"+cskl, "1", "Oznaka naplatnog ureðaja " + cskl + " (lokalno)", true);
       if (ur == null || ur.length() == 0) return 1;
       return Aus.getNumber(ur);
     }
@@ -595,7 +594,7 @@ public class presBlag extends PreSelect {
   
   public static int getFiskNap() {
     
-    String ur = frmParam.getParam("robno", "fiskNap", "1", "Oznaka naplatnog ureï¿½aja (lokalno)", true);
+    String ur = frmParam.getParam("robno", "fiskNap", "1", "Oznaka naplatnog ureðaja (lokalno)", true);
     if (ur == null || ur.length() == 0) return 1;
     return Aus.getNumber(ur);
   }*/
@@ -650,8 +649,7 @@ public class presBlag extends PreSelect {
     if (f != null) return f;
     
     findOJ(vrdok, cskl);
-
-    /* TODO: hernad fiskalizacija
+    
     try {
       f = new FisUtil(Aus.findFileAnywhere(myorg.getString("FPATH")).getPath(), myorg.getString("FKEY"), null);
       fisks.put(cskl, f);
@@ -659,9 +657,6 @@ public class presBlag extends PreSelect {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
-    */
-
     return f;
   }
   

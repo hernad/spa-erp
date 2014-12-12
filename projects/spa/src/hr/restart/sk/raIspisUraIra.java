@@ -279,6 +279,8 @@ public class raIspisUraIra extends raFrame {
     System.out.println("ROWS: "+uraira.getRowCount());
     getRepRunner().clearAllReports();
     if (jrbUraira1.isSelected()) {
+      getRepRunner().addJasper("hr.restart.sk.repURAEU", "hr.restart.sk.repURAEU",
+          "uraeu.jrxml", "Ispis knjige URA EU");
       getRepRunner().addJasper("hr.restart.sk.repURA25", "hr.restart.sk.repURANew",
           "ura25.jrxml", "Ispis knjige URA 25%");
       getRepRunner().addJasper("hr.restart.sk.repURA09", "hr.restart.sk.repURANew",
@@ -301,6 +303,10 @@ public class raIspisUraIra extends raFrame {
       });
 //      getRepRunner().addReport("hr.restart.sk.repURADod", "Ispis knjige URA sa dodatnim kolonama", 5);
     } else {
+      getRepRunner().addJasper("hr.restart.sk.repIRAEU2", "hr.restart.sk.repIRA",
+          "iraeu2.jrxml", "Ispis knjige IRA EU - oporezive kolone");
+      getRepRunner().addJasper("hr.restart.sk.repIRAEU1", "hr.restart.sk.repIRA",
+          "iraeu1.jrxml", "Ispis knjige IRA EU - neoporezive kolone");
       getRepRunner().addJasper("hr.restart.sk.repIRA25", "hr.restart.sk.repIRA",
           "ira25.jrxml", "Ispis knjige IRA 25%");
       getRepRunner().addJasper("hr.restart.sk.repIRA10", "hr.restart.sk.repIRA",
@@ -369,7 +375,10 @@ public class raIspisUraIra extends raFrame {
     cols.add(dM.createStringColumn("MB", oib ? "OIB": "MB", 30));
     cols.add(dM.createStringColumn("SORTER", 16));
     tkol.open();
-    for (tkol.first(); tkol.inBounds(); tkol.next()) {
+    for (int i = 6; i <= (ui.equals("U") ? 18 : 23); i++) {
+      cols.add(dM.createBigDecimalColumn("KOLONA" + i, Integer.toString(i)));
+    }
+    /*for (tkol.first(); tkol.inBounds(); tkol.next()) {
       if (tkol.getString("URAIRA").equals(ui) && tkol.getShort("CKOLONE") != 0
           && tkol.getShort("CKOLONE") < 25) {
         cols.add(dM.createBigDecimalColumn("KOLONA" + tkol.getShort("CKOLONE"), 
@@ -377,16 +386,16 @@ public class raIspisUraIra extends raFrame {
 //        cols.add(c = (Column) tkol.getColumn("NAZIVKOLONE").clone());
 //        c.setColumnName("NAZIVKOLONE" + tkol.getShort("CKOLONE"));
       }
-    }
+    }*/
     cols.add(dM.createBigDecimalColumn("OSTALO", "Ostalo"));
     if (ui.equals("U")) {
-      cols.add(dM.createBigDecimalColumn("OCHECK10", "Greška 10% poreza"));
-      cols.add(dM.createBigDecimalColumn("OCHECK22", "Greška 23% poreza"));
-      cols.add(dM.createBigDecimalColumn("OCHECK23", "Greška 25% poreza"));
+      cols.add(dM.createBigDecimalColumn("OCHECK5", "Greška 5% poreza"));
+      cols.add(dM.createBigDecimalColumn("OCHECK10", "Greška 13% poreza"));
+      cols.add(dM.createBigDecimalColumn("OCHECK25", "Greška 25% poreza"));
     } else {
-      cols.add(dM.createBigDecimalColumn("OCHECK10", "Greška 10% poreza"));
-      cols.add(dM.createBigDecimalColumn("OCHECK22", "Greška 23% poreza"));
-      cols.add(dM.createBigDecimalColumn("OCHECK23", "Greška 25% poreza"));
+      cols.add(dM.createBigDecimalColumn("OCHECK5", "Greška 5% poreza"));
+      cols.add(dM.createBigDecimalColumn("OCHECK10", "Greška 13% poreza"));
+      cols.add(dM.createBigDecimalColumn("OCHECK25", "Greška 25% poreza"));
     }
     cols.add(dM.createBigDecimalColumn("SALDO", "Greška zbroja"));
     uraira.setColumns((Column[]) cols.toArray(new Column[] {}));
@@ -421,54 +430,53 @@ public class raIspisUraIra extends raFrame {
   
   // WARNING:  HARDCODED!!
   private BigDecimal getColValue(DataSet ds, boolean ulaz) {
-    if ((ulaz && ds.getShort("CKOLONE") == 10) ||
+    if ((ulaz && ds.getShort("CKOLONE") == 9) ||
         (!ulaz && ds.getShort("CKOLONE") != 6))
       return ds.getBigDecimal("IP").subtract(ds.getBigDecimal("ID"));
     return ds.getBigDecimal("ID").subtract(ds.getBigDecimal("IP"));
   }
   
   private void findErrors(boolean ulaz) {
-    BigDecimal x10 = new BigDecimal("0.1");
-    BigDecimal x23 = new BigDecimal("0.23");
+    BigDecimal x5 = new BigDecimal("0.05");
+    BigDecimal x10 = new BigDecimal("0.13");
     BigDecimal x25 = new BigDecimal("0.25");
     boolean nem = "D".equalsIgnoreCase(frmParam.getParam("sk", 
         "checkNemoze", "N", "Uraèunati kolonu ne može se odbiti u provjeru (D,N)"));
     for (uraira.first(); uraira.inBounds(); uraira.next()) {
       if (ulaz) {
+        uraira.setBigDecimal("OCHECK5", uraira.getBigDecimal("KOLONA6").
+              multiply(x5).setScale(2, BigDecimal.ROUND_HALF_UP).
+              subtract(uraira.getBigDecimal("KOLONA11")).
+              subtract(nem ? uraira.getBigDecimal("KOLONA12") : Aus.zero2));
         uraira.setBigDecimal("OCHECK10", uraira.getBigDecimal("KOLONA7").
-              multiply(x10).setScale(2, BigDecimal.ROUND_HALF_UP).
-              subtract(uraira.getBigDecimal("KOLONA12")).
-              subtract(nem ? uraira.getBigDecimal("KOLONA13") : Aus.zero2));
-        uraira.setBigDecimal("OCHECK22", uraira.getBigDecimal("KOLONA8").
-            multiply(x23).setScale(2, BigDecimal.ROUND_HALF_UP).
-            subtract(uraira.getBigDecimal("KOLONA14")).
-            subtract(nem ? uraira.getBigDecimal("KOLONA15") : Aus.zero2));
-        uraira.setBigDecimal("OCHECK23", uraira.getBigDecimal("KOLONA9").
+            multiply(x10).setScale(2, BigDecimal.ROUND_HALF_UP).
+            subtract(uraira.getBigDecimal("KOLONA13")).
+            subtract(nem ? uraira.getBigDecimal("KOLONA14") : Aus.zero2));
+        uraira.setBigDecimal("OCHECK25", uraira.getBigDecimal("KOLONA8").
             multiply(x25).setScale(2, BigDecimal.ROUND_HALF_UP).
-            subtract(uraira.getBigDecimal("KOLONA16")).
-            subtract(nem ? uraira.getBigDecimal("KOLONA17") : Aus.zero2));
-        uraira.setBigDecimal("SALDO", uraira.getBigDecimal("KOLONA10").
+            subtract(uraira.getBigDecimal("KOLONA15")).
+            subtract(nem ? uraira.getBigDecimal("KOLONA16") : Aus.zero2));
+        uraira.setBigDecimal("SALDO", uraira.getBigDecimal("KOLONA9").
             subtract(uraira.getBigDecimal("KOLONA6")).
             subtract(uraira.getBigDecimal("KOLONA7")).
             subtract(uraira.getBigDecimal("KOLONA8")).
-            subtract(uraira.getBigDecimal("KOLONA9")).
+            subtract(uraira.getBigDecimal("KOLONA11")).
             subtract(uraira.getBigDecimal("KOLONA12")).
             subtract(uraira.getBigDecimal("KOLONA13")).
             subtract(uraira.getBigDecimal("KOLONA14")).
             subtract(uraira.getBigDecimal("KOLONA15")).
             subtract(uraira.getBigDecimal("KOLONA16")).
-            subtract(uraira.getBigDecimal("KOLONA17")).
             subtract(uraira.getBigDecimal("OSTALO")));
       } else {
-        uraira.setBigDecimal("OCHECK10", uraira.getBigDecimal("KOLONA12").
+        uraira.setBigDecimal("OCHECK5", uraira.getBigDecimal("KOLONA17").
+            multiply(x5).setScale(2, BigDecimal.ROUND_HALF_UP).
+            subtract(uraira.getBigDecimal("KOLONA18")));
+        uraira.setBigDecimal("OCHECK10", uraira.getBigDecimal("KOLONA19").
             multiply(x10).setScale(2, BigDecimal.ROUND_HALF_UP).
-            subtract(uraira.getBigDecimal("KOLONA13")));
-        uraira.setBigDecimal("OCHECK22", uraira.getBigDecimal("KOLONA14").
-            multiply(x23).setScale(2, BigDecimal.ROUND_HALF_UP).
-            subtract(uraira.getBigDecimal("KOLONA15")));
-        uraira.setBigDecimal("OCHECK23", uraira.getBigDecimal("KOLONA16").
+            subtract(uraira.getBigDecimal("KOLONA20")));
+        uraira.setBigDecimal("OCHECK25", uraira.getBigDecimal("KOLONA21").
             multiply(x25).setScale(2, BigDecimal.ROUND_HALF_UP).
-            subtract(uraira.getBigDecimal("KOLONA17")));
+            subtract(uraira.getBigDecimal("KOLONA22")));
         uraira.setBigDecimal("SALDO", uraira.getBigDecimal("KOLONA6").
             subtract(uraira.getBigDecimal("KOLONA7")).
             subtract(uraira.getBigDecimal("KOLONA8")).
@@ -481,6 +489,11 @@ public class raIspisUraIra extends raFrame {
             subtract(uraira.getBigDecimal("KOLONA15")).
             subtract(uraira.getBigDecimal("KOLONA16")).
             subtract(uraira.getBigDecimal("KOLONA17")).
+            subtract(uraira.getBigDecimal("KOLONA18")).
+            subtract(uraira.getBigDecimal("KOLONA19")).
+            subtract(uraira.getBigDecimal("KOLONA20")).
+            subtract(uraira.getBigDecimal("KOLONA21")).
+            subtract(uraira.getBigDecimal("KOLONA22")).
             subtract(uraira.getBigDecimal("OSTALO")));
       }
     }
@@ -499,12 +512,10 @@ public class raIspisUraIra extends raFrame {
       frmTableDataView view = new frmTableDataView(true, false, false);
       view.setDataSet(uraira);
       view.setCustomReport(jrbUraira1.isSelected() ? 
-          raReportDescriptor.create("hr.restart.sk.repURA25", 
-              "hr.restart.sk.repURANew", "ura25.jrxml", 
-              "Ispis knjige URA 25%", true) :
-          raReportDescriptor.create("hr.restart.sk.repIRA25", 
-              "hr.restart.sk.repIRA", "ira25.jrxml", 
-              "Ispis knjige IRA 25%", true));
+          raReportDescriptor.create("hr.restart.sk.repURAEU", "hr.restart.sk.repURAEU",
+              "uraeu.jrxml", "Ispis knjige URA EU", true) :
+          raReportDescriptor.create("hr.restart.sk.repIRAEU2", "hr.restart.sk.repIRA",
+              "iraeu2.jrxml", "Ispis knjige IRA EU - oporezive kolone", true));
       List sumc = new ArrayList();
       for (int i = 10; i < uraira.getColumnCount(); i++)
         sumc.add(uraira.getColumn(i).getColumnName());
@@ -539,7 +550,13 @@ public class raIspisUraIra extends raFrame {
         "Ne prikazivati sume na ispisu URA/IRA? (D/N)"));
     Timestamp firstm = ut.getFirstDayOfMonth(dmfrom);
     Timestamp lastm = ut.getLastDayOfMonth(dmto);
+    Calendar c7 = Calendar.getInstance();
+    c7.set(2013, 5, 30);
     Timestamp firsty = ut.getFirstDayOfYear(dmfrom);
+    if (dmfrom.after(new Timestamp(c7.getTimeInMillis())) && ut.getYear(dmfrom).equals("2013")) {
+      c7.set(2013,6,1,0,0,0);
+      firsty = new Timestamp(c7.getTimeInMillis());
+    }
     Timestamp lasty = ut.addDays(firstm, -1);
     setUraIraDataSet(ui);
     DataSet ds;
@@ -688,7 +705,7 @@ public class raIspisUraIra extends raFrame {
 //      System.out.println(lastpri);
       short ckol = ds.getShort("CKOLONE");      
       if (ckol != 0) {
-        String col = ckol < 25 ? "KOLONA" + ckol : "OSTALO";
+        String col = ckol < 30 ? "KOLONA" + ckol : "OSTALO";
         BigDecimal yval = sumy.containsKey(col) ? (BigDecimal) sumy.get(col) : raSaldaKonti.n0;
         BigDecimal mval = summ.containsKey(col) ? (BigDecimal) summ.get(col) : raSaldaKonti.n0;        
         BigDecimal val = raSaldaKonti.n0;
@@ -1288,5 +1305,252 @@ public class raIspisUraIra extends raFrame {
     }
     //set.saveChanges();
     System.out.println(set.getTableName()+" :: dodan prefix "+id+" na "+cnt+" slogova");
+  }
+  
+  
+  public static void convertUIcolsEU() {
+    Timestamp rangefrom, rangeto;
+    //01.07.13 na dalje
+    Calendar c = Calendar.getInstance();
+    c.set(2013, 6, 1);
+    rangefrom = new Timestamp(c.getTime().getTime());
+    c.set(9999, 11,31);
+    rangeto = new Timestamp(c.getTime().getTime());
+    //backup
+    File ddir = new File("ui13bak");
+    ddir.mkdir();
+    int dcnt;
+    dcnt = StIzvjPDV.getDataModule().dumpTable(ddir);
+    System.out.println("Backupirano "+dcnt+" StIzvjPDV");
+    
+    dcnt = IzvjPDV.getDataModule().dumpTable(ddir);
+    System.out.println("Backupirano "+dcnt+" IzvjPDV");
+
+    dcnt = KoloneknjUI.getDataModule().dumpTable(ddir);
+    System.out.println("Backupirano "+dcnt+" KoloneknjUI");
+    
+    dcnt = Shkonta.getDataModule().dumpTable(ddir);
+    System.out.println("Backupirano "+dcnt+" Shkonta");
+    
+    //OSNOVNI PODACI
+    //izvjpdv.ciz, stizvjpdv.ciz +oldid
+    // ne treba - radi se nova definicija vezana za XML shemu, dok stara ostaje
+//    String cizfilter = "CIZ like 'I%'"; 
+//    QueryDataSet stizvjpdv = StIzvjPDV.getDataModule().getTempSet("CIZ like 'I%' or CIZ like 'V%'");
+//    QueryDataSet izvjpdv = IzvjPDV.getDataModule().getTempSet("CIZ like 'I%' or CIZ like 'V%'");
+//    addIdPrefix(izvjpdv, oldid);
+//    addIdPrefix(stizvjpdv, oldid);
+    
+    //koloneknjui
+    QueryDataSet kolone = KoloneknjUI.getDataModule().getTempSet(Condition.between("CKOLONE", 1, 1000));
+        //"ckolone < 1000");
+    kolone.open();
+    for (kolone.first(); kolone.inBounds(); kolone.next()) {
+      kolone.setShort("CKOLONE", (short)(kolone.getShort("CKOLONE")+13000));
+      kolone.post();
+    }
+    
+    //shkonta where app='sk'.polje
+    QueryDataSet shkontask = Shkonta.getDataModule().getTempSet("app = 'sk'");
+    shkontask.open();
+    for (shkontask.first(); shkontask.inBounds(); shkontask.next()) {
+      try {
+        int ckol = new Integer(shkontask.getString("POLJE").trim()).intValue();
+        String vrdok = shkontask.getString("VRDOK");
+        char uraira = ' ';
+        if (vrdok.equals("URN") || vrdok.equals("OKD")) {
+          uraira = 'U';
+        } else if (vrdok.equals("IRN") || vrdok.equals("OKK")) {
+          uraira = 'I';
+        }
+        shkontask.setString("POLJE", convertCkol13(ckol, uraira)+"");
+        shkontask.post();
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+      shkontask.post();
+    }
+    
+    //shkonta.ckolone za ostale
+    QueryDataSet shkontaresto = Shkonta.getDataModule().getTempSet("ckolone!=0 and ckolone is not null and app!='sk'");
+    shkontaresto.open();
+    for (shkontaresto.first(); shkontaresto.inBounds(); shkontaresto.next()) {
+      try {
+        int ckol = (int)shkontaresto.getShort("CKOLONE");
+        char uraira=TypeDoc.getTypeDoc().isDocUlaz(shkontaresto.getString("VRDOK"))?'U':'I';
+        shkontaresto.setShort("CKOLONE", (short)convertCkol13(ckol, uraira));
+        shkontaresto.post();
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+    }
+    
+    //PROMETI
+    //uistavke.ckolone
+    QueryDataSet uistavke = UIstavke.getDataModule().getTempSet(
+        "EXISTS (SELECT * FROM skstavke where uistavke.knjig = skstavke.knjig"
+        +" AND uistavke.cpar = skstavke.cpar AND uistavke.vrdok = skstavke.vrdok"
+        +" AND uistavke.brojdok = skstavke.brojdok and "
+        +Condition.between("DATPRI",rangefrom,rangeto)+")");
+ 
+    processPromet13(uistavke);
+    
+    //skstavkerad.ckolone
+    QueryDataSet skstavkerad = Skstavkerad.getDataModule().getTempSet(Condition.between("DATPRI",rangefrom,rangeto));
+    
+    processPromet13(skstavkerad);
+    
+//    //konverzija izvjpdv i stizvjpdv vec sa prefixom dodati bez prefixa po novom
+//    QueryDataSet izvjpdvnew = IzvjPDV.getDataModule().getTempSet("0=1");
+//    for (izvjpdv.first(); izvjpdv.inBounds(); izvjpdv.next()) {
+//      String ciz = new VarStr(izvjpdv.getString("CIZ")).leftChop(oldid.length()).toString();
+//      if (ciz.startsWith("II.5.")) continue; //nema vise
+//      izvjpdvnew.insertRow(false);
+//      izvjpdv.copyTo(izvjpdvnew);
+//      izvjpdvnew.setString("CIZ", ciz);
+//      if (ciz.equals("II.3.v")) izvjpdvnew.setString("OPIS", "NENAPLAÆENI IZVOZ - vrijednost");
+//      if (ciz.equals("II.3.p")) izvjpdvnew.setString("OPIS", "NENAPLAÆENI IZVOZ - porez");
+//      if (ciz.equals("II.4.v")) izvjpdvnew.setString("OPIS", "NAKNADNO OSLOBOÐENJE IZVOZA U OKVIRU OSOBNOG PUTNIÈKOG PROMETA - vrijednost");
+//      if (ciz.equals("II.4.p")) izvjpdvnew.setString("OPIS", "NAKNADNO OSLOBOÐENJE IZVOZA U OKVIRU OSOBNOG PUTNIÈKOG PROMETA - porez");
+//      
+//      izvjpdvnew.post();
+//    }
+    
+    
+    //kraj
+    raTransaction.saveChangesInTransaction(new QueryDataSet[] {
+//        stizvjpdv,
+//        izvjpdv,
+        kolone,
+        shkontask,
+        shkontaresto,
+        uistavke,
+        skstavkerad
+    });
+    
+    //uloadaj izvjpdv, stizvjpdv, koloneknjui iz uraira06
+    File ldir = new File("uraira13");
+    try {
+      IzvjPDV.getDataModule().insertData(ldir);
+      StIzvjPDV.getDataModule().insertData(ldir);
+      KoloneknjUI.getDataModule().insertData(ldir);
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+  //prebac iz starih u nove kolone za promete od 01.07.2013 i sheme knjizenja
+  //trauma: izdvojiti 5 i 10%  
+  private static int convertCkol13(int ckol, char uraira) {
+    if (uraira == 'U') {
+      switch (ckol) {
+//        case 6: return 6; // 5 i 10% razdvojiti poslije
+//        case 7: return 7;
+      case 7: return 7; // // 5 i 10% -> 10% razdvojiti poslije
+        case 8: return 8;
+        case 9: return 8;
+        case 10: return 9;
+        case 12: return 13; // 5 i 10% -> 10% razdvojiti poslije
+        case 13: return 14; // 5 i 10% -> 10% razdvojiti poslije
+        case 14: return 15;
+        case 15: return 16;
+        case 16: return 15;
+        case 17: return 16;
+      }
+    } else if (uraira == 'I') {
+      switch (ckol) {
+        case 7: return 14;
+        case 8: return 15;
+        case 9: return 14;
+        case 10: return 16;
+        case 11: return 16;
+        case 12: return 19; // 5 i 10% -> 10% razdvojiti poslije
+        case 13: return 20; // 5 i 10% -> 5% razdvojiti poslije
+        case 14: return 21;
+        case 15: return 22;
+        case 16: return 21;
+        case 17: return 22;
+      }      
+    }
+    return ckol;
+  }
+  private static void processPromet13(QueryDataSet set) {
+    set.open();
+    for (set.first(); set.inBounds(); set.next()) {
+      int ckol = (int)set.getShort("CKOLONE");
+      char uraira = set.getString("URAIRA").charAt(0);
+      set.setShort("CKOLONE", (short)convertCkol13(ckol, uraira));
+      set.post();
+    }
+  }
+  
+  public static QueryDataSet cnvpdv2014() {
+    QueryDataSet iset = Aus.q("SELECT * FROM StIzvjPDV WHERE ciz like 'Pod%'");
+    QueryDataSet nset = Aus.q("SELECT * FROM StIzvjPDV WHERE ciz like 'Pdv%'");
+    for (iset.first();iset.inBounds();iset.next()) {
+      nset.insertRow(false);
+      iset.copyTo(nset);
+      String ciz = iset.getString("CIZ");
+      int piz = Integer.parseInt(ciz.substring(3,6));
+      String siz = "";
+      if (ciz.length() > 6) siz=ciz.substring(6);
+      
+      if (piz==302) 
+        piz = 304;
+      else if (piz==306) 
+        piz=314;
+      else if (piz==307) 
+        piz=315;
+      else if (piz==301 || piz==303 || piz==304 || piz==305) {
+         int a = 0;
+         if (piz==301) {
+           a=0;
+         } else if (piz==303) {
+           a=2;
+         } else if (piz==304) {
+           a=4;
+         } else if (piz==305) {
+           a=6;
+         }
+         short ckol = iset.getShort("CKOLONE");
+        switch (ckol) { 
+          case 6:
+            piz = piz+a;
+            break;
+    
+          case 7:
+            piz = piz+a+1;
+            break;
+            
+          case 8:
+            piz = piz+a+2;
+            break;
+           
+          case 13:
+            piz = piz+a+1;
+            break;
+    
+          case 14:
+            piz = piz+a+1;
+            break;
+    
+          case 15:
+            piz = piz+a+2;
+            break;
+    
+          case 16:
+            piz = piz+a+2;
+            break;
+    
+          default:
+            break;
+        }//switch
+         
+      }//if
+  
+      nset.setString("CIZ","Pdv"+piz+siz);
+      nset.post();
+    }//for
+    return nset;
   }
 }

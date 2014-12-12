@@ -243,7 +243,8 @@ public class Aus {
   }
   
   public static void div(ReadWriteRow ds, String dest, String c1, String c2) {
-    ds.setBigDecimal(dest, ds.getBigDecimal(c1).divide(ds.getBigDecimal(c2),
+    if (ds.getBigDecimal(c2).signum() == 0) ds.setBigDecimal(dest, Aus.zero0);
+    else ds.setBigDecimal(dest, ds.getBigDecimal(c1).divide(ds.getBigDecimal(c2),
         ds.getColumn(dest).getScale(), BigDecimal.ROUND_HALF_UP));
   }
   
@@ -253,7 +254,8 @@ public class Aus {
   }
   
   public static void div(ReadWriteRow ds, String dest, BigDecimal num) {
-    ds.setBigDecimal(dest, ds.getBigDecimal(dest).divide(num, 
+    if (num.signum() == 0) ds.setBigDecimal(dest, Aus.zero0);
+    else ds.setBigDecimal(dest, ds.getBigDecimal(dest).divide(num, 
         ds.getColumn(dest).getScale(), BigDecimal.ROUND_HALF_UP));
   }
   
@@ -266,6 +268,57 @@ public class Aus {
     add(ds, dest, row.getBigDecimal(src).subtract(num));
   }
   
+  public static void base(ReadWriteRow ds, String dest, String src, BigDecimal percent) {
+    ds.setBigDecimal(dest, ds.getBigDecimal(src).divide(percent.movePointLeft(2).add(one0), 
+        ds.getColumn(dest).getScale(), BigDecimal.ROUND_HALF_UP));
+  }
+  
+  public static void percent(ReadWriteRow ds, String dest, String src, BigDecimal num) {
+    if (num.signum() == 0) ds.setBigDecimal(dest, Aus.zero0);
+    else ds.setBigDecimal(dest, ds.getBigDecimal(src).movePointRight(2).divide(num,
+        ds.getColumn(dest).getScale(), BigDecimal.ROUND_HALF_UP));
+  }
+  
+  public static void percent(ReadWriteRow ds, String dest, String src, String total) {
+    if (ds.getBigDecimal(total).signum() == 0) ds.setBigDecimal(dest, Aus.zero0);
+    else ds.setBigDecimal(dest, ds.getBigDecimal(src).movePointRight(2).divide(ds.getBigDecimal(total),
+        ds.getColumn(dest).getScale(), BigDecimal.ROUND_HALF_UP));
+  }
+  
+  public static void percentage(ReadWriteRow ds, String dest, BigDecimal num, String percent) {
+    ds.setBigDecimal(dest, ds.getBigDecimal(percent).movePointLeft(2).multiply(num).
+        setScale(ds.getColumn(dest).getScale(), BigDecimal.ROUND_HALF_UP));
+  }
+  
+  public static void percentage(ReadWriteRow ds, String dest, String total, String percent) {
+    ds.setBigDecimal(dest, ds.getBigDecimal(percent).movePointLeft(2).multiply(ds.getBigDecimal(total)).
+        setScale(ds.getColumn(dest).getScale(), BigDecimal.ROUND_HALF_UP));
+  }
+  
+  public static BigDecimal minus(ReadWriteRow ds, String c1, String c2) {
+    return ds.getBigDecimal(c1).subtract(ds.getBigDecimal(c2));
+  }
+  
+  public static BigDecimal plus(ReadWriteRow ds, String c1, String c2) {
+    return ds.getBigDecimal(c1).add(ds.getBigDecimal(c2));
+  }
+  
+  public static BigDecimal to0(BigDecimal num) {
+    return num.setScale(0, BigDecimal.ROUND_HALF_UP);
+  }
+  
+  public static BigDecimal to2(BigDecimal num) {
+    return num.setScale(2, BigDecimal.ROUND_HALF_UP);
+  }
+  
+  public static BigDecimal to3(BigDecimal num) {
+    return num.setScale(3, BigDecimal.ROUND_HALF_UP);
+  }
+  
+  public static BigDecimal to6(BigDecimal num) {
+    return num.setScale(6, BigDecimal.ROUND_HALF_UP);
+  }
+    
   /**
    * vraæa true ako je string cijeli broji.
    */
@@ -1046,7 +1099,7 @@ public class Aus {
     // pokrice duzeg niza kracim, pocevsi od podniza najvece duzine, do podniza od 2 znaka.
     // najprije generiraj tablicu koeficijenata za pokrivanje podnizom neke duljine.
     double[] koef = new double[l2];
-    double factor = 0.5 / (Math.sqrt(l2) - 1);
+    double factor = 0.8 / (Math.sqrt(l2) - 1);
     for (int i = 0; i < l2; i++)
       koef[i] = 1 - factor * (Math.sqrt((double) l2 / (i + 1)) - 1);
 
@@ -1064,7 +1117,7 @@ public class Aus {
         }
       while (--sublength > v2c.length());
     }
-    return simChars * 0.5 + simSubstr * 0.5;
+    return simChars * 0.2 + simSubstr * 0.8;
   }
   
   public static void installComboPopupHideKey(final JComboBox combo) {
@@ -1337,6 +1390,28 @@ public class Aus {
     }
     if (sep == null || sep.length() != 1 || sep.equals(",")) sep = "#";
     return sep;
+  }
+  
+  public static String createLink(String text, String action) {
+    VarStr v = new VarStr();
+    v.append("<a href=\"");
+    v.append(toHtml(new VarStr(action)));
+    v.append("\">");
+    v.append(toHtml(new VarStr(text)));
+    v.append("</a>");
+    return v.toString();
+  }
+  
+  public static VarStr toHtml(VarStr v) {
+    v.replaceAll("&", "&amp;");
+    v.replaceAll("\"", "&quot;");
+    v.replaceAll("<", "&lt;");
+    v.replaceAll(">", "&gt;");
+    return v;
+  }
+  
+  public static String toHtml(String orig) {
+    return toHtml(new VarStr(orig)).toString();
   }
   
   public static String convertToURLFriendly(String orig) {

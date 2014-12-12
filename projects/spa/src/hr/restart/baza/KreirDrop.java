@@ -32,7 +32,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,7 +58,6 @@ import com.borland.jb.util.TriStateProperty;
 
 
 public abstract class KreirDrop {
-
   public static String ERROR_KEY = "$ERROR";
   
   dM dm = dM.getDataModule();
@@ -74,13 +72,29 @@ public abstract class KreirDrop {
   protected Column[] origColumns;
   protected static HashMap modules = new HashMap(200);
   protected static HashMap moduleNames = new HashMap(400);
+  protected QueryDataSet data;
 
   private static raTransferNotifier track = null;
 
   public KreirDrop() {
-    setall();
-    pkey = ddl.getPrimaryKey();
-    ddl.dispose();
+  	try {
+  		pkey = ddl.getPrimaryKey();
+  		ddl.dispose();
+    	data = isAutoRefresh() ? new raDataSet() : new QueryDataSet();
+      modules.put(this.getClass().getName(), this);
+      initModule();
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+    }
+  }
+  
+  /*protected void jbInit() throws Exception {
+    initModule();
+  }*/
+  
+  public boolean isAutoRefresh() {
+  	return false;
   }
   
   protected void initModule() {
@@ -291,7 +305,7 @@ public abstract class KreirDrop {
   	ret.setColumns(cols);
   	return ret;
   }
-
+  
   /**
    * Vraca NOVI QueryDataSet za ovu tablicu, bez WHERE filtera.
    * (SELECT * FROM <table>), sa svim kloniranim kolonama.
@@ -350,6 +364,54 @@ public abstract class KreirDrop {
     return filtered;
   }
 
+  /*  */
+  
+  
+  public QueryDataSet openEmptySet() {
+    return openTempSet("1=0");
+  }
+  
+  public QueryDataSet openTempSet() {
+    return openTempSet("");
+  }
+
+  public QueryDataSet openTempSet(Condition cond) {
+    return openTempSet(cond.toString());
+  }
+  
+  public QueryDataSet openTempSet(String cols, Condition cond) {
+    return openTempSet(cols, cond.toString());
+  }
+  
+  public QueryDataSet openTempSet(String[] cols, Condition cond) {
+    return getTempSet(cols, cond.toString());
+  }
+  
+  
+  public QueryDataSet openTempSet(String filter) {
+    QueryDataSet filtered = new QueryDataSet();
+    createFilteredDataSet(filtered, filter);
+    filtered.open();
+    return filtered;
+  }
+  
+  public QueryDataSet openTempSet(String cols, String filter) {
+    QueryDataSet filtered = new QueryDataSet();
+    String[] cols2; 
+    if (cols.indexOf(',') >= 0) cols2 = new VarStr(cols).splitTrimmed(',');
+    else cols2 = new VarStr(cols).split();
+    createFilteredDataSet(filtered, cols2, filter);
+    filtered.open();
+    return filtered;
+  }
+  
+  public QueryDataSet openTempSet(String[] cols, String filter) {
+    QueryDataSet filtered = new QueryDataSet();
+    createFilteredDataSet(filtered, cols, filter);
+    filtered.open();
+    return filtered;
+  }
+  
   /**
    * Vraca NOVI QueryDataSet za ovu tablicu, bez WHERE filtera.
    * (SELECT * FROM <table>), sa svim kloniranim kolonama.<p>
@@ -555,7 +617,9 @@ public abstract class KreirDrop {
    * automatski refresh).
    * @return defaultnu instancu QueryDataSet-a odn. raDataSet-a.
    */
-  public abstract QueryDataSet getQueryDataSet();
+  public QueryDataSet getQueryDataSet() {
+  	return data;
+  }
 
   public static void installNotifier(raTransferNotifier tn) {
     track = tn;
@@ -624,7 +688,7 @@ public abstract class KreirDrop {
           missingKeyCols.add(origColumns[i]);
       for (int i = 0; i < missingKeyCols.size(); i++) {
         existingFields.add(i, ((Column) missingKeyCols.get(i)).getColumnName().toUpperCase());
-        System.err.println("nema kolone kljuï¿½a: "+existingFields.get(i));
+        System.err.println("nema kolone kljuèa: "+existingFields.get(i));
       }
 
       raPreparedStatement ps = raPreparedStatement.createIndependentInsert(Naziv,
@@ -1067,6 +1131,7 @@ public abstract class KreirDrop {
 
   public void setall(){
     // nothing
+  	new Throwable(getClass().getName()).printStackTrace();
   }
 
 //  public void Kreiranje(BazaOper baza) {
@@ -1293,6 +1358,7 @@ public abstract class KreirDrop {
         ddl.addChar(cname, c.getPrecision(), def, c.isRowId());
         break;
       case Variant.BIGDECIMAL:
+      case Variant.DOUBLE:
         ddl.addFloat(cname, c.getPrecision(), c.getScale(), c.isRowId());
         break;
       case Variant.INT:
@@ -1332,11 +1398,13 @@ public abstract class KreirDrop {
       dtype = Variant.TIMESTAMP;
     else if (stype.equals("blob"))
       dtype = Variant.INPUTSTREAM;
+    else if (stype.equals("double"))
+      dtype = Variant.DOUBLE;
     else
       terror("pogresan tip kolone, "+stype);
     
     int scale = -1;
-    if (dtype == Variant.BIGDECIMAL)
+    if (dtype == Variant.BIGDECIMAL || dtype == Variant.DOUBLE)
       if (parts[2].indexOf(',') > 0) {
         String sscale = new VarStr(parts[2]).removeWhitespace().split(',')[1];
         if (!Aus.isDigit(sscale))
@@ -1354,7 +1422,8 @@ public abstract class KreirDrop {
     Column c = dM.createColumn(parts[0].toUpperCase(), parts[5], parts[4].trim(), 
         dtype, Dialect.getSqlType(dtype), prec, scale);
     
-    modifyColumn(c);
+    
+    if (!dM.isMinimal()) modifyColumn(c);
 
     if (parts[3].equalsIgnoreCase("pkey") || parts[3].equalsIgnoreCase("key"))
       c.setRowId(true);

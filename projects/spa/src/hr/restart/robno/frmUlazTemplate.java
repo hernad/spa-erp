@@ -26,12 +26,7 @@ import hr.restart.sisfun.dlgErrors;
 import hr.restart.sisfun.frmParam;
 import hr.restart.sk.raSaldaKonti;
 import hr.restart.swing.JraButton;
-import hr.restart.util.Aus;
-import hr.restart.util.lookupData;
-import hr.restart.util.raImages;
-import hr.restart.util.raMasterDetail;
-import hr.restart.util.raNavAction;
-import hr.restart.util.raTransaction;
+import hr.restart.util.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -116,9 +111,9 @@ public class frmUlazTemplate extends raMasterDetail {
 
 	short nStavka = 1; // redni broj stavke
 
-	short delStavka; // redni broj stavke koja se briï¿½e
+	short delStavka; // redni broj stavke koja se briše
 
-	boolean isFind; // Da li je pronaï¿½en record na stanju
+	boolean isFind; // Da li je pronaðen record na stanju
 	
 	boolean isTranzit;
 	boolean isNar;
@@ -130,9 +125,9 @@ public class frmUlazTemplate extends raMasterDetail {
 	
 	public char prSTAT;  // prebacen umobolni static iz _Main
 
-	//  boolean rowAddDelete = false; // Rade dodao za ekran ZT. Zaï¿½to? Pitaj ga!
+	//  boolean rowAddDelete = false; // Rade dodao za ekran ZT. Zašto? Pitaj ga!
 
-	String srcString; // Koji je kljuï¿½ za traï¿½enje u SEQ
+	String srcString; // Koji je kljuè za traženje u SEQ
 
 	String vrDok;
 
@@ -196,10 +191,10 @@ public class frmUlazTemplate extends raMasterDetail {
 		stozbrojiti_detail(new String[] { "IDOB", "IDOB_VAL", "IRAB", "IZT",
 				"INAB", "IMAR", "IBP", "IPOR", "ISP", "IZAD", "DIOPORMAR",
 				"DIOPORPOR", "PORAV" });
-		setnaslovi_detail(new String[] { "Dobavljaï¿½ev iznos", "Valutni iznos",
-				"Iznos popusta", "Iznos zavisih troï¿½kova", "Nabavni iznos",
+		setnaslovi_detail(new String[] { "Dobavljaèev iznos", "Valutni iznos",
+				"Iznos popusta", "Iznos zavisih troškova", "Nabavni iznos",
 				"Iznos RUC-a", "Iznos bez poreza", "Iznos poreza",
-				"Iznos s porezom", "Iznos zaduï¿½enja", "Poravnanje marï¿½e",
+				"Iznos s porezom", "Iznos zaduženja", "Poravnanje marže",
 				"Poravnanje poreza", "Poravnanje" });
 		rCD.setisNeeded(hr.restart.sisfun.frmParam.getParam("robno",
 				"kontKalk", "D",
@@ -225,7 +220,7 @@ public class frmUlazTemplate extends raMasterDetail {
       if (cskl.length() > 0) {
          if (TD.isCsklSklad(vrDok)) {
            if (lD.raLocate(dm.getSklad(), "CSKL", cskl))
-             additional = "  skladiï¿½te " + cskl + " - " + 
+             additional = "  skladište " + cskl + " - " + 
                  dm.getSklad().getString("NAZSKL");
          } else {
            if (lD.raLocate(dm.getOrgstruktura(), "CORG", cskl))
@@ -244,7 +239,7 @@ public class frmUlazTemplate extends raMasterDetail {
       setNaslovMaster(masterTitle + additional);
 		
 	  isNar = frmParam.getParam("robno", "prkFromNar", "N",
-	      "Omoguï¿½iti prebacivanje narudï¿½be u primku").equalsIgnoreCase("D");
+	      "Omoguæiti prebacivanje narudžbe u primku").equalsIgnoreCase("D");
 	}
 
 	public void beforeShowDetail() {
@@ -287,7 +282,7 @@ public class frmUlazTemplate extends raMasterDetail {
 				lD.raLocate(dm.getArtikli(), "CART", Integer.toString(getDetailSet().getInt("CART")));
 
 			if (!lD.raLocate(dm.getPorezi(), "CPOR", dm.getArtikli().getString("CPOR"))){
-	      System.err.println("Greï¿½ka nisu naï¿½eni porezi !!!!" + dm.getArtikli());
+	      System.err.println("Greška nisu naðeni porezi !!!!" + dm.getArtikli());
 	    }
 		}
 	}
@@ -315,17 +310,17 @@ public class frmUlazTemplate extends raMasterDetail {
 		int docExists = isDocumentAllreadyExist(getMasterSet().getString("BRRAC"),
             this.oldBRRAC,getMasterSet().getInt("CPAR"),this.oldCPAR);
 	  	if (docExists == -1){
-	        JOptionPane.showMessageDialog(this.getWindow(), "Broj raï¿½una "+
+	        JOptionPane.showMessageDialog(this.getWindow(), "Broj raèuna "+
 	        		getMasterSet().getString("BRRAC")+" za partnera " +
-	        		getMasterSet().getInt("CPAR")+ " vaï¿½ postoji u evidenciji robnog knjigovodstva. ",
-	                "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
+	        		getMasterSet().getInt("CPAR")+ " vaæ postoji u evidenciji robnog knjigovodstva. ",
+	                "Greška", JOptionPane.ERROR_MESSAGE);
 	        return false;
 	  	}
 	  	if (docExists == -2){
-	        JOptionPane.showMessageDialog(this.getWindow(), "Broj raï¿½una "+
+	        JOptionPane.showMessageDialog(this.getWindow(), "Broj raèuna "+
 	        		getMasterSet().getString("BRRAC")+" za partnera " +
-	        		getMasterSet().getInt("CPAR")+ " vaï¿½ postoji u evidenciji saldakonti. ",
-	                "Greï¿½ka", JOptionPane.ERROR_MESSAGE);
+	        		getMasterSet().getInt("CPAR")+ " vaæ postoji u evidenciji saldakonti. ",
+	                "Greška", JOptionPane.ERROR_MESSAGE);
 	        return false;
 	  	}
 
@@ -348,7 +343,7 @@ public class frmUlazTemplate extends raMasterDetail {
 		if (isFind && !isTranzit && !isMinusAllowed && prSTAT!='K' && (mode == 'I' || dk.signum() < 0) && 
 		    stanjeSet.getBigDecimal("KOL").compareTo(dk.negate()) < 0) {
           JOptionPane.showConfirmDialog(raDetail.getWindow(),
-                "Nedovoljna koliï¿½ina na zalihi za smanjivanje ovom stavkom!",
+                "Nedovoljna kolièina na zalihi za smanjivanje ovom stavkom!",
                 "Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
           return false;
         }
@@ -398,6 +393,31 @@ public class frmUlazTemplate extends raMasterDetail {
 		SanityCheck.basicStdoku(getDetailSet());
 		return true;
 	}
+	
+	boolean updateMC, updateNC;
+	public boolean checkArtCijene() {
+	  updateMC = updateNC = false;
+	  if (!frmParam.getParam("robno","updcijeneulaz","N",
+          "Ažurirati cijenu na artiklu kod ulaza (D,N)").trim().equalsIgnoreCase("D")) return true;
+	  if (frmParam.getParam("robno","dohMcPOS","AR",
+        "Dohvat cijene na POS-u (AR,ST)").trim().equalsIgnoreCase("AR")) {
+	    
+	    if (lD.raLocate(dm.getArtikli(), "CART", getDetailSet().getInt("CART") + "") &&
+	        Aus.comp(dm.getArtikli(), "MC", getDetailSet()) != 0) {
+	      int opt = JOptionPane.showConfirmDialog(raDetail.getWindow(),
+                  "Cijena s porezom se razlikuje od cijene na artiklu. Ažurirati cijenu na artiklu?",
+                  "Promjena cijene", JOptionPane.YES_NO_CANCEL_OPTION);
+	      if (opt == JOptionPane.CANCEL_OPTION) return false;
+	      if (opt == JOptionPane.YES_OPTION) updateMC = true;
+	    }
+	  }
+	  
+	  if (frmParam.getParam("robno","updNCulaz","D",
+          "Ažurirati nabavnu cijenu na artiklu kod ulaza (D,N)").trim().equalsIgnoreCase("D"))
+	    updateNC = true;
+
+	  return true;
+	}
 
 	//  public void AfterSaveDetail(char mode) {
 	//    updateStanje('N');
@@ -428,8 +448,8 @@ public class frmUlazTemplate extends raMasterDetail {
 		if (!lD.raLocate(dm.getSklad(), "CSKL", getMasterSet()
 				.getString("CSKL"))) {
 			JOptionPane.showMessageDialog(raDetail.getWindow(),
-			    "Ne mogu pronaï¿½i slog skladiï¿½ta! ("+
-			    getMasterSet().getString("CSKL")+")", "Greï¿½ka",
+			    "Ne mogu pronaæi slog skladišta! ("+
+			    getMasterSet().getString("CSKL")+")", "Greška",
 			    JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -446,13 +466,13 @@ public class frmUlazTemplate extends raMasterDetail {
 		if (isFind && !isTranzit &&!isMinusAllowed && prSTAT!='K' && stanjeSet.getBigDecimal("KOL").
 				compareTo(getDetailSet().getBigDecimal("KOL")) < 0) {
 			JOptionPane.showConfirmDialog(raDetail.getWindow(),
-					"Brisanje nije moguï¿½e. Koliï¿½ina na stanju je manja od koliï¿½ine na ovoj stavci!",
+					"Brisanje nije moguæe. Kolièina na stanju je manja od kolièine na ovoj stavci!",
 					"Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		if (!isUpdateOrDeletePossible()) {
 			JOptionPane.showConfirmDialog(raDetail.getWindow(),
-							"Brisanje nije moguï¿½e. Postoji promet koji je napravljen po ovom dokumentu !",
+							"Brisanje nije moguæe. Postoji promet koji je napravljen po ovom dokumentu !",
 							"Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -462,7 +482,7 @@ public class frmUlazTemplate extends raMasterDetail {
 			if (getDetailSet().getBigDecimal("VC").compareTo(
 					stanjeSet.getBigDecimal("VC")) != 0) {
 				JOptionPane.showConfirmDialog(raDetail.getWindow(),
-						"Brisanje nije moguï¿½e: razli\u010Dite cijene !",
+						"Brisanje nije moguæe: razli\u010Dite cijene !",
 						"Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
@@ -471,7 +491,7 @@ public class frmUlazTemplate extends raMasterDetail {
 			if (getDetailSet().getBigDecimal("MC").compareTo(stanjeSet
 					.getBigDecimal("MC")) != 0) {
 				JOptionPane.showConfirmDialog(raDetail.getWindow(),
-						"Brisanje nije moguï¿½e: razli\u010Dite cijene: "
+						"Brisanje nije moguæe: razli\u010Dite cijene: "
 								+ getDetailSet().getBigDecimal("MC") + ", "
 								+ stanjeSet.getBigDecimal("MC") + " !",
 						"Gre\u0161ka", JOptionPane.ERROR_MESSAGE);
@@ -494,9 +514,9 @@ public class frmUlazTemplate extends raMasterDetail {
 		oldMC = getDetailSet().getBigDecimal("SMC");
 		oldCART = getDetailSet().getInt("CART");
 		//		return isFind;
-		if (!isFind)
-			return false;
-		else
+		//if (!isFind)
+		//	return false;
+		//else
 			return localDodatniDetailCheck();
 
 	}
@@ -512,24 +532,19 @@ public class frmUlazTemplate extends raMasterDetail {
 		//    dm.getVtzavtr().getDatabase().executeStatement(rdUtil.getUtil().deleteExistingZavtrU(getMasterSet(),
 		// delStavka));
 		//    util.recalcRBR(getDetailSet(), delStavka);
-
-         /* TODO: raWebSync out
+		
 		if (TD.isDocDiraZalihu(getMasterSet().getString("VRDOK")) &&
             raWebSync.active && raWebSync.isWeb(oldCART) && raWebSync.isWeb(getMasterSet().getString("CSKL"))) {
           raWebSync.updateStanje(oldCART, getMasterSet());
         }
-        */
 	}
 	
 	public void AfterSaveDetail(char mode) {
 	  // TODO Auto-generated method stub
-
-       /* TODO: raWebSync out
 	  if (TD.isDocDiraZalihu(getMasterSet().getString("VRDOK")) &&
           raWebSync.active && raWebSync.isWeb(oldCART) && raWebSync.isWeb(getMasterSet().getString("CSKL"))) {
         raWebSync.updateStanje(getDetailSet().getInt("CART"), getMasterSet());
       }
-      */
 	}
 
 	/*
@@ -663,7 +678,10 @@ System.out.println("oldBRRAC "+oldBRRAC);
 
 		//    Util.getUtil().getSkladFromCorg().interactiveLocate(getMasterSet().getString("CSKL"),"CSKL",com.borland.dx.dataset.Locate.FIRST,
 		// false);
-		if (dm.getSklad().getString("VRZAL").trim().equals("N")) {
+		if (dm.getSklad().getString("VRZAL").trim().equals("N") ||
+		    dm.getSklad().getString("VRZAL").trim().equals("F") ||
+		    dm.getSklad().getString("VRZAL").trim().equals("L") ||
+		    dm.getSklad().getString("VRZAL").trim().equals("H")) {
 			getDetailSet().setBigDecimal("ZC",
 					getDetailSet().getBigDecimal("NC"));
 			getDetailSet().setBigDecimal("IZAD",
@@ -703,18 +721,23 @@ System.out.println("oldBRRAC "+oldBRRAC);
 										oldKOL), util.negateValue(
 								getDetailSet().getBigDecimal("MC"), stanjeSet
 										.getBigDecimal("MC")))));
-				getDetailSet().setBigDecimal(
-						"DIOPORPOR",
-						getDetailSet().getBigDecimal("PORAV").multiply(
+				
+				
+				/*getDetailSet().setBigDecimal("DIOPORPOR", getDetailSet().getBigDecimal("PORAV").
+				    divide(dm.getPorezi().getBigDecimal("UKUPOR").movePointLeft(2).add(Aus.one0), 2, BigDecimal.ROUND_HALF_UP));
+				    multiply(
 								dm.getPorezi().getBigDecimal("UKUNPOR"))
 								.divide(main.sto, 1).setScale(2,
-										BigDecimal.ROUND_HALF_UP));
-				getDetailSet().setBigDecimal(
+										BigDecimal.ROUND_HALF_UP));*/
+				Aus.base(getDetailSet(), "DIOPORPOR", "PORAV", dm.getPorezi().getBigDecimal("UKUPOR"));
+				
+				Aus.sub(getDetailSet(), "DIOPORMAR", "PORAV", "DIOPORPOR");
+				/*getDetailSet().setBigDecimal(
 						"DIOPORMAR",
 						getDetailSet().getBigDecimal("PORAV").add(
 								getDetailSet().getBigDecimal("DIOPORPOR")
 										.negate()).setScale(2,
-								BigDecimal.ROUND_HALF_UP));
+								BigDecimal.ROUND_HALF_UP));*/
 			}
 		}
 		if (isFind) { // ako postoji na stanju
@@ -762,7 +785,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		}
 	}
 
-	//TODO Ante molim te izbaci predselekciju gdje je god moguï¿½e. Zbog ispisa
+	//TODO Ante molim te izbaci predselekciju gdje je god moguæe. Zbog ispisa
 	// preko doubleclicka koji zaobilazi predselect
 
 	public String PrepSql(boolean detail, boolean usecond) {
@@ -820,7 +843,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		else {
 			javax.swing.JOptionPane.showMessageDialog(null,
 					"Ne postoje stavke ovog dokumenta. Nemogu\u0107 ispis!",
-					"Greï¿½ka", javax.swing.JOptionPane.ERROR_MESSAGE);
+					"Greška", javax.swing.JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
@@ -862,11 +885,31 @@ System.out.println("oldBRRAC "+oldBRRAC);
 
 	public boolean doBeforeSaveDetail(char mode) {
 		//System.out.println("doBeforeSaveDetail('"+mode+"')");
+	  if (mode != 'B' && (updateMC || updateNC)) try {
+	    if (lD.raLocate(dm.getArtikli(), "CART", getDetailSet().getInt("CART") + "")) {
+	      if (updateMC) Aus.set(dm.getArtikli(), "MC", getDetailSet());
+	      if (updateMC) Aus.set(dm.getArtikli(), "VC", getDetailSet());
+	      if (updateNC) Aus.set(dm.getArtikli(), "NC", stanjeSet);
+	      if (updateNC) Aus.set(dm.getArtikli(), "DC", getDetailSet());
+	      hr.restart.util.raTransaction.saveChanges(dm.getArtikli());
+	    }
+	  } finally {
+	    updateMC = updateNC = false;
+	  }
 		if (mode == 'N') {
-			getMasterSet().setBigDecimal(
+            getDetailSet().setInt("RBSID", rbr.getRbsID(getDetailSet()));
+            getDetailSet().setString(
+                    "ID_STAVKA",
+                    raControlDocs.getKey(getDetailSet(), new String[] { "cskl",
+                            "vrdok", "god", "brdok", "rbsid" }, "stdoku"));
+
+            getMasterSet().setBigDecimal(
 					"UIKAL",
 					getMasterSet().getBigDecimal("UIKAL").add(
 							getDetailSet().getBigDecimal("INAB")));
+			
+            raFLH.getInstance().ulazNoviFLH(getDetailSet());    /* FLH */
+            
 		} else if (mode == 'B') {
 			System.out.println("UIKAL (prije) = "
 					+ getMasterSet().getBigDecimal("UIKAL"));
@@ -901,14 +944,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 	}
 
 	public boolean doWithSaveDetail(char mode) {
-		if (mode == 'N') {
-			getDetailSet().setInt("RBSID", rbr.getRbsID(getDetailSet()));
-			getDetailSet().setString(
-					"ID_STAVKA",
-					raControlDocs.getKey(getDetailSet(), new String[] { "cskl",
-							"vrdok", "god", "brdok", "rbsid" }, "stdoku"));
-			hr.restart.util.raTransaction.saveChanges(getDetailSet());
-		}
+
 		if ((isTranzit || isNar) && this instanceof frmPRK) 
 		  if (!((frmPRK) this).updateRotStavka(mode)) return false;
 		if (mode == 'B') {
@@ -984,19 +1020,19 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		if (getMasterSet().getString("STATKNJ").equalsIgnoreCase("K")
 				|| getMasterSet().getString("STATKNJ").equalsIgnoreCase("P")) {
 			setUserCheckMsg(
-					"Korisnik ne moï¿½e promijeniti dokument jer je proknjiï¿½en !",
+					"Korisnik ne može promijeniti dokument jer je proknjižen !",
 					false);
 			return false;
 		}
 		if (isPrenesen()) {
 			setUserCheckMsg(
-					"Korisnik ne moï¿½e promijeniti dokument jer je prenesen u ili iz druge baze !",
+					"Korisnik ne može promijeniti dokument jer je prenesen u ili iz druge baze !",
 					false);
 			return false;
 		}
 		if (isKPR()) {
 			setUserCheckMsg(
-					"Dokument je uï¿½ao u knjigu popisa i ne smije se mijenjati !!!",
+					"Dokument je ušao u knjigu popisa i ne smije se mijenjati !!!",
 					false);
 			return false;
 		}
@@ -1017,6 +1053,9 @@ System.out.println("oldBRRAC "+oldBRRAC);
 	}
 
 	public boolean isUpdateOrDeletePossible() {
+	  if (raFLH.getInstance().provjeraFLH(getDetailSet())) return false;    /* FLH */
+	  
+	  if (!isFind) return true;
 		stanjeSet.refresh();
 		return rCD.testKalkulacije(getDetailSet(), stanjeSet);
 	}
@@ -1042,7 +1081,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 				dM.createBigDecimalColumn("DIFF", "Razlika") });
 	}
 
-	private BigDecimal getSumUINAB() {
+	/*private BigDecimal getSumUINAB() {
 		raDetail.getJpTableView().enableEvents(false);
 		int row = getDetailSet().getRow();
 		BigDecimal sum = _Main.nul;
@@ -1072,16 +1111,19 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		getDetailSet().goToRow(row);
 		raDetail.getJpTableView().enableEvents(true);
 		return sum;
-	}
+	}*/
 
-	private int getZavtr(HashMap zag, HashMap stav, HashMap ztopis) {
+	private int getZavtr(QueryDataSet ztr, HashMap zag, HashMap stav, HashMap ztopis) {
 		int numztr = 0;
-		QueryDataSet ztr = VTZtr.getDataModule().getTempSet(
-				Condition.whereAllEqual(key, getMasterSet()));
-		ztr.open();
+		if (ztr == null) {
+    	  ztr = VTZtr.getDataModule().getTempSet(Condition.whereAllEqual(key, getMasterSet()));
+          ztr.open();
+		}
+		zag.clear();
+		stav.clear();
+		ztopis.clear();
 		for (ztr.first(); ztr.inBounds(); ztr.next()) {
-			BigDecimal val = ztr.getBigDecimal("IZT").setScale(2,
-					BigDecimal.ROUND_HALF_UP);
+			BigDecimal val = Aus.to2(ztr.getBigDecimal("IZT"));
 			Short rbr = new Short(ztr.getShort("LRBR"));
 			if (ztr.getShort("RBR") == 0)
 				zag.put(rbr, val);
@@ -1094,7 +1136,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 			if (ztopis != null && !ztopis.containsKey(rbr)) {
 				lookupData.getlookupData().raLocate(dm.getZtr(), "CZT",
 						String.valueOf(ztr.getShort("CZT")));
-				ztopis.put(rbr, "Zavisni troï¿½ak " + ztr.getShort("CZT") + " "
+				ztopis.put(rbr, "Zavisni trošak " + ztr.getShort("CZT") + " "
 						+ dm.getZtr().getString("NZT"));
 			}
 		}
@@ -1120,28 +1162,26 @@ System.out.println("oldBRRAC "+oldBRRAC);
 			errs.hide();
 
 		createErrorTrace();
-		BigDecimal uinab = getSumUINAB();
-		BigDecimal uizt = getSumUIZT();
+		BigDecimal uinab = Aus.sum("IDOB", getDetailSet()).subtract(Aus.sum("IRAB",  getDetailSet()));
+		BigDecimal uizt = Aus.sum("IZT", getDetailSet());
 		System.out.println(uinab);
 		System.out.println(getMasterSet().getBigDecimal("UINAB"));
-		if (uinab.compareTo(getMasterSet().getBigDecimal("UINAB").setScale(2,
-				BigDecimal.ROUND_HALF_UP)) != 0)
+		if (uinab.compareTo(Aus.to2(getMasterSet().getBigDecimal("UINAB"))) != 0)
 			errs.addError("Ukupan neto iznos ulaznog ra\u010Duna",
 					new BigDecimal[] {
 							getMasterSet().getBigDecimal("UINAB"),
 							uinab,
 							getMasterSet().getBigDecimal("UINAB").subtract(
 									uinab) });
-		if (uizt.compareTo(getMasterSet().getBigDecimal("UIZT").setScale(2,
-				BigDecimal.ROUND_HALF_UP)) != 0)
-			errs.addError("Ukupan iznos zavisnih troï¿½kova", new BigDecimal[] {
+		if (uizt.compareTo(Aus.to2(getMasterSet().getBigDecimal("UIZT"))) != 0)
+			errs.addError("Ukupan iznos zavisnih troškova", new BigDecimal[] {
 					getMasterSet().getBigDecimal("UIZT"), uizt,
 					getMasterSet().getBigDecimal("UIZT").subtract(uizt) });
 
 		HashMap ztopis = new HashMap();
 		HashMap zag = new HashMap();
 		HashMap stav = new HashMap();
-		int numztr = getZavtr(zag, stav, ztopis);
+		int numztr = getZavtr(null, zag, stav, ztopis);
 		for (int i = 1; i <= numztr; i++) {
 			Short rbr = new Short((short) i);
 			BigDecimal iztZag = (BigDecimal) zag.get(rbr);
@@ -1166,21 +1206,183 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		errs.check();
 		return errs.countErrors() == 0;
 	}
+	
+	public void recalcFromZtr(QueryDataSet zt) {
+	  long row = getDetailSet().getInternalRow();
+	  raDetail.getJpTableView().enableEvents(false);
+	  try {
+	    for (getDetailSet().first(); getDetailSet().inBounds(); getDetailSet().next()) {
+	      findOldValues('I');
+	      raProcess.checkClosing();
+
+	      if (dm.getArtikli().getInt("CART") != getDetailSet().getInt("CART"))
+	        lD.raLocate(dm.getArtikli(), "CART", Integer.toString(getDetailSet().getInt("CART")));
+
+	      if (!lD.raLocate(dm.getPorezi(), "CPOR", dm.getArtikli().getString("CPOR"))){
+	        System.err.println("Greška nisu naðeni porezi !!!!" + dm.getArtikli());
+	      }
+
+	      BigDecimal izt = Aus.zero2;
+	      for (zt.first(); zt.inBounds(); zt.next())
+	        if (zt.getShort("RBR") == getDetailSet().getShort("RBR"))
+	          izt = izt.add(zt.getBigDecimal("IZT"));
+
+	      getDetailSet().setBigDecimal("IZT", izt);
+	      ((IZavtrHandler) this).getDetailPanel().rekalk = true;
+	      ((IZavtrHandler) this).getDetailPanel().kalkulacija(8);
+	      ((IZavtrHandler) this).getDetailPanel().rekalk = false;
+	      isFind = findSTANJE();
+	      findIZAD();
+	      updateStanje('I');
+	      raTransaction.saveChanges(getDetailSet());
+	      raTransaction.saveChanges(stanjeSet);
+	    }
+	    getDetailSet().goToInternalRow(row);
+	  } finally {
+	    raDetail.getJpTableView().enableEvents(true);
+	  }
+	  raDetail.getJpTableView().fireTableDataChanged();
+	}
+	  
+	
+	private boolean autoRecalc(final int idx, final BigDecimal diff) {
+	  raProcess.runChild(raDetail.getWindow(), new Runnable() {
+	    public void run() {
+	      final QueryDataSet ztr = VTZtr.getDataModule().getTempSet(
+	          Condition.whereAllEqual(key, getMasterSet()));
+	      raProcess.openScratchDataSet(ztr);
+	      BigDecimal tot = Aus.zero2;
+	      BigDecimal uinab = Aus.zero2;
+	      double maxerr = Math.max(0.005 * getDetailSet().rowCount(), 0.04);
+	      try {
+	        long row = getDetailSet().getInternalRow();
+	        raDetail.getJpTableView().enableEvents(false);
+	        for (getDetailSet().first(); getDetailSet().inBounds(); getDetailSet().next()) {
+	          boolean found = false;
+	          for (ztr.first(); ztr.inBounds(); ztr.next()) 
+	            if (ztr.getShort("RBR") == getDetailSet().getShort("RBR") && 
+	            ztr.getShort("RBR") > 0 && ztr.getShort("LRBR") == idx) found = true;
+	          if (found) uinab = uinab.add(Aus.minus(getDetailSet(), "IDOB", "IRAB"));
+	        }
+	        raProcess.checkClosing();
+	        for (getDetailSet().first(); getDetailSet().inBounds() && diff.compareTo(tot) != 0; getDetailSet().next()) {
+	          for (ztr.first(); ztr.inBounds(); ztr.next()) 
+	            if (ztr.getShort("RBR") == getDetailSet().getShort("RBR") && 
+	            ztr.getShort("RBR") > 0 && ztr.getShort("LRBR") == idx) {
+	              BigDecimal inab = Aus.minus(getDetailSet(), "IDOB", "IRAB");
+	              BigDecimal dio = inab.multiply(diff).divide(uinab, 2, BigDecimal.ROUND_HALF_UP);
+	              tot = tot.add(dio);
+	              if (tot.subtract(diff).abs().doubleValue() <= maxerr) {
+	                dio = dio.add(diff.subtract(tot));
+	                tot = diff;
+	              }
+	              Aus.add(ztr, "IZT",  dio);
+	              Aus.percent(ztr, "PZT",  "IZT", inab);
+	            }
+	        }
+	        getDetailSet().goToInternalRow(row);
+	      } finally {
+	        raDetail.getJpTableView().enableEvents(true);
+	      }
+	      raProcess.checkClosing();
+	      raLocalTransaction trans = new raLocalTransaction() {
+	        public boolean transaction() throws Exception {
+	          raTransaction.saveChanges(ztr);
+	          recalcFromZtr(ztr);
+	          return true;
+	        }
+	      };
+	      if (!trans.execTransaction()) {
+	        refilterDetailSet();
+	        if (trans.getLastException() instanceof ProcessInterruptException)
+	          raProcess.checkClosing();
+	        raProcess.fail();
+	      }
+	    }
+	  });
+	  if (raProcess.isFailed())
+        JOptionPane.showMessageDialog(raDetail.getWindow(), "Rekalkulacija neuspješna!",
+            "Upozorenje", JOptionPane.WARNING_MESSAGE);
+	  return raProcess.isCompleted();
+	}
+
+	private boolean recalcAll() {
+	  raProcess.runChild(raDetail.getWindow(), new Runnable() {
+        public void run() {
+          final QueryDataSet ztr = VTZtr.getDataModule().getTempSet(
+              Condition.whereAllEqual(key, getMasterSet()));
+          raProcess.openScratchDataSet(ztr);
+          BigDecimal uinab = Aus.sum("IDOB", getDetailSet()).subtract(Aus.sum("IRAB",  getDetailSet()));
+          getMasterSet().setBigDecimal("UINAB", uinab);
+          
+          HashMap pzts = new HashMap();
+          HashMap npzts = new HashMap();
+          for (ztr.first(); ztr.inBounds(); ztr.next()) {
+            if (ztr.getShort("RBR") == 0) { 
+              pzts.put(Short.valueOf(ztr.getShort("LRBR")), ztr.getBigDecimal("PZT"));
+              Aus.percent(ztr, "PZT", "IZT", uinab);
+              npzts.put(Short.valueOf(ztr.getShort("LRBR")), ztr.getBigDecimal("PZT"));
+            }
+          }
+          raProcess.checkClosing();
+          try {
+            long row = getDetailSet().getInternalRow();
+            raDetail.getJpTableView().enableEvents(false);
+            for (getDetailSet().first(); getDetailSet().inBounds(); getDetailSet().next()) {
+              BigDecimal inab = Aus.minus(getDetailSet(), "IDOB", "IRAB");
+              for (ztr.first(); ztr.inBounds(); ztr.next()) {
+                if (ztr.getShort("RBR") == getDetailSet().getShort("RBR") && ztr.getShort("RBR") > 0) {
+                  BigDecimal oldpzt = (BigDecimal) pzts.get(Short.valueOf(ztr.getShort("LRBR")));
+                  if (ztr.getBigDecimal("PZT").subtract(oldpzt).abs().doubleValue() < 0.1 &&
+                      ztr.getBigDecimal("PZT").intValue() != ztr.getBigDecimal("PZT").doubleValue()) 
+                    ztr.setBigDecimal("PZT", (BigDecimal) npzts.get(Short.valueOf(ztr.getShort("LRBR"))));
+                    
+                  Aus.percentage(ztr, "IZT", inab, "PZT");
+                }
+              }
+            }
+            getDetailSet().goToInternalRow(row);
+          } finally {
+            raDetail.getJpTableView().enableEvents(true);
+          }
+          raProcess.checkClosing();
+          raLocalTransaction trans = new raLocalTransaction() {
+            public boolean transaction() throws Exception {
+              raTransaction.saveChanges(getMasterSet());
+              raTransaction.saveChanges(ztr);
+              recalcFromZtr(ztr);
+              return true;
+            }
+          };
+          if (!trans.execTransaction()) {
+            refilterDetailSet();
+            getMasterSet().refetchRow(getMasterSet());
+            if (trans.getLastException() instanceof ProcessInterruptException)
+              raProcess.checkClosing();
+            raProcess.fail();
+          }
+        }
+      });
+	  if (raProcess.isFailed())
+        JOptionPane.showMessageDialog(raDetail.getWindow(), "Rekalkulacija neuspješna!",
+            "Upozorenje", JOptionPane.WARNING_MESSAGE);
+	  return raProcess.isCompleted();
+	}
 
 	private void automaticFix() {
 		errs.hide();
-		BigDecimal uinab = getSumUINAB();
+		BigDecimal uinab = Aus.sum("IDOB", getDetailSet()).subtract(Aus.sum("IRAB",  getDetailSet()));
 		BigDecimal uinabz = getMasterSet().getBigDecimal("UINAB");
+		double maxerr = Math.max(0.005 * getDetailSet().rowCount(), 0.04);
+		       
 		if (uinab.compareTo(uinabz) != 0) {
 			if (uinab.subtract(uinabz).abs().divide(uinabz, 6,
 					BigDecimal.ROUND_HALF_UP).doubleValue() < 0.0001
-					|| uinab.subtract(uinabz).abs().doubleValue() < 0.04) {
-				if (JOptionPane
-						.showConfirmDialog(
-								raDetail.getWindow(),
+					|| uinab.subtract(uinabz).abs().doubleValue() < maxerr) {
+				if (JOptionPane.showConfirmDialog(raDetail.getWindow(),
 								"Suma stavki neto iznosa ulaznih ra\u010Duna ne odgovara iznosu na zaglavlju.\n"
 										+ "Zanemariva razlika od "
-										+ uinab.subtract(uinabz).abs()
+										+ Aus.formatBigDecimal(uinab.subtract(uinabz).abs())
 										+ " bit \u0107e korigirana "
 										+ "na zaglavlju. U redu?", "Potvrda",
 								JOptionPane.OK_CANCEL_OPTION,
@@ -1192,82 +1394,118 @@ System.out.println("oldBRRAC "+oldBRRAC);
 					}
 				}
 			} else {
-				JOptionPane
-						.showMessageDialog(
-								raDetail.getWindow(),
+			  if (JOptionPane.showConfirmDialog(raDetail.getWindow(),
+                  "Suma stavki neto iznosa ulaznih ra\u010Duna "
+                          + "zna\u010Dajno se razlikuje ("
+                          + Aus.formatBigDecimal(uinab.subtract(uinabz).abs())
+                          + ") od iznosa na zaglavlju.\n" +
+                          "Želite li preraèunati sve stavke na ispravan postotak/iznos zavisnih troškova?", "Upozorenje",
+                          JOptionPane.YES_NO_CANCEL_OPTION) == JOptionPane.YES_OPTION)
+			      if (!recalcAll()) return;
+				/*JOptionPane.showMessageDialog(raDetail.getWindow(),
 								"Suma stavki neto iznosa ulaznih ra\u010Duna "
 										+ "zna\u010Dajno se razlikuje od iznosa na zaglavlju.\nNe mogu obaviti automatsku korekciju!",
-								"Upozorenje", JOptionPane.WARNING_MESSAGE);
+								"Upozorenje", JOptionPane.WARNING_MESSAGE);*/
 			}
 		}
-		BigDecimal uizt = getSumUIZT();
-
-		BigDecimal uiztz = getMasterSet().getBigDecimal("UIZT");
+		
+		
 		HashMap zag = new HashMap();
-		HashMap stav = new HashMap();
-		int numztr = getZavtr(zag, stav, null);
-		//	    for (int i = 1; i <= numztr; i++) {
-		//	      Short rbr = new Short((short) i);
-		//	    }
-		raDetail.getJpTableView().enableEvents(false);
-		int row = getDetailSet().getRow();
+        HashMap stav = new HashMap();
+        HashMap ztopis = new HashMap();
+        int numztr = getZavtr(null, zag, stav, ztopis);
+        for (int i = 1; i <= numztr; i++) {
+          Short rbr = new Short((short) i);
+          BigDecimal zagv = (BigDecimal) zag.get(rbr);
+          BigDecimal diff = zagv.subtract((BigDecimal) stav.get(rbr)).abs();
+          if (diff.doubleValue() >= maxerr && diff.divide(zagv, 6, BigDecimal.ROUND_HALF_UP).doubleValue() >= 0.0001) {
+            if (JOptionPane.showConfirmDialog(raDetail.getWindow(),
+               ztopis.get(rbr) + " na stavkama se znaèajno razlikuje (" + 
+                     Aus.formatBigDecimal(diff) + ") od iznosa na zaglavlju.\n" +
+               "Želite li razliku raspodijeliti na taj zavisni trošak proporcionalno po stavkama?", 
+                  "Rekalkulacija troška", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+                if (!autoRecalc(i, zagv.subtract((BigDecimal) stav.get(rbr)))) return;
+            }
+          }
+        }
+        
+        
+		BigDecimal uizt = Aus.to2(Aus.sum("IZT", getDetailSet()));
+		BigDecimal uiztz = getMasterSet().getBigDecimal("UIZT");
+		
+		if (uizt.compareTo(uiztz) != 0 && uizt.subtract(uiztz).abs().divide(uiztz, 6, BigDecimal.ROUND_HALF_UP).doubleValue() >= 0.001
+		    && uizt.subtract(uiztz).abs().doubleValue() >= maxerr*10) {
+		  JOptionPane.showMessageDialog(
+              raDetail.getWindow(),
+              "Ukupna razlika zavisnih troškova je prevelika (" +
+                  Aus.formatBigDecimal(uizt.subtract(uiztz).abs()) + ") za automatsku korekciju!",
+              "Upozorenje", JOptionPane.WARNING_MESSAGE);
+		  return;
+		}
+				
 		BigDecimal max = _Main.nul;
 		short mrbr = (short) 0;
 		String nazart = "";
-		for (getDetailSet().first(); getDetailSet().inBounds(); getDetailSet()
-				.next())
-			if (getDetailSet().getBigDecimal("IDOB").subtract(
-					getDetailSet().getBigDecimal("IRAB")).setScale(2,
-					BigDecimal.ROUND_HALF_UP).compareTo(max) > 0) {
+		QueryDataSet ztr = VTZtr.getDataModule().getTempSet(
+            Condition.whereAllEqual(key, getMasterSet()));
+        ztr.open();
+        getZavtr(ztr, zag, stav, ztopis);
+        long row = getDetailSet().getInternalRow();
+        raDetail.getJpTableView().enableEvents(false);
+        for (getDetailSet().first(); getDetailSet().inBounds(); getDetailSet().next())
+			if (Aus.to2(Aus.minus(getDetailSet(), "IDOB", "IRAB")).compareTo(max) > 0) {
 				boolean zok = true;
-				QueryDataSet ztr = VTZtr.getDataModule().getTempSet(
-						Condition.whereAllEqual(key, getMasterSet())
-								+ " AND rbr = "
-								+ getDetailSet().getShort("RBR"));
-				ztr.open();
 				for (ztr.first(); ztr.inBounds(); ztr.next()) {
+				  if (ztr.getShort("RBR") == getDetailSet().getShort("RBR")) {
 					BigDecimal izt = ztr.getBigDecimal("IZT");
 					Short rbr = new Short(ztr.getShort("LRBR"));
 					if (zag.containsKey(rbr) && stav.containsKey(rbr)) {
 						BigDecimal diff = ((BigDecimal) zag.get(rbr)).subtract(
 								(BigDecimal) stav.get(rbr)).abs();
+						//System.out.println("rbr " + ztr.getShort("RBR") + " diff " + diff);
 						if (diff.signum() != 0
-								&& (izt.signum() == 0 || diff.divide(izt, 6,
-										BigDecimal.ROUND_HALF_UP).doubleValue() > 0.01))
+								&& (izt.signum() == 0 || (diff.abs().doubleValue() >= maxerr &&
+								    diff.divide(izt, 6, BigDecimal.ROUND_HALF_UP).doubleValue() >= 0.0001)))
 							zok = false;
 					}
+				  }
 				}
 				if (zok) {
-					max = getDetailSet().getBigDecimal("IDOB").subtract(
-							getDetailSet().getBigDecimal("IRAB")).setScale(2,
-							BigDecimal.ROUND_HALF_UP);
+					max = Aus.to2(Aus.minus(getDetailSet(), "IDOB", "IRAB"));
 					mrbr = getDetailSet().getShort("RBR");
 					nazart = getDetailSet().getString("NAZART");
 				}
 			}
-		getDetailSet().goToRow(row);
+        getDetailSet().goToInternalRow(row);
 		raDetail.getJpTableView().enableEvents(true);
 		if (mrbr == 0) {
-			JOptionPane
-					.showMessageDialog(
+			JOptionPane.showMessageDialog(
 							raDetail.getWindow(),
 							"Ne mogu prona\u0107i odgovaraju\u0107u stavku primke za automatsku korekciju!",
 							"Upozorenje", JOptionPane.WARNING_MESSAGE);
 		} else {
 			if (JOptionPane.showConfirmDialog(raDetail.getWindow(),
-					"Razlika zavisnih troï¿½kova bit \u0107e "
-							+ "korigirana na stavci br. " + mrbr + "\n("
+					"Razlika zavisnih troškova od " +
+					    Aus.formatBigDecimal(uizt.subtract(uiztz).abs())
+					    + " bit æe korigirana na stavci br. " + mrbr + "\n("
 							+ nazart + "). U redu?", "Potvrda",
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+			    row = getDetailSet().getInternalRow();
 				raDetail.getJpTableView().enableEvents(false);
-				row = getDetailSet().getRow();
+
 				for (getDetailSet().first(); getDetailSet().inBounds(); getDetailSet()
 						.next())
 					if (getDetailSet().getShort("RBR") == mrbr) {
-						BigDecimal inabn = getDetailSet().getBigDecimal("IDOB")
-								.subtract(getDetailSet().getBigDecimal("IRAB"))
-								.setScale(2, BigDecimal.ROUND_HALF_UP);
-						QueryDataSet ztr = VTZtr.getDataModule().getTempSet(
+					  
+					  if (dm.getArtikli().getInt("CART") != getDetailSet().getInt("CART"))
+		                lD.raLocate(dm.getArtikli(), "CART", Integer.toString(getDetailSet().getInt("CART")));
+
+					  if (!lD.raLocate(dm.getPorezi(), "CPOR", dm.getArtikli().getString("CPOR"))){
+		                 System.err.println("Greška nisu naðeni porezi !!!!" + dm.getArtikli());
+		              }
+					  
+						BigDecimal inabn = Aus.to2(Aus.minus(getDetailSet(), "IDOB", "IRAB"));
+						ztr = VTZtr.getDataModule().getTempSet(
 								Condition.whereAllEqual(key, getMasterSet())
 										+ " AND rbr = " + mrbr);
 						ztr.open();
@@ -1277,26 +1515,24 @@ System.out.println("oldBRRAC "+oldBRRAC);
 							if (zag.containsKey(rbr) && stav.containsKey(rbr)) {
 								BigDecimal diff = ((BigDecimal) zag.get(rbr))
 										.subtract((BigDecimal) stav.get(rbr));
-								ztr.setBigDecimal("IZT", ztr.getBigDecimal(
-										"IZT").add(diff));
-								ztr.setBigDecimal("PZT", util.findPostotak7(
-										inabn, ztr.getBigDecimal("IZT")));
+								Aus.add(ztr, "IZT",  diff);
+								Aus.percent(ztr, "PZT",  "IZT",  inabn);
 								izt = izt.add(ztr.getBigDecimal("IZT"))
 										.setScale(2, BigDecimal.ROUND_HALF_UP);
 							}
 						}
 						findOldValues('I');
 						getDetailSet().setBigDecimal("IZT", izt);
+						((IZavtrHandler) this).getDetailPanel().rekalk = true;
 						((IZavtrHandler) this).getDetailPanel().kalkulacija(8);
+						((IZavtrHandler) this).getDetailPanel().rekalk = false;
 						isFind = findSTANJE();
 						findIZAD();
 						updateStanje('I');
-						raTransaction
-								.saveChangesInTransaction(new QueryDataSet[] {
-										getDetailSet(), ztr, stanjeSet });
+						raTransaction.saveChangesInTransaction(new QueryDataSet[] {getDetailSet(), ztr, stanjeSet });
 						break;
 					}
-				getDetailSet().goToRow(row);
+				getDetailSet().goToInternalRow(row);
 				raDetail.getJpTableView().enableEvents(true);
 			}
 		}
@@ -1310,7 +1546,7 @@ System.out.println("oldBRRAC "+oldBRRAC);
 		
 		if (newBRRAC.equalsIgnoreCase("")) return 0;
 		if ("D".equalsIgnoreCase(frmParam.getParam("robno", "skipSkCheck", "N",
-		    "Preskoï¿½iti provjeru broja raï¿½una u modulu SK (D,N)"))) return 0;
+		    "Preskoèiti provjeru broja raèuna u modulu SK (D,N)"))) return 0;
 		if (newBRRAC.equalsIgnoreCase(ooldBRRAC) && 
 			newCPAR == ooldCPAR) return 0;
 

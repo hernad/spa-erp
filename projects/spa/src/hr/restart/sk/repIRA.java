@@ -69,7 +69,9 @@ public class repIRA implements raReportData {
   public String getBROJDOK() {
     return ds.getInt("RBS") == 0 ? "" : ds.getString("BROJDOK");
   }
-
+  public String getEXTBRDOK() {
+    return ds.getInt("RBS") == 0 ? "" : ds.getString("EXTBRDOK");
+  }
   public String getDATUM() {
     return ds.getInt("RBS") == 0 ? "" : rui.rdu.dataFormatter(ds.getTimestamp("DATDOK"));
   }
@@ -131,7 +133,23 @@ public class repIRA implements raReportData {
   }
   
   public BigDecimal getKOL18() {
-    return Aus.zero2;
+    return raIspisUraIra.getKolona(ds,"18");
+  }
+  
+  public BigDecimal getKOL19() {
+    return raIspisUraIra.getKolona(ds,"19");
+  }
+  
+  public BigDecimal getKOL20() {
+    return raIspisUraIra.getKolona(ds,"20");
+  }
+  
+  public BigDecimal getKOL21() {
+    return raIspisUraIra.getKolona(ds,"21");
+  }
+  
+  public BigDecimal getKOL22() {
+    return raIspisUraIra.getKolona(ds,"22");
   }
 
   public String getFirstLine(){

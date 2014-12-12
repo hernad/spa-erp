@@ -88,12 +88,13 @@ abstract public class ChartXYZ extends ChartBase implements IChartXYZ{
 	private JFreeChart barChart = null;
 	private JFreeChart lineChart = null;
 	private ChartPanel chartPanel = null;
-	private JPanel buttonsPanel = null;
+	protected JPanel buttonsPanel = null;
 	private JPanel actionsPanel = null;
 	private JPanel globalButtonsPanel = null;
 	private JPanel mainPanel = null;
 	private JComboBox comboBoxQuantity = null;
 	// END
+	
 	
 	/**
 	 * This constructor calls the super constructor from #hr.restart.util.chart.ChartBase
@@ -136,7 +137,9 @@ abstract public class ChartXYZ extends ChartBase implements IChartXYZ{
 	    //return initMapTest();
 	}	
 	
-	
+	protected boolean isVariableZ() {
+	  return true;
+	}
 	
 	/**
 	 * 
@@ -212,7 +215,8 @@ abstract public class ChartXYZ extends ChartBase implements IChartXYZ{
 		
 //		creates datasets		
 		// to be changed with the real MAP( dataSetToMap )
-		barDataset = createDataset(dataSetToMap());
+	  
+		barDataset = isVariableZ() ? createDataset(dataSetToMap()) : createDataset();
 		//barDataset = createDataset(initMapTest());
 				
 		
@@ -227,10 +231,15 @@ abstract public class ChartXYZ extends ChartBase implements IChartXYZ{
 	/* (non-Javadoc)
 	 * @see hr.restart.util.chart.IChart#init()
 	 */
-	final public void initFrame() throws Exception{
+	public void initFrame() throws Exception{
 	    // initializing the combo box chartTypes	
-        if(isInstanciated())
+        if(isInstanciated()) {
+            if(chartPanel != null)
+              mainPanel.remove(chartPanel);
+            chartPanel = initGraph();
+            mainPanel.add(chartPanel, BorderLayout.CENTER);
             return;
+        }
         setInstanciated(true);    
 	    
 		chartTypes.add( BAR_CHART);
@@ -301,27 +310,29 @@ abstract public class ChartXYZ extends ChartBase implements IChartXYZ{
 //		buttonsPanel.add(btTest);
 		
 		//adding combobox
-		String [] quantity = { "5","10","15"};
-		comboBoxQuantity = new JComboBox(quantity);
-		comboBoxQuantity.setEditable(true);
-		comboBoxQuantity.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-														
-				try {
-					mainPanel.remove(chartPanel);
-				} catch (RuntimeException e1) {
-
-					//e1.printStackTrace();	
-				    System.out.println("(ChartXYZ) : method --> initGraph : "+e1);
-				}
-
-								
-				selectionChanged();
-			}
-			
-		});													
-		comboBoxQuantity.setSelectedItem(new Integer(getNumberOfElements()).toString());					
-		buttonsPanel.add(comboBoxQuantity);
+		if (isVariableZ()) {
+    		String [] quantity = { "5","10","15"};
+    		comboBoxQuantity = new JComboBox(quantity);
+    		comboBoxQuantity.setEditable(true);
+    		comboBoxQuantity.addActionListener(new ActionListener() {
+    			public void actionPerformed(ActionEvent ev) {
+    														
+    				try {
+    					mainPanel.remove(chartPanel);
+    				} catch (RuntimeException e1) {
+    
+    					//e1.printStackTrace();	
+    				    System.out.println("(ChartXYZ) : method --> initGraph : "+e1);
+    				}
+    
+    								
+    				selectionChanged();
+    			}
+    			
+    		});													
+    		comboBoxQuantity.setSelectedItem(new Integer(getNumberOfElements()).toString());					
+    		buttonsPanel.add(comboBoxQuantity);
+		}
 		
 		//creates action buttons
 			//adding filechooser
@@ -447,11 +458,26 @@ abstract public class ChartXYZ extends ChartBase implements IChartXYZ{
 		return dataset;        
 	
 	}
+    
+    final public CategoryDataset createDataset() {       
+      DataSet ds = getDataSet();
+      if(ds == null)
+          throw new NullPointerException("The DataSet should not be null. You should have implemented the getDataSet() method.");
+      
+      //creates the dataset...
+      final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+      
+      for (ds.first(); ds.inBounds(); ds.next()) 
+        dataset.addValue(ds.getBigDecimal(getAxisY()), ds.getString(getAxisZ()),ds.getString(getAxisX()));
+        
+      return dataset;
+    }
+    
 	
 	/**
 	 * @return Returns the lastSelected.
 	 */
-	final private String getLastSelected() {
+	final protected String getLastSelected() {
 		return lastSelected.toString();
 	}
 	/**
@@ -517,6 +543,7 @@ abstract public class ChartXYZ extends ChartBase implements IChartXYZ{
         // customise the renderer...
         final LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
         renderer.setDrawShapes(true);
+        adjustLineRenderer(renderer);
 
 //        renderer.setSeriesStroke(
 //            0, new BasicStroke(
@@ -586,19 +613,34 @@ abstract public class ChartXYZ extends ChartBase implements IChartXYZ{
         // disable bar outlines...
         final BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);      
-        renderer.setItemMargin(0.0);
+        renderer.setItemMargin(getItemMargin());
+        adjustBarRenderer(renderer);
                 
         final CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setCategoryMargin(0.4);
+        domainAxis.setCategoryMargin(getCategoryMargin());
         // OPTIONAL CUSTOMISATION COMPLETED.
         
         return chart;
 
     }
-    /* (non-Javadoc)
-     * @see hr.restart.util.chart.IChart#repaintGraph()
-     */
-	final public void repaintGraph(){
+    
+    protected void adjustBarRenderer(BarRenderer renderer) {
+      
+    }
+    
+    protected void adjustLineRenderer(LineAndShapeRenderer renderer) {
+      
+    }
+    
+    protected double getItemMargin() {
+      return 0.0;
+    }
+    
+    protected double getCategoryMargin() {
+      return 0.4;
+    }
+    
+	public void repaintGraph(){
 		
 		this.chartPanel.repaint();
 		this.chartPanel.validate();		
@@ -643,7 +685,7 @@ abstract public class ChartXYZ extends ChartBase implements IChartXYZ{
      * Fire some actions when an input component has changed.
      *
      */
-    final private void selectionChanged(){
+    final protected void selectionChanged(){
 
         try {
             initGraph();

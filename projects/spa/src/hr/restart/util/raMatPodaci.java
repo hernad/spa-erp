@@ -60,6 +60,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
@@ -188,7 +189,7 @@ sysoutTEST ST = new sysoutTEST(false);
 
   public JraPanel jpDetailView = new JraPanel();
 
-  JraSplitPane jSplitPaneMP = new JraSplitPane(JSplitPane.VERTICAL_SPLIT);
+  public JraSplitPane jSplitPaneMP = new JraSplitPane(JSplitPane.VERTICAL_SPLIT);
 
   java.awt.event.WindowAdapter raMatPod_WindowAdapter = new java.awt.event.WindowAdapter() {
 
@@ -317,6 +318,8 @@ sysoutTEST ST = new sysoutTEST(false);
 
 
   };
+  
+  public Calc calc = new Calc(jpTableView.calc);
 
   SharedFlag ticket = okp.getTicket();
   
@@ -530,6 +533,12 @@ sysoutTEST ST = new sysoutTEST(false);
     jpDetailView.setOwner(this);
 
     jScrollPaneDetail.setBorder(BorderFactory.createEmptyBorder());
+    /*jScrollPaneDetail.getViewport().addComponentListener(new ComponentAdapter() {
+      public void componentResized(ComponentEvent e) {
+        System.out.println("view changesize");
+        System.out.println(jScrollPaneDetail.getViewport().getSize());
+      }
+    });*/
 
     jScrollPaneDetail.setViewportBorder(null);
 
@@ -537,6 +546,10 @@ sysoutTEST ST = new sysoutTEST(false);
 
   }
 
+  public void disableScrollbars() {
+    jScrollPaneDetail.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    jScrollPaneDetail.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+  }
 
 
   void createListeners() {
@@ -1062,7 +1075,7 @@ sysoutTEST ST = new sysoutTEST(false);
     if (left) {
       addCenteredLeft(compToAdd,jScrollPane.getViewport());
     } else {
-      jScrollPane.getViewport().add(compToAdd);
+      jScrollPane.setViewportView(compToAdd);
     }
     return jScrollPane;
   }
@@ -1231,6 +1244,9 @@ sysoutTEST ST = new sysoutTEST(false);
     }
 
     raQueryDataSet = newRaQueryDataSet;
+    
+    calc.reset();
+    calc.setData(raQueryDataSet);
 
 //-opn-    raQueryDataSet.open();
     if (raQueryDataSet != null) {
@@ -1257,6 +1273,10 @@ sysoutTEST ST = new sysoutTEST(false);
 
   }
 
+  public void performAllRows(String command) {
+    getJpTableView().performAllRows(command);
+  }
+  
 ///testic
 
   com.borland.dx.dataset.OpenListener notifyOpen = new com.borland.dx.dataset.OpenListener() {
@@ -2400,12 +2420,18 @@ sysoutTEST ST = new sysoutTEST(false);
       raQueryDataSet.deleteRow();
 
     }
+    
+    if (version!=1 && internal >= 0) {
+      raQueryDataSet.goToInternalRow(internal);
+      fireTableDataChanged();
+      internal = -1;
+    }
 
   }
 
 
 
-  void jPrekid_action() {
+  public void jPrekid_action() {
 
 //    if (!okp.jPrekid.isEnabled()) return;
   	if (getMode() != 'N') memorizePreviousValues();
@@ -2427,7 +2453,6 @@ sysoutTEST ST = new sysoutTEST(false);
     switch2table();
 
     switchButton(true,false);
-
     setMode('B');
 
     fixJlrNavFieldDataSetStatus();
@@ -2452,7 +2477,7 @@ sysoutTEST ST = new sysoutTEST(false);
 
   }
 
-  void jBOK_action() {
+  public void jBOK_action() {
 
     if (!okp.jBOK.isEnabled()) return;
 
@@ -2674,8 +2699,8 @@ ST.prnc(raQueryDataSet);
     if (saveChanges) {
 
 //      raQueryDataSet.saveChanges();
-      markTables.clear();
-      markDatasets.clear();
+//      markTables.clear();
+//      markDatasets.clear();
       raAbstractTransaction trans = prepareTransaction();
       if (!trans.execTransaction()) {
 
@@ -2815,6 +2840,7 @@ ST.prnc(raQueryDataSet);
 */
 
   public boolean copyToNew = false;
+  long internal = -1;
 
   public void Insertiraj() {
   	
@@ -2828,7 +2854,10 @@ ST.prnc(raQueryDataSet);
       raQueryDataSet.copyTo(curr);
     }
 
-    if (version!=1) raQueryDataSet.last();
+    if (version!=1) {
+      internal = raQueryDataSet.getInternalRow();
+      raQueryDataSet.last();
+    }
 
     raQueryDataSet.insertRow(version==1);
 
@@ -2874,6 +2903,18 @@ ST.prnc(raQueryDataSet);
   				textValues.put(getKey(tf), tf.getText());
   		}
   	}
+  }
+  
+  public void partialMemory(JPanel subPanel) {
+    List cs = myCC.getComponentTree(subPanel);
+    for (Iterator i = cs.iterator(); i.hasNext(); ) {
+        Object obj = i.next();
+        if (obj instanceof JTextComponent) {
+            JTextComponent tf = (JTextComponent) obj;
+            if (tf.isVisible())
+                textValues.put(getKey(tf), tf.getText());
+        }
+    }
   }
   
   Object getKey(JTextComponent tf) {
